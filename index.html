@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+  <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
+  <!--<script src="./assets/javascripts/vexflow-min.js" type="text/javascript"></script>-->
+  <link rel="stylesheet" href="./assets/stylesheets/main-styles.css" type="text/css"/>
+  
+</head>
+<body>
+  <div id="primary-container" class="container">
+    <div id="level-select-container" class="container">
+      <button class="item">A</button>
+      <button class="item">C</button>
+      <button class="item">B</button>
+      <button class="item">D</button>
+      <button class="item">E</button>
+    </div>
+    <div id="blocks-container" class="container">
+      <div id="quaver-select-container" class="container">
+        <button class="item">Quarter</button>
+        <button class="item">Eighth</button>
+        <button class="item">Sixteenth</button>
+      </div>
+      <div id="blocks-select-container" class="container">
+        <div class="item">block 1</div>
+        <div class="item">block 2</div>
+        <div class="item">block 3</div>
+        <div class="item">block 4</div>
+        <div class="item">block 5</div>
+        <div class="item">block 6</div>
+        <div class="item">block 7</div>
+        <div class="item">block 8</div>
+        <div class="item">block 9</div>
+      </div>
+    </div>
+    <div id="inputs">
+      <input id="note-input" type="text"/>
+      <button onclick="updateMusic()">Update</button>
+      <button onclick="clearMusic()">Clear</button>
+    </div>
+    <div id="target">
+      
+    </div>
+    
+    
+  </div>
+  
+  
+  <script src="./assets/javascripts/main.js"></script>
+</body>
