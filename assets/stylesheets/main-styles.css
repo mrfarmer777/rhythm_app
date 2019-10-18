@@ -1,0 +1,21 @@
+.container{
+  display:flex;
+}
+
+#primary-container{
+  flex-direction: column;
+}
+
+#level-select-container{
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#quaver-select-container{
+  flex-direction: column;
+}
+
+#block-select-container{
+  flex-direction: row wrap;
+}
+
