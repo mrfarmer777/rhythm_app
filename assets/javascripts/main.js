@@ -51,12 +51,18 @@ function notationPanel(options){
   this.targetEl = options.targetEl;
   this.renderer = new VF.Renderer(this.targetEl,VF.Renderer.Backends.SVG);
   this.context = this.renderer.getContext();
+  this.quaver=4;
   this.notes=[];
   this.beams=[];
   this.formatter = new VF.Formatter();
   this.updateNotation=function(rhythmString){
     this.notes = [];
     this.notes = notesFromString(rhythmString);
+  };
+  this.notesToBeats = function(notes, quaver){
+    let totalMeasures = 0;
+    notes.forEach((n) => { totalMeasures += (1/n.duration) });
+    return totalMeasures*quaver;
   };
   
   this.stave = new VF.Stave(10,40,400).addClef('percussion').addTimeSignature("4/4");
@@ -66,7 +72,8 @@ function notationPanel(options){
   this.render = function(){
     this.clearContext();
     this.renderer.resize(500,500);
-    let voice = this.buildVoice(4,4);
+    let totalBeats = this.notesToBeats(this.notes, this.quaver);
+    let voice = this.buildVoice(totalBeats,this.quaver);
     voice.addTickables(this.notes);
     this.stave.setContext(this.context).draw();
     this.formatter.joinVoices([voice]).format([voice]);
@@ -104,4 +111,4 @@ const updateMusic = function(){
 const clearMusic = function(){
   console.log('blarg');
   example.renderer.getContext().clear();
-}
+};
