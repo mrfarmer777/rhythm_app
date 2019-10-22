@@ -2,6 +2,11 @@
   display:flex;
 }
 
+.item{
+  flex-basis: 15%;
+  flex-grow: 1;
+}
+
 #primary-container{
   flex-direction: column;
 }
@@ -15,7 +20,13 @@
   flex-direction: column;
 }
 
-#block-select-container{
-  flex-direction: row wrap;
+#blocks-select-container{
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+svg {
+  width: 100%;
+  border: 2px solid blue;
 }
 
