@@ -55,23 +55,33 @@ function notationPanel(options){
   this.notes=[];
   this.beams=[];
   this.formatter = new VF.Formatter();
+  
+  
   this.updateNotation=function(rhythmString){
     this.notes = [];
     this.notes = notesFromString(rhythmString);
   };
+  
+  
   this.notesToBeats = function(notes, quaver){
     let totalMeasures = 0;
     notes.forEach((n) => { totalMeasures += (1/n.duration) });
     return totalMeasures*quaver;
   };
   
-  this.stave = new VF.Stave(3,10,400,400).addClef('percussion').addTimeSignature("4/4");
   this.buildVoice = function(beats,value){
     return new VF.Voice({ num_beats: beats, beat_value: value });
   };
+  
+  
+  this.resizeContents = function(){
+    let width = this.targetEl.offsetWidth;
+    this.renderer.resize(width, 80);
+    this.stave = new VF.Stave(5,-20,width*0.90,75).addClef('percussion').addTimeSignature("4/4");
+  };
+  
   this.render = function(){
-    //this.clearContext();
-    this.renderer.resize(this.targetEl.offsetWidth, this.targetEl.offsetHeight);
+    this.resizeContents();
     let totalBeats = this.notesToBeats(this.notes, this.quaver);
     let voice = this.buildVoice(totalBeats,this.quaver);
     voice.addTickables(this.notes);
@@ -84,9 +94,13 @@ function notationPanel(options){
     VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes);
     this.beams.forEach(function(b){ b.setContext(renderContext).draw() });
   };
+  
+  
   this.updateBeams = function(notes){
     this.beams = VF.Beam.generateBeams(notes);
   };
+  
+  
   this.clearContext = function(){
     this.context.clear();
   };
@@ -95,6 +109,7 @@ function notationPanel(options){
 
 
 
+//Building Examples
 let example = new notationPanel({ targetEl: document.getElementById("target") });
 example.updateNotation("eeqeeq");
 example.render();

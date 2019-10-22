@@ -3,8 +3,6 @@
 }
 
 .item{
-  flex-basis: 15%;
-  flex-grow: 1;
 }
 
 #primary-container{
@@ -28,5 +26,20 @@
 svg {
   width: 100%;
   border: 2px solid blue;
+  background-color: white;
+}
+
+.block {
+  height: 100px;
+  flex-basis: 210px;
+  flex-grow: 1;
+  padding: 15px;
+  background-color: red;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.block:hover {
+  background-color: green;
 }
 
