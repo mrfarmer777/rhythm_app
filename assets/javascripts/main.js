@@ -48,10 +48,15 @@ function notesFromString(noteString){
 
 //Building a notation panel object
 function notationPanel(options){
-  this.targetEl = options.targetEl;
-  this.renderer = new VF.Renderer(this.targetEl,VF.Renderer.Backends.SVG);
+  this.blockEl = options.targetEl;
+  
+  this.renderer = new VF.Renderer(this.blockEl,VF.Renderer.Backends.SVG);
   this.context = this.renderer.getContext();
   this.quaver=4;
+  this.selected=false;
+  this.toggleSelected = function(){
+    return !this.selected;
+  };
   this.notes=[];
   this.beams=[];
   this.formatter = new VF.Formatter();
@@ -75,7 +80,7 @@ function notationPanel(options){
   
   
   this.resizeContents = function(){
-    let width = this.targetEl.offsetWidth;
+    let width = this.blockEl.offsetWidth;
     this.renderer.resize(width, 80);
     this.stave = new VF.Stave(5,-20,width*0.90,75).addClef('percussion').addTimeSignature("4/4");
   };
@@ -110,10 +115,11 @@ function notationPanel(options){
 
 
 //Building Examples
-let example = new notationPanel({ targetEl: document.getElementById("target") });
+/*
+let example = new notationPanel({ });
 example.updateNotation("eeqeeq");
 example.render();
-
+*/
 
 const updateMusic = function(){
   let noteInput = document.getElementById("note-input");
@@ -124,14 +130,3 @@ const updateMusic = function(){
   renderBlocks();
 };
 
-
-const renderBlocks = function(){
-  const blockContainer = document.getElementById("blocks-select-container");
-  const blocks = blockContainer.children;
-  console.log(blocks);
-  for(let block of blocks){
-    let np = new notationPanel({targetEl: block});
-    np.updateNotation("qqqq");
-    np.render();
-  }
-};
