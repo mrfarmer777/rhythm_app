@@ -1,3 +1,4 @@
+//Master array of all blocks to be used in the project
 const blockArray = [
     { level: 1, rhythmSet: "A", noteString: "w" },
     { level: 1, rhythmSet: "A", noteString: "hh" },
@@ -16,23 +17,38 @@ const filterBlocks=function(options){
         });
     }
 };
-    
+
 
 const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
-    this.el = createBlockElement(this);
     this.noteString = block.noteString;
+    this.selected = false;
+    this.toggleSelect = function(e){
+        this.selected = !this.selected;
+        e.currentTarget.className="item block " + (this.selected ? "selected": "");
+    };
+    
+    this.el = createBlockElement(this);
     this.np = new notationPanel({targetEl: this.el});
+    
+    this.render = function(){
+        this.el.className = "item block";
+        this.np.updateNotation(this.noteString);
+        this.np.render();
+    };
+    
 };
 
 const createBlockElement = function(block){
     let el = document.createElement("div");
-    el.className = "item block";
+    el.className = "item block " + (this.selected ? "selected": "");
     el.setAttribute("data-level",block.level);
     el.setAttribute("data-rhythmset",block.rhythmSet);
+    el.setAttribute("id", block.noteString);
+    el.onclick = block.toggleSelect;
     return el;
-}
+};
 
 
 const buildBlockElements = function(blocks){
@@ -40,9 +56,9 @@ const buildBlockElements = function(blocks){
     blocks.forEach((b) => {
         let rbe = new rhythmBlockElement(b);
         res.push(rbe);
-    })
+    });
     return res;
-}
+};
 
 const renderBlockElements = function(blocksEls,targetEl){
     blocksEls.forEach((b)=>{
@@ -54,8 +70,8 @@ const renderBlockElements = function(blocksEls,targetEl){
 
 const renderBlocks = function(){
     let blocksToDraw = filterBlocks({level: 1, rhythmSet: "A"});
-    console.log("Blocks to render: " + blocksToDraw);
     let target = document.getElementById("blocks-select-container");
     let blockEls = buildBlockElements(blocksToDraw);
     renderBlockElements(blockEls, target);
-}
+};
+

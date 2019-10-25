@@ -18,7 +18,6 @@ function notationPanel(options){
   
   
   this.updateNotation=function(rhythmString){
-    this.notes = [];
     this.notes = notesFromString(rhythmString);
   };
   
@@ -41,7 +40,6 @@ function notationPanel(options){
   };
   
   this.render = function(){
-    console.log(this.noteString);
     this.resizeContents();
     let totalBeats = this.notesToBeats(this.notes, this.quaver);
     let voice = this.buildVoice(totalBeats,this.quaver);

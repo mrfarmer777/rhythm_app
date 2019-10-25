@@ -1,5 +1,6 @@
 //VexFlow Boilerplate
-VF = Vex.Flow;
+const VF = Vex.Flow;
+
 
 
 const durationCharacters = {
@@ -9,8 +10,6 @@ const durationCharacters = {
     "e": "8",
     "s": "16"
 };
-
-
 
 function notesFromString(noteString){
   //Returns an array of VF StaveNotes from a string
@@ -26,8 +25,7 @@ function notesFromString(noteString){
   return notes;
 }
   
-
-
+//Forcing all blocks to draw for development purposes
 const updateMusic = function(){
   let noteInput = document.getElementById("note-input");
   let noteString = noteInput.value;
@@ -36,4 +34,12 @@ const updateMusic = function(){
   example.render();
   renderBlocks();
 };
+
+
+let exampleBlocks = filterBlocks({ level: 1, rhythmSet: "A" });
+let pg = new passageGenerator(exampleBlocks);
+
+
+
+
 

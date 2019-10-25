@@ -43,3 +43,7 @@ svg {
   background-color: green;
 }
 
+.block.selected{
+  background-color: blue;
+}
+
