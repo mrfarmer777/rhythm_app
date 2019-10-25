@@ -22,6 +22,7 @@ const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
     this.el = createBlockElement(this);
+    this.noteString = block.noteString;
     this.np = new notationPanel({targetEl: this.el});
 };
 
