@@ -9,6 +9,7 @@ const passageGenerator = function(blocks){
         return this.rhythmOptions[Math.floor(Math.random()*this.rhythmOptions.length)];
     };
     this.generate = function(){
+        this.np.reset();
         //while the passage isn't full
         let rhy, notes, beats;
         while(this.beatsRemaining() > 0){

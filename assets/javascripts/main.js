@@ -40,7 +40,11 @@ let exampleBlocks = filterBlocks({ level: 1, rhythmSet: "A" });
 let pg = new passageGenerator(exampleBlocks);
 
 renderBlocks();
-pg.generate();
+
+const generate = function(){
+  pg.np.context.clear();
+  pg.generate();
+};
 
 
 
