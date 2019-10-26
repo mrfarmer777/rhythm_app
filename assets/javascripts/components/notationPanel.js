@@ -35,7 +35,7 @@ function notationPanel(options){
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.05, -12, width*0.75).addClef('percussion').addTimeSignature("4/4");
+    this.stave = new VF.Stave(width*0.05, -12, width*0.90).addClef('percussion').addTimeSignature("4/4");
     this.stave
       .setConfigForLine(2, {visible: true})
       .setConfigForLine(0, {visible: false})
@@ -44,7 +44,7 @@ function notationPanel(options){
       .setConfigForLine(4, {visible: false});
 
     if(measures > 4){
-      this.stave2 = new VF.Stave(width*0.05, 60, width*0.75).addClef('percussion').setEndBarType(VF.Barline.type.END);
+      this.stave2 = new VF.Stave(width*0.05, 70, width*0.90).addClef('percussion').setEndBarType(VF.Barline.type.END);
       this.stave2
       .setConfigForLine(2, {visible: true})
       .setConfigForLine(0, {visible: false})

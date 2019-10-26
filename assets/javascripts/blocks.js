@@ -30,6 +30,10 @@ const rhythmBlockElement = function(block){
         this.selected = !this.selected;
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
     };
+    this.handleSize = function(e){
+        console.log('called');
+        this.np.render();
+    }
     this.el = createBlockElement(this);
     this.np = new notationPanel({targetEl: this.el.firstChild.firstChild});
     this.render = function(){
@@ -53,6 +57,7 @@ const createBlockElement = function(block){
     el.setAttribute("data-rhythmset",block.rhythmSet);
     el.setAttribute("id", block.noteString);
     el.onclick = block.toggleSelect.bind(block);
+    el.onsize = block.handleSize.bind(block);
     return el;
 };
 
