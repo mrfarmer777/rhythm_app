@@ -1,8 +1,12 @@
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
     this.blocks = blocks;
+    this.rhythmOptions=[];
+    this.refresh = function(){
+        this.blocks = getSelectedBlocks();
+        this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
+    }
     this.np = new notationPanel({ targetEl: this.el });
-    this.rhythmOptions = blocks.map((b)=>{ return b.noteString });
     this.measureLength = 8;
     this.beatLength = 8*4;
     this.chooseRhythm = function(){
@@ -10,6 +14,7 @@ const passageGenerator = function(blocks){
     };
     this.generate = function(){
         this.np.reset();
+        this.refresh();
         //while the passage isn't full
         let rhy, notes, beats;
         while(this.beatsRemaining() > 0){
@@ -18,8 +23,8 @@ const passageGenerator = function(blocks){
             beats = this.np.notesToBeats(notes,4);//calculate the length of those notes in beats
             if(beats <= this.beatsRemaining()){//if adding to the passage won't over fill it, 
                 notes.forEach((n)=>{
-                    let targetNoteArray = ((this.beatsRemaining()<=(this.beatLength/2)) ? this.np.notes : this.np.notes2 )
-                    targetNoteArray.push(n)
+                    let targetNoteArray = ((this.beatsRemaining()<=(this.beatLength/2)) ? this.np.notes : this.np.notes2 );
+                    targetNoteArray.push(n);
                     if(this.beatsRemaining()%4===0 && this.beatsRemaining()%16!==0){
                         let bar = new VF.BarNote(VF.Barline.type.SINGLE);
                         targetNoteArray.push(bar);

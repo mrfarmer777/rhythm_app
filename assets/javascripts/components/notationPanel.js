@@ -2,7 +2,7 @@
 function notationPanel(options){
   this.blockEl = options.targetEl;
   
-  this.renderer = new VF.Renderer(this.blockEl,VF.Renderer.Backends.SVG);
+  this.renderer = new VF.Renderer(this.blockEl,VF.Renderer.Backends.CANVAS);
   this.context = this.renderer.getContext();
   this.quaver=4;
   this.notes=[];
@@ -27,18 +27,30 @@ function notationPanel(options){
     return totalMeasures*quaver;
   };
   
-  this.buildVoice = function(beats,value){
-    return new VF.Voice({ num_beats: beats, beat_value: value });
-  };
+  
   
   
   this.resizeContents = function(){
-    let width = this.blockEl.offsetWidth;
+    let width = this.blockEl.clientWidth;
+    let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
-    this.renderer.resize(width, 160);
-    this.stave = new VF.Stave(5,-20,width*0.90,75).addClef('percussion').addTimeSignature("4/4");
+    this.renderer.resize(width, height);
+    this.stave = new VF.Stave(width*0.05, -12, width*0.75).addClef('percussion').addTimeSignature("4/4");
+    this.stave
+      .setConfigForLine(2, {visible: true})
+      .setConfigForLine(0, {visible: false})
+      .setConfigForLine(1, {visible: false})
+      .setConfigForLine(3, {visible: false})
+      .setConfigForLine(4, {visible: false});
+
     if(measures > 4){
-      this.stave2 = new VF.Stave(5, 60, width*0.90,75).addClef('percussion').setEndBarType(VF.Barline.type.END);
+      this.stave2 = new VF.Stave(width*0.05, 60, width*0.75).addClef('percussion').setEndBarType(VF.Barline.type.END);
+      this.stave2
+      .setConfigForLine(2, {visible: true})
+      .setConfigForLine(0, {visible: false})
+      .setConfigForLine(1, {visible: false})
+      .setConfigForLine(3, {visible: false})
+      .setConfigForLine(4, {visible: false});
     }
   };
   
@@ -46,28 +58,21 @@ function notationPanel(options){
     this.notes=[];
     this.notes2=[];
     this.context.clear();
-  }
+  };
   
   this.render = function(){
     this.resizeContents();
-    let totalBeats = this.notesToBeats(this.notes, this.quaver);
-    let voice = this.buildVoice(totalBeats,this.quaver);
-    this.stave.setContext(this.context).draw();
+    let renderContext = this.context;
+
+    this.stave.setContext(renderContext).draw();
     if(this.stave2){
-      this.stave2.setContext(this.context).draw();
+      this.stave2.setContext(renderContext).draw();
     }
 
-    let renderContext = this.context;
-    console.log(this.notes);
-    console.log(this.notes2);
+    
     VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, { autobeam: true });
     if(this.stave2){
       VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, { autobeam: true })
     }
-  };
-  
-
-  this.clearContext = function(){
-    this.context.clear();
   };
 }

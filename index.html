@@ -14,15 +14,25 @@
       <button class="item">D</button>
       <button class="item">E</button>
     </div>
-    <div id="blocks-container" class="container">
+    <div id="panels-container" class="container">
       <div id="quaver-select-container" class="container">
         <button class="item">Quarter</button>
         <button class="item">Eighth</button>
         <button class="item">Sixteenth</button>
       </div>
-      <div id="blocks-select-container" class="container">
+      <div id="main-container" class="container">
+        <div class="canvas-container">
+          <canvas id="target">
+      
+          </canvas>
+        </div>
+        <div id="blocks-select-container" class="container">
+        
+        </div>
         
       </div>
+      
+      
     </div>
     <div id="inputs">
       <input id="note-input" type="text"/>
@@ -30,9 +40,7 @@
       <button onclick="generate()">New Mix</button>
       <button onclick="clearMusic()">Clear</button>
     </div>
-    <div id="target">
-      
-    </div>
+    
     
     
   </div>

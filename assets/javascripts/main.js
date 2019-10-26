@@ -1,5 +1,6 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
+const Blocks = buildRhythmBlocks(blockData);
 
 
 
@@ -36,10 +37,14 @@ const updateMusic = function(){
 };
 
 
-let exampleBlocks = filterBlocks({ level: 1, rhythmSet: "A" });
-let pg = new passageGenerator(exampleBlocks);
 
-renderBlocks();
+
+let exampleBlocks = Blocks.filter((b)=>{return b.level===1});
+
+let pg = new passageGenerator(getSelectedBlocks());
+
+renderBlocks(Blocks);
+pg.np.render();
 
 const generate = function(){
   pg.np.context.clear();
