@@ -18,6 +18,14 @@ body{
   order: 1;
 }
 
+a {
+  color: grey;
+}
+
+a.active{
+  color: white;
+}
+
 
 .container{
   display:flex;
@@ -82,6 +90,10 @@ body{
   background-color: var(--dark-purple);
   /*flex-grow: 1;*/
   overflow-y: scroll;
+}
+
+#blocks-select-container.hidden{
+  display: none;
 }
 
 #inputs {

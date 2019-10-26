@@ -13,6 +13,14 @@ body{
   display: flex;
 }
 
+a {
+  color: grey;
+}
+
+a.active{
+  color: white;
+}
+
 .item{
   order: 1;
 }

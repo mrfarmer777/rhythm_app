@@ -52,7 +52,10 @@ const generate = function(){
 };
 
 
-
+const toggleBlockContainer = function(){
+  //let el = document.getElementById("blocks-select-container");
+  //el.className = (el.className.includes("hidden")) ? "container" : "container hidden";
+}
 
 
 
