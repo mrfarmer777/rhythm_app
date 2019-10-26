@@ -39,6 +39,9 @@ const updateMusic = function(){
 let exampleBlocks = filterBlocks({ level: 1, rhythmSet: "A" });
 let pg = new passageGenerator(exampleBlocks);
 
+renderBlocks();
+pg.generate();
+
 
 
 
