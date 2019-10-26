@@ -1,16 +1,15 @@
 :root {
   --white: #FEFEFE;
-  --dark-purple: #846B8A;
-  --teal: #B8F2E6;
-  --mauve: #CFA5B4;
-  --peach: #F7D4BC;
-  
+  --main-color: #846B8A;
+  --accent-color: #B8F2E6;
+  --color1: #CFA5B4;
+  --color2: #F7D4BC;
 }
 
 
 body{
   font-family: 'Raleway', sans-serif;
-  background-color: var(--mauve);
+  background-color: var(--color1);
   display: flex;
 }
 
@@ -24,20 +23,23 @@ body{
   padding:5px;
 }
 
-#level-select-container button {
+#block-filters-container button {
   border: 3px white;
-  background-color: var(--teal);
+  background-color: var(--color1);
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-style: bold;
-  width: 40px;
   height: 40px;
   border-radius: 3px;
   margin: 3px;
 }
 
-#level-select-container button:hover {
-  background-color: var(--teal);
+#block-filters-container button:hover {
+  background-color: var(--color2);
+}
+
+#block-filters-container button .selected{
+  background-color: var(--accent-color);
 }
 
 #quaver-select-container button, #inputs button {
@@ -53,7 +55,7 @@ body{
 
 #primary-container{
   flex-direction: column;
-  background-color: var(--mauve);
+  background-color: var(--color1);
 }
 
 #panels-container{
@@ -64,9 +66,10 @@ body{
   flex-direction: column;
 }
 
-#level-select-container{
+#block-filters-container{
   flex-direction: row;
   justify-content: center;
+  background-color: var(--main-color)   ;
 }
 
 #quaver-select-container{
@@ -79,7 +82,7 @@ body{
   flex-wrap: wrap;
   justify-content: space-evenly;
 
-  background-color: var(--dark-purple);
+  background-color: var(--main-color);
   /*flex-grow: 1;*/
   overflow-y: scroll;
 }
@@ -87,11 +90,11 @@ body{
 #inputs {
   flex-direction: row;
   justify-content: center;
-  background-color: var(--dark-purple);
+  background-color: var(--main-color);
 }
 
 #inputs button:hover{
-  background-color: var(--teal);
+  background-color: var(--accent-color);
 }
 
 
@@ -126,16 +129,16 @@ canvas {
   height: 80px;
   flex-basis: 200px;
   padding: 8px;
-  background-color: var(--mauve);
+  background-color: var(--color1);
   border-radius: 5px;
   margin: 10px;
 }
 
 .block:hover {
-  background-color: var(--peach);
+  background-color: var(--color2);
 }
 
 .block.selected{
-  background-color: var(--teal);
+  background-color: var(--accent-color);
 }
 

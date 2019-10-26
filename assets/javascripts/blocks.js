@@ -30,7 +30,7 @@ const rhythmBlockElement = function(block){
         this.selected = !this.selected;
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
     };
-    this.handleSize = function(e){
+    this.handleResize = function(e){
         console.log('called');
         this.np.render();
     }
@@ -57,7 +57,7 @@ const createBlockElement = function(block){
     el.setAttribute("data-rhythmset",block.rhythmSet);
     el.setAttribute("id", block.noteString);
     el.onclick = block.toggleSelect.bind(block);
-    el.onsize = block.handleSize.bind(block);
+    el.onresize = block.handleResize.bind(block);
     return el;
 };
 
