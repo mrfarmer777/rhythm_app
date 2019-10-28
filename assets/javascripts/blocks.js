@@ -6,6 +6,7 @@ const blockData = [
     { level: 1, rhythmSet: "A", noteString: "qqh" },
     { level: 1, rhythmSet: "A", noteString: "hqq" },
     { level: 2, rhythmSet: "B", noteString: "qhq" },
+    { level: 1, rhythmSet: "A", noteString: "qh." }
     ];
 
 

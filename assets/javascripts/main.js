@@ -9,7 +9,8 @@ const durationCharacters = {
     "h": "2",
     "q": "4",
     "e": "8",
-    "s": "16"
+    "s": "16",
+    ".": "d"
 };
 
 function notesFromString(noteString){
@@ -17,11 +18,16 @@ function notesFromString(noteString){
   let notes = [];
   noteString.split('').map( (n)=>{
     let dur = durationCharacters[n];
-    notes.push(new VF.StaveNote({
-      clef: "treble",
-      keys: ["b/4"],
-      duration: dur
-    }));
+    if(dur==="d"){
+      //notes[notes.length-1].duration = notes[notes.length-1].duration+dur;
+      notes[notes.length-1].addDotToAll();
+    } else {
+      notes.push(new VF.StaveNote({
+        clef: "treble",
+        keys: ["b/4"],
+        duration: dur
+      }));
+    }
   });
   return notes;
 }
