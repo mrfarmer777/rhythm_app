@@ -6,7 +6,9 @@ const blockData = [
     { level: 1, rhythmSet: "A", noteString: "qqh" },
     { level: 1, rhythmSet: "A", noteString: "hqq" },
     { level: 2, rhythmSet: "B", noteString: "qhq" },
-    { level: 1, rhythmSet: "A", noteString: "qh." }
+    { level: 1, rhythmSet: "A", noteString: "qh." },
+    { level: 1, rhythmSet: "A", noteString: "h.q" },
+
     ];
 
 
@@ -36,7 +38,7 @@ const rhythmBlockElement = function(block){
         this.np.render();
     }
     this.el = createBlockElement(this);
-    this.np = new notationPanel({targetEl: this.el.firstChild.firstChild});
+    this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block"});
     this.render = function(){
         this.el.className = "item block";
         this.np.updateNotation(this.noteString);

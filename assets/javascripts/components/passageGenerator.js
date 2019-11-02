@@ -5,8 +5,8 @@ const passageGenerator = function(blocks){
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
-    }
-    this.np = new notationPanel({ targetEl: this.el });
+    };
+    this.np = new notationPanel({ targetEl: this.el, panelType: "passage" });
     this.measureLength = 8;
     this.beatLength = 8*4;
     this.chooseRhythm = function(){

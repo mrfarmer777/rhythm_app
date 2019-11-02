@@ -121,9 +121,7 @@ a.active{
 }
 
 
-canvas {
-  
-}
+
 
 .canvas-container{
   width: 100%;
@@ -135,7 +133,7 @@ canvas {
 
 .block {
   height: 80px;
-  flex-basis: 200px;
+  flex-basis: 12.5%;
   padding: 8px;
   background-color: var(--color1);
   border-radius: 5px;
