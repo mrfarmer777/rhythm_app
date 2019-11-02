@@ -26,7 +26,8 @@ function notationPanel(options){
 
     notes.forEach((n) => { 
       if(n.duration !=="b"){
-        totalMeasures += (1/n.duration)+((1/n.duration)*0.5*n.dots);
+        let noteDur=n.duration.match(/\d+/)[0];
+        totalMeasures += (1/noteDur)+((1/noteDur)*0.5*n.dots);
       }
       
     });

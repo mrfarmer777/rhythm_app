@@ -10,7 +10,12 @@ const durationCharacters = {
     "q": "4",
     "e": "8",
     "s": "16",
-    ".": "d"
+    ".": "d",
+    "W": "1r",
+    "H": "2r",
+    "Q": "4r",
+    "E": "8r",
+    "S": "16r",
 };
 
 function notesFromString(noteString){
@@ -19,7 +24,6 @@ function notesFromString(noteString){
   noteString.split('').map( (n)=>{
     let dur = durationCharacters[n];
     if(dur==="d"){
-      //notes[notes.length-1].duration = notes[notes.length-1].duration+dur;
       notes[notes.length-1].addDotToAll();
     } else {
       notes.push(new VF.StaveNote({
