@@ -23,7 +23,13 @@ function notationPanel(options){
   
   this.notesToBeats = function(notes, quaver){
     let totalMeasures = 0;
-    notes.forEach((n) => { if(n.duration !=="b"){ totalMeasures += (1/n.duration) }});
+
+    notes.forEach((n) => { 
+      if(n.duration !=="b"){
+        totalMeasures += (1/n.duration)+((1/n.duration)*0.5*n.dots);
+      }
+      
+    });
     return totalMeasures*quaver;
   };
   
