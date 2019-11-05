@@ -72,13 +72,19 @@ const generate = function(){
 };
 
 const handleLevelChange = function(){
+  let btns = document.querySelectorAll('.level-button');
+  btns.forEach((b)=> {
+    b.className = "level-button item";
+  });
   level = this.event.target.dataset.level;
+  this.event.target.className = "level-button item selected";
   changeLevel(level);
 };
 
 
 
 const changeLevel = function(selectedLevel){
+  
   level = selectedLevel;
   updateAvailableBlocks([level], difficulty);
 };

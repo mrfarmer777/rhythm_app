@@ -44,11 +44,15 @@ a.active{
   margin: 3px;
 }
 
-#level-select-container button:hover {
+#level-select-container button.selected, .level-button.selected {
   background-color: var(--teal);
 }
 
-#quaver-select-container button, #inputs button {
+#level-select-container button:hover, .level-button:hover:not(.selected) {
+  background-color: var(--peach);
+}
+
+.level-button, #inputs button {
   border: 3px white;
   background-color: pink;
   font-family: 'Raleway', sans-serif;

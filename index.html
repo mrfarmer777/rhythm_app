@@ -13,10 +13,10 @@
 <body>
   <div id="primary-container" class="container">
     <div id="temp-header">
-      <a href="./index.html" class="active">Layout 1</a>
-      <a href="./index2.html" >Layout 2</a>
+      <h2>Rhythm App</h2>
     </div>
     <div id="level-select-container" class="container">
+      <h3>Difficulty:</h3>
       <button class="item">A</button>
       <button class="item">B</button>
       <button class="item">C</button>
@@ -25,9 +25,10 @@
     </div>
     <div id="panels-container" class="container">
       <div id="quaver-select-container" class="container">
-        <button data-level="q" class="item" onclick="handleLevelChange()">Quarter</button>
-        <button data-level="e" class="item" onclick="handleLevelChange()">Eighth</button>
-        <button data-level="s" class="item" onclick="handleLevelChange()">Sixteenth</button>
+        <h3>Level:</h3>
+        <button data-level="q" class="level-button item" onclick="handleLevelChange()">Quarter</button>
+        <button data-level="e" class="level-button item" onclick="handleLevelChange()">Eighth</button>
+        <button data-level="s" class="level-button item" onclick="handleLevelChange()">Sixteenth</button>
       </div>
       <div id="main-container" class="container">
         <div id="target-container" class="canvas-container">
