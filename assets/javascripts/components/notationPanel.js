@@ -26,7 +26,7 @@ function notationPanel(options){
     let totalMeasures = 0;
     notes.forEach((n) => { 
       if(n.duration !=="b"){
-        totalMeasures += (1/n.duration) }});
+        totalMeasures += (1/n.duration)+(1/n.duration*0.5*n.dots) }}); //Refactor to round to nearest 16ths
     return totalMeasures*quaver;
   };
   
@@ -82,9 +82,9 @@ function notationPanel(options){
     }
 
     
-    VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, { autobeam: true });
+    VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, true);
     if(this.stave2){
-      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, { autobeam: true })
+      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, true)
     }
   };
 }

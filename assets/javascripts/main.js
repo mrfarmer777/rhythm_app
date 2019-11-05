@@ -39,8 +39,10 @@ function notesFromString(noteString){
     } else {
       notes.push(new VF.StaveNote({
         clef: "treble",
-        keys: ["b/4"],
-        duration: dur
+        keys: ["a/4"],
+        duration: dur,
+        auto_stem: false,
+        stem_direction: 1
       }));
     }
   });
@@ -81,12 +83,10 @@ const handleLevelChange = function(){
   changeLevel(level);
 };
 
-
-
 const changeLevel = function(selectedLevel){
-  
   level = selectedLevel;
   updateAvailableBlocks([level], difficulty);
+  renderLevelButtons(Levels, levelButtonTarget);
 };
 
 const updateAvailableBlocks = function(levels, difficulty){
@@ -100,11 +100,18 @@ const changeDifficulty = function(selectedDifficulty){
   updateAvailableBlocks([level], difficulty);
 }
 
-
-const toggleBlockContainer = function(){
-  //let el = document.getElementById("blocks-select-container");
-  //el.className = (el.className.includes("hidden")) ? "container" : "container hidden";
+const getAvailableDifficulties = function(blocks, level){
+  let res = [];
+  blocks.forEach((b) => {
+    if(!res.includes(b.rhythmSet) && b.level === level){
+      res.push(b.rhythmSet);
+    }
+  });
+  return res;
 };
+
+
+
 
 updateAvailableBlocks(level, difficulty);
 pg.np.render();

@@ -77,7 +77,6 @@ const rhythmBlockElement = function(block){
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
     };
     this.handleResize = function(e){
-        console.log('called');
         this.np.render();
     }
     this.el = createBlockElement(this);
