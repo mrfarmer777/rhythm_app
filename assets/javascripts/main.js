@@ -71,11 +71,16 @@ const generate = function(){
   pg.generate();
 };
 
+const handleLevelChange = function(){
+  level = this.event.target.dataset.level;
+  changeLevel(level);
+};
 
 
-const selectLevel = function(selectedLevel){
+
+const changeLevel = function(selectedLevel){
   level = selectedLevel;
-  //availableBlocks = filterBlocksByLevel(Blocks, [level]);
+  updateAvailableBlocks([level], difficulty);
 };
 
 const updateAvailableBlocks = function(levels, difficulty){
@@ -84,8 +89,9 @@ const updateAvailableBlocks = function(levels, difficulty){
   renderBlocks(availableBlocks);
 }
 
-const selectDifficulty = function(selectedDifficulty){
+const changeDifficulty = function(selectedDifficulty){
   difficulty = selectedDifficulty;
+  updateAvailableBlocks([level], difficulty);
 }
 
 

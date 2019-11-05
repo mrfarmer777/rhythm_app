@@ -25,9 +25,9 @@
     </div>
     <div id="panels-container" class="container">
       <div id="quaver-select-container" class="container">
-        <button class="item">Quarter</button>
-        <button class="item">Eighth</button>
-        <button class="item">Sixteenth</button>
+        <button data-level="q" class="item" onclick="handleLevelChange()">Quarter</button>
+        <button data-level="e" class="item" onclick="handleLevelChange()">Eighth</button>
+        <button data-level="s" class="item" onclick="handleLevelChange()">Sixteenth</button>
       </div>
       <div id="main-container" class="container">
         <div id="target-container" class="canvas-container">
