@@ -116,6 +116,10 @@ const getAvailableDifficulties = function(blocks, level){
 updateAvailableBlocks(level, difficulty);
 pg.np.render();
 
+const Levels = buildLevels(levelData);
+const levelButtonTarget = document.getElementById("quaver-select-container");
+renderLevelButtons(Levels, levelButtonTarget, level);
+
 
 
 

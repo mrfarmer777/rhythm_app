@@ -36,14 +36,12 @@ const buildLevels = function(levelArray){
     return res;
 };
 
-const renderLevelButtons = function(levels, targetEl){
+const renderLevelButtons = function(levels, targetEl, selectedLevel){
     targetEl.innerHTML = "";
     levels.forEach((levelObj)=>{
+        levelObj.el.className = "level-button item " + (levelObj.id === selectedLevel ? "selected": "");
         targetEl.appendChild(levelObj.el);
     });
 };
 
 
-const Levels = buildLevels(levelData);
-const levelButtonTarget = document.getElementById("quaver-select-container");
-renderLevelButtons(Levels, levelButtonTarget);
