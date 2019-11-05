@@ -2,15 +2,29 @@
 const VF = Vex.Flow;
 const Blocks = buildRhythmBlocks(blockData);
 
+//Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
+let level = "q"; 
+
+//Difficulty refers to the level of complexity of selected rhythms
+let difficulty = 1;
+
+//The rhythm blocks that are available for selection
+let availableBlocks = [];
 
 
+//Mapping string input characters to VexFlow duration codes
 const durationCharacters = {
-    "w": "1",
+    "w": "1",   //Note Codes
     "h": "2",
     "q": "4",
     "e": "8",
     "s": "16",
-    ".": "d"
+    ".": "d",   //Handling dots locally, calls .addDotsToAll() method
+    "W": "1r",  //Rest Codes
+    "H": "2r",
+    "Q": "4r",
+    "E": "8r",
+    "S": "16r",
 };
 
 function notesFromString(noteString){
@@ -50,8 +64,7 @@ let exampleBlocks = Blocks.filter((b)=>{return b.level===1});
 
 let pg = new passageGenerator(getSelectedBlocks());
 
-renderBlocks(Blocks);
-pg.np.render();
+//renderBlocks(Blocks);
 
 const generate = function(){
   pg.np.context.clear();
@@ -59,10 +72,31 @@ const generate = function(){
 };
 
 
+
+const selectLevel = function(selectedLevel){
+  level = selectedLevel;
+  //availableBlocks = filterBlocksByLevel(Blocks, [level]);
+};
+
+const updateAvailableBlocks = function(levels, difficulty){
+  availableBlocks = filterBlocksByLevels(Blocks, [level]);
+  selectBlocksByDifficulty(availableBlocks, difficulty);
+  renderBlocks(availableBlocks);
+}
+
+const selectDifficulty = function(selectedDifficulty){
+  difficulty = selectedDifficulty;
+}
+
+
 const toggleBlockContainer = function(){
   //let el = document.getElementById("blocks-select-container");
   //el.className = (el.className.includes("hidden")) ? "container" : "container hidden";
-}
+};
+
+updateAvailableBlocks(level, difficulty);
+pg.np.render();
+
 
 
 
