@@ -33,6 +33,8 @@ const durationCharacters = {
     "S": "16r",
 };
 
+
+
 function notesFromString(noteString){
   //Returns an array of VF StaveNotes from a string
   let notes = [];

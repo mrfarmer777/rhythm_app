@@ -1,4 +1,3 @@
-const difficultyData = ["q", "e", "s"];
 
 
 const createDiffButton = function(difficultyObject){

@@ -30,6 +30,10 @@ const blockData = [
 ];
 
 
+const difficultyLevels = ["a", "b", "c", "d", "e", "f", "a-r", "b-r", "c-r", "d-r", "e-r"];
+
+
+
 //REFACTOR filter function
 const filterBlocks=function(options){
     if(options === {} ){
@@ -54,7 +58,7 @@ const filterBlocksByLevels=function(rbes, levelArray){
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
         b.selected = false;
-        if(b.rhythmSet===difficulty){
+        if(difficultyLevels.indexOf(b.rhythmSet)<= difficultyLevels.indexOf(difficulty)){
             b.selected = true;
         }
     });
