@@ -41,7 +41,6 @@ function notesFromString(noteString){
   noteString.split('').map( (n)=>{
     let dur = durationCharacters[n];
     if(dur==="d"){
-      //notes[notes.length-1].duration = notes[notes.length-1].duration+dur;
       notes[notes.length-1].addDotToAll();
       console.log(notes[notes.length-1].duration)
     } else {

@@ -16,7 +16,6 @@ const passageGenerator = function(blocks){
     this.generate = function(){
         this.np.reset();
         this.refresh();
-        //while the passage isn't full
         let rhy, notes, beats;
         if(this.rhythmOptions.length<2){
             alert("Please select 2 or more rhythm blocks to generate a rhythm passage.");
