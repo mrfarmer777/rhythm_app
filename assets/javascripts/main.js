@@ -2,14 +2,20 @@
 const VF = Vex.Flow;
 const Blocks = buildRhythmBlocks(blockData);
 
+//Target elements to be updated
+const levelButtonTarget = document.getElementById("quaver-select-container");
+const difficultyButtonTarget = document.getElementById("level-select-container");
+
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
 let level = "q"; 
 
 //Difficulty refers to the level of complexity of selected rhythms
-let difficulty = 1;
+let difficulty = "a";
 
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
+
+let availableDifficulties = [];
 
 
 //Mapping string input characters to VexFlow duration codes
@@ -92,12 +98,15 @@ const changeLevel = function(selectedLevel){
 const updateAvailableBlocks = function(levels, difficulty){
   availableBlocks = filterBlocksByLevels(Blocks, [level]);
   selectBlocksByDifficulty(availableBlocks, difficulty);
+  updateDifficultyButtons();
   renderBlocks(availableBlocks);
-}
+};
 
 const changeDifficulty = function(selectedDifficulty){
+  deselectAllBlocks(Blocks);
   difficulty = selectedDifficulty;
   updateAvailableBlocks([level], difficulty);
+  updateDifficultyButtons();
 }
 
 const getAvailableDifficulties = function(blocks, level){
@@ -110,6 +119,9 @@ const getAvailableDifficulties = function(blocks, level){
   return res;
 };
 
+const updateDifficultyButtons = function(){
+  renderDifficultyButtons(buildDifficulties(getAvailableDifficulties(Blocks, level)), difficultyButtonTarget, difficulty );
+}
 
 
 
@@ -117,8 +129,9 @@ updateAvailableBlocks(level, difficulty);
 pg.np.render();
 
 const Levels = buildLevels(levelData);
-const levelButtonTarget = document.getElementById("quaver-select-container");
+
 renderLevelButtons(Levels, levelButtonTarget, level);
+ 
 
 
 

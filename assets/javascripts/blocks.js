@@ -53,8 +53,9 @@ const filterBlocksByLevels=function(rbes, levelArray){
 
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
-        if(b.difficulty<=difficulty){
-            b.toggleSelect();
+        b.selected = false;
+        if(b.rhythmSet===difficulty){
+            b.selected = true;
         }
     });
 };
@@ -119,6 +120,7 @@ const buildRhythmBlocks = function(blocks){
 const renderBlockElements = function(blocksEls,targetEl){
     targetEl.innerHTML = "";
     blocksEls.forEach((b)=>{
+        b.el.className = "item block " +(b.selected ? "selected":"");
         targetEl.appendChild(b.el);
     });
     blocksEls.forEach((b)=>{
