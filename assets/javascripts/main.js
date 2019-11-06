@@ -93,37 +93,35 @@ const handleLevelChange = function(){
 
 const changeLevel = function(selectedLevel){
   level = selectedLevel;
-  updateAvailableBlocks([level], difficulty);
+  let levelArray = (level === "4" ? ["q","e","s"] : [level]);
+  updateAvailableBlocks(levelArray, difficulty);
   renderLevelButtons(Levels, levelButtonTarget);
 };
 
 const updateAvailableBlocks = function(levels, difficulty){
-  availableBlocks = filterBlocksByLevels(Blocks, [level]);
+  availableBlocks = filterBlocksByLevels(Blocks, levels);
+  let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
+  renderDifficultyButtons(diffs, difficultyButtonTarget, difficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
-  updateDifficultyButtons();
   renderBlocks(availableBlocks);
 };
 
 const changeDifficulty = function(selectedDifficulty){
   deselectAllBlocks(Blocks);
   difficulty = selectedDifficulty;
-  updateAvailableBlocks([level], difficulty);
-  updateDifficultyButtons();
 }
 
-const getAvailableDifficulties = function(blocks, level){
+const getAvailableDifficulties = function(blocks){
   let res = [];
   blocks.forEach((b) => {
-    if(!res.includes(b.rhythmSet) && b.level === level){
+    if(!res.includes(b.rhythmSet)){
       res.push(b.rhythmSet);
     }
   });
   return res;
 };
 
-const updateDifficultyButtons = function(){
-  renderDifficultyButtons(buildDifficulties(getAvailableDifficulties(Blocks, level)), difficultyButtonTarget, difficulty );
-}
+
 
 
 

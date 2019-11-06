@@ -1,4 +1,4 @@
-const levelData = ["q", "e", "s"];
+const levelData = ["q", "e", "s", "4"];
 
 
 const createButton = function(levelObject){
@@ -20,8 +20,7 @@ const Level = function(levelId){
 
     this.handleClick = function(){
         changeLevel(this.id);
-        updateAvailableBlocks([level], difficulty);
-        this.render();
+        //this.render();
     };
     
     this.el = createButton(this);
