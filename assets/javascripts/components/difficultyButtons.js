@@ -1,4 +1,4 @@
-
+        
 
 const createDiffButton = function(difficultyObject){
     let b = document.createElement("button");
@@ -19,7 +19,7 @@ const Difficulty = function(difficultyId){
 
     this.handleClick = function(){
         changeDifficulty(this.id);
-        updateAvailableBlocks([level], difficulty);
+        //updateAvailableBlocks([level], difficulty);
         this.render();
     };
     

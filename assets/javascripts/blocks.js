@@ -27,6 +27,16 @@ const blockData = [
     { level: "s", rhythmSet: "d", noteString: "e.s" },
     { level: "s", rhythmSet: "e", noteString: "se." },
     { level: "s", rhythmSet: "f", noteString: "ses" },
+    
+    
+    { level: "q-r", rhythmSet: "a-r", noteString: "Qqqq" },
+    { level: "q-r", rhythmSet: "a-r", noteString: "Qqh" },
+    { level: "q-r", rhythmSet: "a-r", noteString: "Qhq" },
+    { level: "q-r", rhythmSet: "a-r", noteString: "Hqq" },
+    { level: "q-r", rhythmSet: "b-r", noteString: "Qh." },
+    { level: "q-r", rhythmSet: "b-r", noteString: "Hh" },
+    { level: "q-r", rhythmSet: "b-r", noteString: "H.q" },
+
 ];
 
 
@@ -58,7 +68,7 @@ const filterBlocksByLevels=function(rbes, levelArray){
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
         b.selected = false;
-        if(difficultyLevels.indexOf(b.rhythmSet)<= difficultyLevels.indexOf(difficulty)){
+        if(difficultyLevels.indexOf(b.rhythmSet) <= difficultyLevels.indexOf(difficulty)){
             b.selected = true;
         }
     });

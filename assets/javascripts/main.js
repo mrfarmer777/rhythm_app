@@ -12,6 +12,8 @@ let level = "q";
 //Difficulty refers to the level of complexity of selected rhythms
 let difficulty = "a";
 
+let restsOn = false;
+
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -42,7 +44,6 @@ function notesFromString(noteString){
     let dur = durationCharacters[n];
     if(dur==="d"){
       notes[notes.length-1].addDotToAll();
-      console.log(notes[notes.length-1].duration)
     } else {
       notes.push(new VF.StaveNote({
         clef: "treble",
@@ -93,11 +94,15 @@ const handleLevelChange = function(){
 const changeLevel = function(selectedLevel){
   level = selectedLevel;
   let levelArray = (level === "4" ? ["q","e","s"] : [level]);
+  if(restsOn){
+    levelArray.push(level+ "-r");
+  }
   updateAvailableBlocks(levelArray, difficulty);
   renderLevelButtons(Levels, levelButtonTarget);
 };
 
 const updateAvailableBlocks = function(levels, difficulty){
+  debugOutput();
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, difficulty);
@@ -108,6 +113,11 @@ const updateAvailableBlocks = function(levels, difficulty){
 const changeDifficulty = function(selectedDifficulty){
   deselectAllBlocks(Blocks);
   difficulty = selectedDifficulty;
+  changeLevel(level);
+}
+
+const getCombinationLevels = function(level, restsOn){
+  
 }
 
 const getAvailableDifficulties = function(blocks){
@@ -120,7 +130,19 @@ const getAvailableDifficulties = function(blocks){
   return res;
 };
 
+const toggleRests = function(){
+  restsOn = !restsOn;
+  changeLevel(level); //change level to current level to force a re-render
+  console.log("Rests On:" + restsOn);
+};
 
+
+const debugOutput = function(){
+  console.log("Level: "+ level);
+  console.log("Difficulty: "+ difficulty);
+  console.log("Rests On?: " + restsOn);
+  console.log("Available Difficulties: " + availableDifficulties);
+}
 
 
 
