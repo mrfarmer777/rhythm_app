@@ -1,13 +1,37 @@
 //Master array of all blocks to be used in the project
 const blockData = [
-    { level: 1, rhythmSet: "A", noteString: "w" },
-    { level: 1, rhythmSet: "A", noteString: "hh" },
-    { level: 1, rhythmSet: "A", noteString: "qqqq" },
-    { level: 1, rhythmSet: "A", noteString: "qqh" },
-    { level: 1, rhythmSet: "A", noteString: "hqq" },
-    { level: 2, rhythmSet: "B", noteString: "qhq" },
-    { level: 1, rhythmSet: "A", noteString: "qh." }
-    ];
+
+    { level: "q", rhythmSet: "a", noteString: "w" },
+    { level: "q", rhythmSet: "a", noteString: "hh" },
+    { level: "q", rhythmSet: "a", noteString: "qqqq" },
+    { level: "q", rhythmSet: "a", noteString: "hqq" },
+    { level: "q", rhythmSet: "a", noteString: "qqh" },
+    { level: "q", rhythmSet: "a", noteString: "qhq" },
+    { level: "q", rhythmSet: "a", noteString: "qh." },
+    { level: "q", rhythmSet: "a", noteString: "h.q" },
+    
+    { level: "e", rhythmSet: "a", noteString: "h" },
+    { level: "e", rhythmSet: "a", noteString: "qq" },
+    { level: "e", rhythmSet: "a", noteString: "eeee" },
+    { level: "e", rhythmSet: "b", noteString: "qee" },
+    { level: "e", rhythmSet: "b", noteString: "eeq" },
+    { level: "e", rhythmSet: "c", noteString: "q.e" },
+    { level: "e", rhythmSet: "c", noteString: "eq." },
+    { level: "e", rhythmSet: "d", noteString: "eqe" },
+    
+    { level: "s", rhythmSet: "a", noteString: "q" },
+    { level: "s", rhythmSet: "a", noteString: "ee" },
+    { level: "s", rhythmSet: "a", noteString: "ssss" },
+    { level: "s", rhythmSet: "b", noteString: "ess" },
+    { level: "s", rhythmSet: "c", noteString: "sse" },
+    { level: "s", rhythmSet: "d", noteString: "e.s" },
+    { level: "s", rhythmSet: "e", noteString: "se." },
+    { level: "s", rhythmSet: "f", noteString: "ses" },
+];
+
+
+const difficultyLevels = ["a", "b", "c", "d", "e", "f", "a-r", "b-r", "c-r", "d-r", "e-r"];
+
 
 
 //REFACTOR filter function
@@ -16,10 +40,36 @@ const filterBlocks=function(options){
         return blockData;
     } else {
         return blockData.filter((b)=>{
-            return (b.level==options.level && b.rhythmSet==options.rhythmSet);
+            return (b.level==options.level);
         });
     }
 };
+
+const filterBlocksByLevels=function(rbes, levelArray){
+    if(levelArray===[]){
+        return rbes;
+    } else {
+        return rbes.filter((b) => {
+            return (levelArray.includes(b.level));
+        });
+    };
+};
+
+const selectBlocksByDifficulty = function(rbes, difficulty){
+    rbes.forEach((b) => {
+        b.selected = false;
+        if(difficultyLevels.indexOf(b.rhythmSet)<= difficultyLevels.indexOf(difficulty)){
+            b.selected = true;
+        }
+    });
+};
+
+const deselectAllBlocks = function(rbes){
+    rbes.forEach((b) => {
+        b.selected = false;
+    });
+};
+
 
 // RhythmBlockElement object definition
 const rhythmBlockElement = function(block){
@@ -32,11 +82,10 @@ const rhythmBlockElement = function(block){
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
     };
     this.handleResize = function(e){
-        console.log('called');
         this.np.render();
     }
     this.el = createBlockElement(this);
-    this.np = new notationPanel({targetEl: this.el.firstChild.firstChild});
+    this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block"});
     this.render = function(){
         this.el.className = "item block";
         this.np.updateNotation(this.noteString);
@@ -73,7 +122,9 @@ const buildRhythmBlocks = function(blocks){
 };
 
 const renderBlockElements = function(blocksEls,targetEl){
+    targetEl.innerHTML = "";
     blocksEls.forEach((b)=>{
+        b.el.className = "item block " +(b.selected ? "selected":"");
         targetEl.appendChild(b.el);
     });
     blocksEls.forEach((b)=>{

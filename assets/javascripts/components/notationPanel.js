@@ -1,6 +1,7 @@
 //Building a notation panel object
 function notationPanel(options){
   this.blockEl = options.targetEl;
+  this.panelType = options.panelType;
   
   this.renderer = new VF.Renderer(this.blockEl,VF.Renderer.Backends.CANVAS);
   this.context = this.renderer.getContext();
@@ -23,13 +24,11 @@ function notationPanel(options){
   
   this.notesToBeats = function(notes, quaver){
     let totalMeasures = 0;
-
     notes.forEach((n) => { 
       if(n.duration !=="b"){
         let noteDur=n.duration.match(/\d+/)[0];
         totalMeasures += (1/noteDur)+((1/noteDur)*0.5*n.dots);
-      }
-      
+      }      
     });
     return totalMeasures*quaver;
   };
@@ -42,14 +41,23 @@ function notationPanel(options){
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.05, -12, width*0.90).addClef('percussion').addTimeSignature("4/4");
+    this.stave = new VF.Stave(width*0.05, -12, width*0.90, {
+      left_bar: false,
+      right_bar: false
+    });
     this.stave
-      .setConfigForLine(2, {visible: true})
+      .setConfigForLine(2, {visible: (this.panelType==="passage" ? true : false)})
       .setConfigForLine(0, {visible: false})
       .setConfigForLine(1, {visible: false})
       .setConfigForLine(3, {visible: false})
       .setConfigForLine(4, {visible: false});
-
+      
+    if(this.panelType==="passage"){
+      this.stave.addClef('percussion');
+      this.stave.addTimeSignature("4/4");
+    }
+    
+    
     if(measures > 4){
       this.stave2 = new VF.Stave(width*0.05, 70, width*0.90).addClef('percussion').setEndBarType(VF.Barline.type.END);
       this.stave2
@@ -77,9 +85,9 @@ function notationPanel(options){
     }
 
     
-    VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, { autobeam: true });
+    VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, true);
     if(this.stave2){
-      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, { autobeam: true })
+      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, true)
     }
   };
 }

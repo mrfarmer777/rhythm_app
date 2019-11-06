@@ -5,8 +5,9 @@ const passageGenerator = function(blocks){
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
-    }
-    this.np = new notationPanel({ targetEl: this.el });
+    };
+    this.np = new notationPanel({ targetEl: this.el, panelType: "passage" });
+
     this.measureLength = 8;
     this.beatLength = 8*4;
     this.chooseRhythm = function(){
@@ -15,10 +16,10 @@ const passageGenerator = function(blocks){
     this.generate = function(){
         this.np.reset();
         this.refresh();
+        let rhy, notes, beats;
         if(this.rhythmOptions.length<2){
             alert("Please select 2 or more rhythm blocks to generate a rhythm passage.");
         } else {
-            
             //while the passage isn't full
             let rhy, notes, beats;
             while(this.beatsRemaining() > 0){
