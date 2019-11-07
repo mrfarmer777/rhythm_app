@@ -98,7 +98,7 @@ const changeLevel = function(selectedLevel){
     levelArray.push(level+ "-r");
   }
   updateAvailableBlocks(levelArray, difficulty);
-  renderLevelButtons(Levels, levelButtonTarget);
+  renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
 };
 
 const updateAvailableBlocks = function(levels, difficulty){

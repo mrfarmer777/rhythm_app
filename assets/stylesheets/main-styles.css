@@ -44,7 +44,7 @@ a.active{
 
 .difficulty-button {
   border: 3px white;
-  background-color: var(--bold-color);
+  background-color: var(--primary-2);
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-style: bold;
@@ -57,9 +57,7 @@ a.active{
 #rests-toggle-button{
 }
 
-.level-button.selected {
-  background-color: var(--highlight);
-}
+
 
 .difficulty-button.selected {
   background-color: var(--highlight);
@@ -69,16 +67,26 @@ a.active{
   background-color: var(--primary-2);
 }
 
-.level-button, #inputs button {
+.level-button {
   background-color: pink;
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-style: bold;
   height: 50px;
   width: 50px;
-  border-radius: 3px;
+  border: 2px solid var(--primary-2);
+  border-radius: 5px;
   margin: 3px;
+  filter: brightness(80%);
 }
+
+
+.level-button.selected {
+  border: 2px solid var(--highlight);
+  box-shadow: 0 0 10px var(--highlight);
+  filter: brightness(100%);
+}
+
 
 #primary-container{
   flex-direction: column;
@@ -114,6 +122,9 @@ a.active{
   justify-content: space-around;
 }
 
+
+/*///////BLOCKS///////////*/
+
 #blocks-select-container{
   flex-direction: row;
   flex-wrap: wrap;
@@ -128,6 +139,33 @@ a.active{
   display: none;
 }
 
+
+.block {
+  height: 80px;
+  flex-basis: 10%;
+  flex-grow: 1;
+  padding: 3px;
+  background-color: var(--primary-2);
+  border: 2px solid var(--primary-2);
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.block:hover {
+  border: 2px solid var(--primary-1);
+  background-color: var(--primary-1);
+}
+
+.block.selected{
+  border: 2px solid var(--highlight);
+  box-shadow: 0 0 12px var(--highlight);
+  background-color: var(--highlight);
+}
+
+
+
+/*//////INPUTS/////////////*/
+
 #inputs {
   flex-direction: row;
   justify-content: center;
@@ -139,7 +177,7 @@ a.active{
 }
 
 
-
+/*/////TARGETS AND CANVASES/////*/
 #target {
   height: 100%;
   overflow-y: hidden;
@@ -165,23 +203,14 @@ canvas {
   background-color: white;
 }
 
-
-
-.block {
-  height: 80px;
-  flex-basis: 100px;
-  flex-shrink: 1;
-  padding: 3px;
-  background-color: var(--primary-1);
-  border-radius: 5px;
-  margin: 5px;
+.block .canvas-container{
+  background-color: #ccc;
 }
 
-.block:hover {
-  background-color: var(--primary-2);
+.block.selected .canvas-container{
+  background-color: var(--white);
 }
 
-.block.selected{
-  background-color: var(--highlight);
-}
+
+
 
