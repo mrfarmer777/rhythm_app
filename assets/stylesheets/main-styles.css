@@ -1,16 +1,15 @@
 :root {
   --white: #FEFEFE;
-  --dark-purple: #846B8A;
-  --teal: #B8F2E6;
-  --mauve: #CFA5B4;
-  --peach: #F7D4BC;
-  
+  --bold-color: #846B8A;
+  --highlight: #74AAC1;
+  --primary-1: #CFA5B4;
+  --primary-2: #F7D4BC;
 }
 
 
 body{
   font-family: 'Raleway', sans-serif;
-  background-color: var(--mauve);
+  background-color: var(--primary-1);
   display: flex;
 }
 
@@ -34,42 +33,42 @@ a.active{
 
 .difficulty-button {
   border: 3px white;
-  background-color: var(--dark-purple);
+  background-color: var(--bold-color);
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-style: bold;
-  width: 40px;
   height: 40px;
   border-radius: 3px;
   margin: 3px;
+  padding: 10px;
 }
 
 .difficulty-button.selected {
-  background-color: var(--teal);
+  background-color: var(--highlight);
 }
 
 .level-button.selected {
-  background-color: var(--teal);
+  background-color: var(--highlight);
 }
 
 .difficulty-button:hover, .level-button:hover:not(.selected) {
-  background-color: var(--peach);
+  background-color: var(--primary-2);
 }
 
 .level-button, #inputs button {
-  border: 3px white;
   background-color: pink;
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-style: bold;
-  height: 40px;
+  height: 50px;
+  width: 50px;
   border-radius: 3px;
   margin: 3px;
 }
 
 #primary-container{
   flex-direction: column;
-  background-color: var(--mauve);
+  background-color: var(--primary-1);
 }
 
 #panels-container{
@@ -88,8 +87,12 @@ a.active{
 #difficulty-buttons-container{
   flex-direction: row;
   justify-content: center;
+}
 
-  
+.button-image{
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
 }
 
 #quaver-select-container{
@@ -102,7 +105,7 @@ a.active{
   flex-wrap: wrap;
   justify-content: space-evenly;
 
-  background-color: var(--dark-purple);
+  background-color: var(--bold-color);
   /*flex-grow: 1;*/
   overflow-y: scroll;
 }
@@ -114,11 +117,11 @@ a.active{
 #inputs {
   flex-direction: row;
   justify-content: center;
-  background-color: var(--dark-purple);
+  background-color: var(--bold-color);
 }
 
 #inputs button:hover{
-  background-color: var(--teal);
+  background-color: var(--highlight);
 }
 
 
@@ -155,16 +158,16 @@ canvas {
   flex-basis: 100px;
   flex-shrink: 1;
   padding: 3px;
-  background-color: var(--mauve);
+  background-color: var(--primary-1);
   border-radius: 5px;
   margin: 5px;
 }
 
 .block:hover {
-  background-color: var(--peach);
+  background-color: var(--primary-2);
 }
 
 .block.selected{
-  background-color: var(--teal);
+  background-color: var(--highlight);
 }
 

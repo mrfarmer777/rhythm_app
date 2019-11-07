@@ -9,6 +9,15 @@ const createDiffButton = function(difficultyObject){
     return b;
 };
 
+
+const createRestButton = function(restsOn){
+    let b = document.createElement("button");
+    b.innerHTML = "Rests";
+    b.className = "difficulty-button item "+(restsOn ? "selected": "")
+    b.onclick = toggleRests;
+    return b;
+}
+
 const Difficulty = function(difficultyId){
     this.id = difficultyId;
     this.selected = false;
@@ -43,6 +52,8 @@ const renderDifficultyButtons = function(difficulties, targetEl, selectedDifficu
             targetEl.appendChild(diffObj.el);
         }
     });
+    let restButton = createRestButton(restsOn);
+    targetEl.appendChild(restButton);
 };
 
 
