@@ -1,10 +1,21 @@
 :root {
   --white: #FEFEFE;
+  --bold-color: #16001E;
+  --highlight: #74AAC1;
+  --primary-1: #DE639A;
+  --primary-2: #7F2982;
+}
+
+/*ALT COLORS SCHEME
+:root {
+  --white: #FEFEFE;
   --bold-color: #846B8A;
   --highlight: #74AAC1;
   --primary-1: #CFA5B4;
   --primary-2: #F7D4BC;
 }
+
+*/
 
 
 body{
@@ -43,11 +54,14 @@ a.active{
   padding: 10px;
 }
 
-.difficulty-button.selected {
-  background-color: var(--highlight);
+#rests-toggle-button{
 }
 
 .level-button.selected {
+  background-color: var(--highlight);
+}
+
+.difficulty-button.selected {
   background-color: var(--highlight);
 }
 

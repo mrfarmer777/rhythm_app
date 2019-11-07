@@ -13,7 +13,8 @@ const createDiffButton = function(difficultyObject){
 const createRestButton = function(restsOn){
     let b = document.createElement("button");
     b.innerHTML = "Rests";
-    b.className = "difficulty-button item "+(restsOn ? "selected": "")
+    b.className = "difficulty-button item "+(restsOn ? "selected": "");
+    b.setAttribute("id","rests-toggle-button");
     b.onclick = toggleRests;
     return b;
 }
