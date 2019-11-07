@@ -19,7 +19,7 @@ const Difficulty = function(difficultyId){
 
     this.handleClick = function(){
         changeDifficulty(this.id);
-        //updateAvailableBlocks([level], difficulty);
+        updateAvailableBlocks([level], difficulty);
         this.render();
     };
     
@@ -39,7 +39,9 @@ const renderDifficultyButtons = function(difficulties, targetEl, selectedDifficu
     targetEl.innerHTML = "";
     difficulties.forEach((diffObj)=>{
         diffObj.el.className = "difficulty-button item " + (diffObj.id === selectedDifficulty ? "selected": "");
-        targetEl.appendChild(diffObj.el);
+        if(!restsOn || diffObj.id.includes("-r")){
+            targetEl.appendChild(diffObj.el);
+        }
     });
 };
 

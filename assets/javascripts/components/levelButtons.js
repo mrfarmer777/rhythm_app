@@ -3,7 +3,10 @@ const levelData = ["q", "e", "s", "4"];
 
 const createButton = function(levelObject){
     let b = document.createElement("button");
-    b.innerHTML = levelObject.id;
+    let image = document.createElement("img");
+    image.className = "button-image";
+    image.setAttribute("src",levelObject.imgUrl);
+    b.appendChild(image);
     b.setAttribute("data-level", levelObject.id);
     b.className = "level-button item"
     b.onclick = levelObject.handleClick.bind(levelObject);
@@ -12,10 +15,12 @@ const createButton = function(levelObject){
 
 const Level = function(levelId){
     this.id = levelId;
+    this.imgUrl = "./assets/images/"+this.id+".png";
     this.selected = false;
     
     this.render = function(){
         this.el.className = "level-button item " + (this.id === level ? "selected": "");
+        this.el.innerHTML
     }
 
     this.handleClick = function(){
@@ -25,6 +30,11 @@ const Level = function(levelId){
     
     this.el = createButton(this);
 };
+
+const buildButtonImage = function(levelObj){
+    
+    return image
+}
 
 const buildLevels = function(levelArray){
     let res = [];

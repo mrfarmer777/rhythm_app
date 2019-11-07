@@ -52,11 +52,9 @@ a.active{
   background-color: var(--teal);
 }
 
-#level-select-container button:hover, .level-button:hover:not(.selected) {
+.difficulty-button:hover, .level-button:hover:not(.selected) {
   background-color: var(--peach);
 }
-
-
 
 .level-button, #inputs button {
   border: 3px white;
@@ -82,9 +80,16 @@ a.active{
   flex-direction: column;
 }
 
-#level-select-container{
+#level-select-buttons{
   flex-direction: row;
   justify-content: center;
+}
+
+#difficulty-buttons-container{
+  flex-direction: row;
+  justify-content: center;
+
+  
 }
 
 #quaver-select-container{

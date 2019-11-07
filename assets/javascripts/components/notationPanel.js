@@ -5,7 +5,9 @@ function notationPanel(options){
   
   this.renderer = new VF.Renderer(this.blockEl,VF.Renderer.Backends.CANVAS);
   this.context = this.renderer.getContext();
+  this.numberOfBeats = 4;
   this.quaver=4;
+  this.timeSignature = ""+this.numberOfBeats+"/"+this.quaver;
   this.notes=[];
   this.notes2=[];
 
@@ -54,7 +56,7 @@ function notationPanel(options){
       
     if(this.panelType==="passage"){
       this.stave.addClef('percussion');
-      this.stave.addTimeSignature("4/4");
+      this.stave.addTimeSignature(this.timeSignature);
     }
     
     
@@ -83,11 +85,11 @@ function notationPanel(options){
     if(this.stave2){
       this.stave2.setContext(renderContext).draw();
     }
-
     
     VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, true);
     if(this.stave2){
       VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, true)
     }
+    
   };
 }

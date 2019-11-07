@@ -4,7 +4,7 @@ const Blocks = buildRhythmBlocks(blockData);
 
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-container");
-const difficultyButtonTarget = document.getElementById("level-select-container");
+const difficultyButtonTarget = document.getElementById("level-select-buttons");
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
 let level = "q"; 
