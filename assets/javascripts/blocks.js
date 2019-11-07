@@ -6,9 +6,10 @@ const blockData = [
     { level: "q", rhythmSet: "a", noteString: "qqqq" },
     { level: "q", rhythmSet: "a", noteString: "hqq" },
     { level: "q", rhythmSet: "a", noteString: "qqh" },
-    { level: "q", rhythmSet: "a", noteString: "qhq" },
-    { level: "q", rhythmSet: "a", noteString: "qh." },
     { level: "q", rhythmSet: "a", noteString: "h.q" },
+    { level: "q", rhythmSet: "a", noteString: "qh." },
+    { level: "q", rhythmSet: "a", noteString: "qhq" },
+    
     
     { level: "e", rhythmSet: "a", noteString: "h" },
     { level: "e", rhythmSet: "a", noteString: "qq" },
