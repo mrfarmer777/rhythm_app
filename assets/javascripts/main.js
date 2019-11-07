@@ -93,6 +93,7 @@ const handleLevelChange = function(){
 
 const changeLevel = function(selectedLevel){
   level = selectedLevel;
+  deselectAllBlocks(Blocks);
   let levelArray = (level === "4" ? ["q","e","s"] : [level]);
   if(restsOn){
     levelArray.push(level+ "-r");

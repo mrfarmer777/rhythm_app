@@ -42,30 +42,10 @@ a.active{
   padding:5px;
 }
 
-.difficulty-button {
-  border: 3px white;
-  background-color: var(--primary-2);
-  font-family: 'Raleway', sans-serif;
-  font-size: 20px;
-  font-style: bold;
-  height: 40px;
-  border-radius: 3px;
-  margin: 3px;
-  padding: 10px;
-}
-
-#rests-toggle-button{
-}
 
 
 
-.difficulty-button.selected {
-  background-color: var(--highlight);
-}
 
-.difficulty-button:hover, .level-button:hover:not(.selected) {
-  background-color: var(--primary-2);
-}
 
 .level-button {
   background-color: pink;
@@ -87,6 +67,10 @@ a.active{
   filter: brightness(100%);
 }
 
+#level-select-buttons{
+  flex-direction: row;
+  justify-content: center;
+}
 
 #primary-container{
   flex-direction: column;
@@ -101,15 +85,34 @@ a.active{
   flex-direction: column;
 }
 
-#level-select-buttons{
-  flex-direction: row;
-  justify-content: center;
-}
-
 #difficulty-buttons-container{
   flex-direction: row;
   justify-content: center;
 }
+
+.difficulty-button {
+  border: 3px white;
+  background-color: var(--primary-2);
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  font-style: bold;
+  height: 40px;
+  border-radius: 3px;
+  margin: 3px;
+  padding: 10px;
+}
+
+.difficulty-button.selected {
+  background-color: var(--highlight);
+}
+
+.difficulty-button:hover, .level-button:hover:not(.selected) {
+  background-color: var(--primary-2);
+}
+
+#rests-toggle-button{
+}
+
 
 .button-image{
   height: 100%;
@@ -172,8 +175,23 @@ a.active{
   background-color: var(--bold-color);
 }
 
-#inputs button:hover{
+#inputs button{
+  font-family: Raleway, sans-serif;
+  font-size: 30px;
   background-color: var(--highlight);
+  border: 2px solid var(--highlight);
+  border-radius: 3px;
+
+}
+
+#inputs button:hover{
+  box-shadow: 0 0 10px var(--highlight);
+}
+
+#inputs button:active{
+  background-color: var(--primary-1);
+  box-shadow: 0 0 18px var(--primary-1);
+  border-color: var(--primary-1);
 }
 
 
@@ -204,7 +222,7 @@ canvas {
 }
 
 .block .canvas-container{
-  background-color: #ccc;
+  background-color: #aaa;
 }
 
 .block.selected .canvas-container{
