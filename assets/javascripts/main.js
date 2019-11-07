@@ -2,6 +2,8 @@
 const VF = Vex.Flow;
 const Blocks = buildRhythmBlocks(blockData);
 
+const FillerBlocks = buildRhythmBlocks(fillerBlockData);
+
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-container");
 const difficultyButtonTarget = document.getElementById("level-select-buttons");

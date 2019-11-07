@@ -55,6 +55,16 @@ const blockData = [
 ];
 
 
+//Set of blocks to fill out empty passage beats when no other rhythms are selected
+const fillerBlockData = [
+    { level: "fill", rhythmSet: "fill", noteString: "h." },
+    { level: "fill", rhythmSet: "a-r", noteString: "h" },
+    { level: "fill", rhythmSet: "b-r", noteString: "q" },
+    { level: "fill", rhythmSet: "c-r", noteString: "e" },
+    { level: "fill", rhythmSet: "c-r", noteString: "s" },
+    ];
+
+
 const difficultyLevels = ["a", "b", "c", "d", "e", "f", "a-r", "b-r", "c-r", "d-r", "e-r"];
 
 
@@ -80,6 +90,12 @@ const filterBlocksByLevels=function(rbes, levelArray){
     };
 };
 
+const filterBlocksByBeatLength = function(rbes, beats){
+    return rbes.filter((b) => {
+        return b.beatLength <= beats;
+    });
+};
+
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
         b.selected = false;
@@ -101,14 +117,17 @@ const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
     this.noteString = block.noteString;
+    this.beatLength;
     this.selected = false;
     this.toggleSelect = function(e){
         this.selected = !this.selected;
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
+        console.log(this.beatLength);
     };
+    
     this.handleResize = function(e){
         this.np.render();
-    }
+    };
     this.el = createBlockElement(this);
     this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block"});
     this.render = function(){
@@ -116,7 +135,6 @@ const rhythmBlockElement = function(block){
         this.np.updateNotation(this.noteString);
         this.np.render();
     };
-    
 };
 
 //Builds HTML for a block element
@@ -155,6 +173,7 @@ const renderBlockElements = function(blocksEls,targetEl){
     blocksEls.forEach((b)=>{
         b.np.updateNotation(b.noteString);
         b.np.render();
+        b.beatLength = b.np.beatLength();
     })
 };
 

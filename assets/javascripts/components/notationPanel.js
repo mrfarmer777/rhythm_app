@@ -35,6 +35,10 @@ function notationPanel(options){
     return totalMeasures*quaver;
   };
   
+  this.beatLength = function(){
+    return this.notesToBeats(this.notes, this.quaver);
+  };
+  
   
   
   
