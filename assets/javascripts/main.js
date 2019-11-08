@@ -2,6 +2,7 @@
 const VF = Vex.Flow;
 const Blocks = buildRhythmBlocks(blockData);
 
+MicroModal.init();
 
 
 
@@ -156,6 +157,48 @@ const Levels = buildLevels(levelData);
 
 renderLevelButtons(Levels, levelButtonTarget, level);
  
+
+MicroModal.init({
+    onShow: modal => console.info(`${modal.id} is shown`), // [1]
+    onClose: modal => console.info(`${modal.id} is hidden`), // [2]
+    openTrigger: 'data-custom-open', // [3]
+    closeTrigger: 'data-custom-close', // [4]
+    disableScroll: true, // [5]
+    disableFocus: false, // [6]
+    awaitCloseAnimation: false, // [7]
+    debugMode: true // [8]
+  });
+
+var button = document.querySelector('.myButton');
+button.addEventListener('click', function(){
+  MicroModal.show('modal-1');    
+});
+
+let introSlideNum = 1;
+
+var continues = document.querySelectorAll(".modal__btn-primary");
+continues.forEach((c)=>{ c.addEventListener('click', function(){
+  MicroModal.close('modal-'+introSlideNum);
+  introSlideNum +=1;
+  if(introSlideNum === 5){
+    introSlideNum = 1;
+  } else {
+    MicroModal.show('modal-'+introSlideNum);
+  }
+})});
+
+var closes = document.querySelectorAll(".close__btn");
+closes.forEach((c)=>{ c.addEventListener('click', function(){
+    introSlideNum = 1;
+})});
+
+
+MicroModal.show("intro-modal");
+
+const startIntro = function(){
+  MicroModal.close("intro-modal");
+  MicroModal.show('modal-1')
+}
 
 
 

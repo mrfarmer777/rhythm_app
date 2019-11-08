@@ -11,6 +11,25 @@
 
 </head>
 <body>
+    <!-- [1] -->
+<div id="modal-1" aria-hidden="true" class="modal__close">
+  <!-- [2] -->
+  <div tabindex="-1" class="modal__overlay" data-micromodal-close>
+    <!-- [3] -->
+    <div role="dialog" class="modal__container" aria-modal="true" aria-labelledby="modal-1-title" >
+      <header class="modal__header">
+        <h2 id="modal-1-title" class="modal__title">
+          Modal Title
+        </h2>
+        <!-- [4] -->
+        <button aria-label="Close modal" data-micromodal-close>Close</button>
+      </header>
+      <div id="modal-1-content" class="modal__content">
+        Modal Content
+      </div>
+    </div>
+  </div>
+</div>
   <div id="primary-container" class="container">
     <div id="temp-header">
       <a href="./index.html" class="active">Layout 1</a>
