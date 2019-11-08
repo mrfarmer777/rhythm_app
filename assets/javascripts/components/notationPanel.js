@@ -10,19 +10,19 @@ function notationPanel(options){
   this.timeSignature = ""+this.numberOfBeats+"/"+this.quaver;
   this.notes=[];
   this.notes2=[];
+  this.autoBeaming = true;
 
   
   this.toggleSelected = function(){
     return !this.selected;
   };
   
-  this.formatter = new VF.Formatter();
+  this.formatter = new VF.Formatter;
   
   
   this.updateNotation=function(rhythmString){
     this.notes = notesFromString(rhythmString);
   };
-  
   
   this.notesToBeats = function(notes, quaver){
     let totalMeasures = 0;
@@ -40,16 +40,14 @@ function notationPanel(options){
   };
   
   
-  
-  
   this.resizeContents = function(){
     let width = this.blockEl.clientWidth;
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
     this.stave = new VF.Stave(width*0.05, -12, width*0.90, {
-      left_bar: false,
-      right_bar: false
+      left_bar: (this.panelType==="passage"),
+      right_bar: (this.panelType==="passage")
     });
     this.stave
       .setConfigForLine(2, {visible: (this.panelType==="passage" ? true : false)})
@@ -90,9 +88,9 @@ function notationPanel(options){
       this.stave2.setContext(renderContext).draw();
     }
     
-    VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, true);
+    VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, this.autoBeaming);
     if(this.stave2){
-      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, true)
+      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, this.autoBeaming)
     }
     
   };

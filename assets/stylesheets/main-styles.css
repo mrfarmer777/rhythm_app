@@ -84,6 +84,7 @@ a.active{
 #difficulty-buttons-container{
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 #difficulty-select-buttons{
@@ -134,7 +135,7 @@ a.active{
 #quaver-select-container{
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 3.5%;
+  margin-top: 4.0%;
 }
 
 
