@@ -30,8 +30,12 @@
 
 .modal__header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+}
+
+#intro-modal .modal__title{
+  font-size: 3em;
 }
 
 .modal__title {
@@ -86,14 +90,17 @@
   transition: transform .25s ease-out,-webkit-transform .25s ease-out;
 }
 
-.modal__btn:focus, .modal__btn:hover {
-  -webkit-transform: scale(1.05);
-  transform: scale(1.05);
-}
+
 
 .modal__btn-primary {
   background-color: #00449e;
   color: #fff;
+}
+
+#intro-modal-title, #intro-modal-content {
+  text-align: center;
+  justify-content: center;
+  
 }
 
 

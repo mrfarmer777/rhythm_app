@@ -169,10 +169,7 @@ MicroModal.init({
     debugMode: true // [8]
   });
 
-var button = document.querySelector('.myButton');
-button.addEventListener('click', function(){
-  MicroModal.show('modal-1');    
-});
+
 
 let introSlideNum = 1;
 
