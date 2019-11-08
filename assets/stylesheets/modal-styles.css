@@ -30,12 +30,19 @@
 
 .modal__header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
 #intro-modal .modal__title{
   font-size: 3em;
+  text-align: center;
+}
+
+#intro-model .modal_header {
+  display: flex;
+  justify-content: center;
+  
 }
 
 .modal__title {
@@ -44,7 +51,7 @@
   font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.25;
-  color: #00449e;
+  color: var(--bold);
   box-sizing: border-box;
 }
 
