@@ -24,7 +24,6 @@ const passageGenerator = function(blocks){
         if(this.rhythmOptions.length<2){
             alert("Please select 2 or more rhythm blocks to generate a rhythm passage.");
         } else {
-            //while the passage isn't full
             let rhy, notes, beats;
             while(this.beatsRemaining() > 0){
                 rhy = this.chooseRhythm(this.measureBeatsRemaining());//select a rhythm

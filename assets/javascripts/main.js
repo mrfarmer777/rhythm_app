@@ -5,8 +5,8 @@ const Blocks = buildRhythmBlocks(blockData);
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
 
 //Target elements to be updated
-const levelButtonTarget = document.getElementById("quaver-select-container");
-const difficultyButtonTarget = document.getElementById("level-select-buttons");
+const levelButtonTarget = document.getElementById("quaver-select-buttons");
+const difficultyButtonTarget = document.getElementById("difficulty-select-buttons");
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
 let level = "q"; 
@@ -104,11 +104,10 @@ const changeLevel = function(selectedLevel){
   renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
 };
 
-const updateAvailableBlocks = function(levels, difficulty){
-  debugOutput();
+const updateAvailableBlocks = function(levels, selectedDifficulty){
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
-  renderDifficultyButtons(diffs, difficultyButtonTarget, difficulty);
+  renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
   renderBlocks(availableBlocks);
 };
@@ -117,11 +116,9 @@ const changeDifficulty = function(selectedDifficulty){
   deselectAllBlocks(Blocks);
   difficulty = selectedDifficulty;
   changeLevel(level);
-}
+};
 
-const getCombinationLevels = function(level, restsOn){
-  
-}
+
 
 const getAvailableDifficulties = function(blocks){
   let res = [];

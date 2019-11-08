@@ -12,7 +12,7 @@ const createDiffButton = function(difficultyObject){
 
 const createRestButton = function(restsOn){
     let b = document.createElement("button");
-    b.innerHTML = "Rests";
+    b.innerHTML = "Rests: "+ (restsOn ? "On":"Off");
     b.className = "difficulty-button item "+(restsOn ? "selected": "");
     b.setAttribute("id","rests-toggle-button");
     b.onclick = toggleRests;
@@ -29,7 +29,7 @@ const Difficulty = function(difficultyId){
 
     this.handleClick = function(){
         changeDifficulty(this.id);
-        updateAvailableBlocks([level], difficulty);
+        //updateAvailableBlocks([level], difficulty);
         this.render();
     };
     
@@ -53,8 +53,12 @@ const renderDifficultyButtons = function(difficulties, targetEl, selectedDifficu
             targetEl.appendChild(diffObj.el);
         }
     });
+    
+    //Drawing options buttons here for now...
+    const optsContainer = document.getElementById("option-buttons-container");
+    optsContainer.innerHTML = "";
     let restButton = createRestButton(restsOn);
-    targetEl.appendChild(restButton);
+    optsContainer.appendChild(restButton);
 };
 
 

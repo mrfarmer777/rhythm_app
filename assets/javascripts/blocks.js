@@ -43,7 +43,7 @@ const blockData = [
     { level: "e-r", rhythmSet: "c-r", noteString: "Eeq" },
     { level: "e-r", rhythmSet: "c-r", noteString: "Eq." },
     { level: "e-r", rhythmSet: "d-r", noteString: "Eqe" },
-    { level: "q-r", rhythmSet: "d-r", noteString: "Q.e" },
+    { level: "e-r", rhythmSet: "d-r", noteString: "Q.e" },
     
     { level: "s-r", rhythmSet: "a-r", noteString: "Ess" },
     { level: "s-r", rhythmSet: "a-r", noteString: "Ee" },

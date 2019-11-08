@@ -87,7 +87,19 @@ a.active{
 
 #difficulty-buttons-container{
   flex-direction: row;
+  justify-content: space-between;
+}
+
+#difficulty-select-buttons{
+  flex-direction: row;
   justify-content: center;
+}
+
+#options-buttons-container{
+}
+
+#difficulty-buttons-container.item{
+  
 }
 
 .difficulty-button {
@@ -106,11 +118,12 @@ a.active{
   background-color: var(--highlight);
 }
 
-.difficulty-button:hover, .level-button:hover:not(.selected) {
+.difficulty-button:hover:not(.selected), .level-button:hover:not(.selected) {
   background-color: var(--primary-2);
 }
 
-#rests-toggle-button{
+#rests-toggle-button.selected{
+  background-color: var(--highlight);
 }
 
 
@@ -120,9 +133,12 @@ a.active{
   border-radius: 3px;
 }
 
+
+
 #quaver-select-container{
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
+  margin-top: 3.5%;
 }
 
 
