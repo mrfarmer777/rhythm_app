@@ -2,6 +2,9 @@
 const VF = Vex.Flow;
 const Blocks = buildRhythmBlocks(blockData);
 
+
+
+
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
 
 //Target elements to be updated
