@@ -20,7 +20,6 @@
 
 body{
   font-family: 'Raleway', sans-serif;
-  background-color: var(--primary-1);
   display: flex;
 }
 
@@ -40,6 +39,20 @@ a.active{
 .container{
   display:flex;
   padding:5px;
+}
+
+#header-brand, #intro-modal h1{
+  font-size: 25px;
+  color: var(--highlight);
+  text-shadow: 2px 2px 1px var(--bold-color);
+  font-family: 'Raleway', serif;
+  font-style: italic;
+  font-weight: bolder;
+}
+
+#intro-modal h1{
+  color: var(--primary-1);
+  text-align: center
 }
 
 
@@ -70,7 +83,7 @@ a.active{
 
 #primary-container{
   flex-direction: column;
-  background-color: var(--primary-1);
+  background-color: var(--white);
 }
 
 #panels-container{
@@ -96,7 +109,6 @@ a.active{
 }
 
 #difficulty-buttons-container.item{
-  
 }
 
 .difficulty-button {
@@ -123,14 +135,11 @@ a.active{
   background-color: var(--highlight);
 }
 
-
 .button-image{
   height: 100%;
   width: 100%;
   border-radius: 3px;
 }
-
-
 
 #quaver-select-container{
   flex-direction: column;
@@ -140,7 +149,6 @@ a.active{
 
 
 /*///////BLOCKS///////////*/
-
 #blocks-select-container{
   flex-direction: row;
   flex-wrap: wrap;
