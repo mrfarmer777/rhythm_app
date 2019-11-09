@@ -122,7 +122,7 @@ const rhythmBlockElement = function(block){
     this.toggleSelect = function(e){
         this.selected = !this.selected;
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
-        console.log(this.beatLength);
+        checkActiveDifficulty();
     };
     
     this.handleResize = function(e){

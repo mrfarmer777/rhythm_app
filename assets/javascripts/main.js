@@ -1,12 +1,15 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
+
+//Global Blocks, represents all possible rhythm block options
 const Blocks = buildRhythmBlocks(blockData);
 
-MicroModal.init();
-
-
-
+//Filler blocks used incase a a passageGenerator needs them to fill remaining 
+//space in a passage when all available blocks are too large
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
+
+//Initializing MicroModal for introduction flow;
+MicroModal.init();
 
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-buttons");
@@ -23,6 +26,9 @@ let restsOn = false;
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
+//Blocks that are activated for inclusion in the passage
+let selectedBlocks = [];
+
 let availableDifficulties = [];
 
 
@@ -33,7 +39,9 @@ const durationCharacters = {
     "q": "4",
     "e": "8",
     "s": "16",
+    
     ".": "d",   //Handling dots locally, calls .addDotsToAll() method
+    
     "W": "1r",  //Rest Codes
     "H": "2r",
     "Q": "4r",
@@ -43,6 +51,7 @@ const durationCharacters = {
 
 
 
+//A global function for translating strings to arrays of VF Notes
 function notesFromString(noteString){
   //Returns an array of VF StaveNotes from a string
   let notes = [];
@@ -64,29 +73,32 @@ function notesFromString(noteString){
 }
   
 //Forcing all blocks to draw for development purposes
-const updateMusic = function(){
-  let noteInput = document.getElementById("note-input");
-  let noteString = noteInput.value;
-  example.clearContext();
-  example.updateNotation(noteString);
-  example.render();
-  renderBlocks();
-};
+// const updateMusic = function(){
+//   let noteInput = document.getElementById("note-input");
+//   let noteString = noteInput.value;
+//   example.clearContext();
+//   example.updateNotation(noteString);
+//   example.render();
+//   renderBlocks();
+// };
 
 
 
 
-let exampleBlocks = Blocks.filter((b)=>{return b.level===1});
+//let exampleBlocks = Blocks.filter((b)=>{return b.level===1});
 
+//Instantiates the passageGenerator object based on selected blocks
 let pg = new passageGenerator(getSelectedBlocks());
 
-//renderBlocks(Blocks);
 
+//Clears the passage and generates a new one
 const generate = function(){
   pg.np.context.clear();
   pg.generate();
 };
 
+
+//Responds to user clicking new level, changes buttons, calls changeLevel
 const handleLevelChange = function(){
   let btns = document.querySelectorAll('.level-button');
   btns.forEach((b)=> {
@@ -97,6 +109,7 @@ const handleLevelChange = function(){
   changeLevel(level);
 };
 
+//Changes active level, resets difficulty to A, redraws a blank passage
 const changeLevel = function(selectedLevel){
   level = selectedLevel;
   deselectAllBlocks(Blocks);
@@ -104,9 +117,12 @@ const changeLevel = function(selectedLevel){
   updateAvailableBlocks(la, difficulty);
   renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
   changeDifficulty(( restsOn ? "a-r": "a"));
+  pg.np.reset();
+  pg.np.render();
   
 };
 
+//Logic for building level array, more than one level can be selected (i.e. level 4)
 const getLevelArray = function(level){
   let levelArray = (level === "4" ? ["q","e","s"] : [level]);
   if(restsOn){
@@ -115,6 +131,7 @@ const getLevelArray = function(level){
   return levelArray;
 };
 
+//Adds/Removes available blocks, automatically selects them based upon difficulty and levels
 const updateAvailableBlocks = function(levels, selectedDifficulty){
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
@@ -123,15 +140,46 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   renderBlocks(availableBlocks);
 };
 
+//Changes activated difficulty and updates difficulty blocks
 const changeDifficulty = function(selectedDifficulty){
-  deselectAllBlocks(Blocks);
-  difficulty = selectedDifficulty;
-  deselectAllBlocks(Blocks);
-  updateAvailableBlocks(getLevelArray(level), difficulty);
-  pg.np.reset();
-  pg.np.render();
+  if(selectedDifficulty==="custom"){
+    difficulty = selectedDifficulty;
+    let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
+    renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
+  } else {
+    deselectAllBlocks(Blocks);
+    difficulty = selectedDifficulty;
+    deselectAllBlocks(Blocks);
+    updateAvailableBlocks(getLevelArray(level), difficulty);
+    
+  }
 };
 
+//Checks if a user has (de)activated an available difficulty within the current level
+//Updates the difficulty buttons accordingly.
+const checkActiveDifficulty = function(){
+  let availableDifficulties = getAvailableDifficulties(availableBlocks);
+  const selectedBlocks = getSelectedBlocks();
+  let activeDifficulty = "custom";
+  availableDifficulties.forEach((d) =>{
+    const difficultyBlocks = availableBlocks.filter( (b) => { return difficultyLevels.indexOf(b.rhythmSet) <= difficultyLevels.indexOf(d) });
+      if(arraysEqual(selectedBlocks, difficultyBlocks)){
+        activeDifficulty = d;
+      }
+  });
+  changeDifficulty(activeDifficulty);
+};
+
+//Helper function for checking equality of two arrays
+function arraysEqual(arr1, arr2) {
+    if(arr1.length !== arr2.length)
+        return false;
+    for(var i = arr1.length; i--;) {
+        if(arr1[i] !== arr2[i])
+            return false;
+    }
+    return true;
+}
 
 
 const getAvailableDifficulties = function(blocks){
@@ -167,7 +215,7 @@ const Levels = buildLevels(levelData);
 
 renderLevelButtons(Levels, levelButtonTarget, level);
  
-
+//INTRODUCTORY MODAL 
 MicroModal.init({
     onShow: modal => console.info(`${modal.id} is shown`), // [1]
     onClose: modal => console.info(`${modal.id} is hidden`), // [2]
