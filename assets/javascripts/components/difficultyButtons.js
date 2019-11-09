@@ -2,7 +2,7 @@
 
 const createDiffButton = function(difficultyObject){
     let b = document.createElement("button");
-    b.innerHTML = difficultyObject.id;
+    b.innerHTML = difficultyObject.id.toUpperCase();
     b.setAttribute("data-difficulty", difficultyObject.id);
     b.className = "difficulty-button item"
     b.onclick = difficultyObject.handleClick.bind(difficultyObject);
