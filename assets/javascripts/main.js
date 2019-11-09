@@ -128,7 +128,8 @@ const changeDifficulty = function(selectedDifficulty){
   difficulty = selectedDifficulty;
   deselectAllBlocks(Blocks);
   updateAvailableBlocks(getLevelArray(level), difficulty);
-  
+  pg.np.reset();
+  pg.np.render();
 };
 
 
