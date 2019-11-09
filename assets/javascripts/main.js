@@ -173,15 +173,28 @@ MicroModal.init({
 
 let introSlideNum = 1;
 
-var continues = document.querySelectorAll(".modal__btn-primary");
+var continues = document.querySelectorAll(".continue__btn");
 continues.forEach((c)=>{ c.addEventListener('click', function(){
   MicroModal.close('modal-'+introSlideNum);
   introSlideNum +=1;
-  if(introSlideNum === 5){
+  console.log(introSlideNum);
+  if(introSlideNum === 4){
     introSlideNum = 1;
   } else {
     MicroModal.show('modal-'+introSlideNum);
   }
+})});
+
+var prevs = document.querySelectorAll(".prev__btn");
+prevs.forEach((c)=>{ c.addEventListener('click', function(){
+  MicroModal.close('modal-'+introSlideNum);
+  if(introSlideNum > 1){
+    introSlideNum -=1;
+  } else {
+    introSlideNum = 1;
+  }
+  MicroModal.show('modal-'+introSlideNum);
+
 })});
 
 var closes = document.querySelectorAll(".close__btn");
