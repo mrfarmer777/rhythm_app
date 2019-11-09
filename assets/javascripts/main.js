@@ -100,12 +100,19 @@ const handleLevelChange = function(){
 const changeLevel = function(selectedLevel){
   level = selectedLevel;
   deselectAllBlocks(Blocks);
+  let la = getLevelArray(level);
+  updateAvailableBlocks(la, difficulty);
+  renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
+  changeDifficulty(( restsOn ? "a-r": "a"));
+  
+};
+
+const getLevelArray = function(level){
   let levelArray = (level === "4" ? ["q","e","s"] : [level]);
   if(restsOn){
     levelArray.forEach((l) => { levelArray.push(l + "-r") });
   }
-  updateAvailableBlocks(levelArray, difficulty);
-  renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
+  return levelArray;
 };
 
 const updateAvailableBlocks = function(levels, selectedDifficulty){
@@ -119,7 +126,9 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
 const changeDifficulty = function(selectedDifficulty){
   deselectAllBlocks(Blocks);
   difficulty = selectedDifficulty;
-  changeLevel(level);
+  deselectAllBlocks(Blocks);
+  updateAvailableBlocks(getLevelArray(level), difficulty);
+  
 };
 
 
@@ -137,7 +146,7 @@ const getAvailableDifficulties = function(blocks){
 const toggleRests = function(){
   restsOn = !restsOn;
   changeLevel(level); //change level to current level to force a re-render
-  console.log("Rests On:" + restsOn);
+  changeDifficulty(restsOn ? "a-r" : "a");
 };
 
 
