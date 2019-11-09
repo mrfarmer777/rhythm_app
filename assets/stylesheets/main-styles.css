@@ -156,7 +156,6 @@ a.active{
 
   background-color: var(--bold-color);
   /*flex-grow: 1;*/
-  overflow-y: scroll;
 }
 
 #blocks-select-container.hidden{
