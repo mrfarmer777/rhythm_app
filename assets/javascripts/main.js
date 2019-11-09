@@ -102,7 +102,7 @@ const changeLevel = function(selectedLevel){
   deselectAllBlocks(Blocks);
   let levelArray = (level === "4" ? ["q","e","s"] : [level]);
   if(restsOn){
-    levelArray.push(level+ "-r");
+    levelArray.forEach((l) => { levelArray.push(l + "-r") });
   }
   updateAvailableBlocks(levelArray, difficulty);
   renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
