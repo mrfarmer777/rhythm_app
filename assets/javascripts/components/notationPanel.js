@@ -80,8 +80,8 @@ function notationPanel(options){
     this.notes=[];
     this.notes2=[];
     this.context.clear();
-    this.numberOfBeats = (level==="t" ? 6:4);
-    this.quaver = (level==="t" ? 8:4);
+    this.numberOfBeats = (["t","u","v"].includes(level) ? 6:4);
+    this.quaver = (["t","u","v"].includes(level) ? 8:4);
     this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
     this.beamGrouping = (this.timeSignature==="4/4" ? new VF.Fraction(2,8): new VF.Fraction(4,8))
   };

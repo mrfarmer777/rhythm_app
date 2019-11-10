@@ -11,15 +11,15 @@ const passageGenerator = function(blocks){
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
-        this.measureBeats = (level==="t" ? 6:4)
-        this.quaver = (level==="t" ? 8:4)
+        this.measureBeats = (["t","u","v"].includes(level) ? 6:4)
+        this.quaver = (["t","u","v"].includes(level) ? 8:4)
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
         this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(1,4))
         this.beatLength=this.measureLength*this.measureBeats;
         this.np.reset();
     };
-    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (level === "t" ? 6:4), timeSigQuaver: (level==="t" ? 8:4) });
+    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (["t","u","v"].includes(level) ? 6:4), timeSigQuaver: (["t","u","v"].includes(level) ? 8:4) });
 
     this.measureLength = 8;
     this.beatLength = this.measureLength*this.measureBeats;
