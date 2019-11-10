@@ -58,10 +58,10 @@ const blockData = [
 //Set of blocks to fill out empty passage beats when no other rhythms are selected
 const fillerBlockData = [
     { level: "fill", rhythmSet: "fill", noteString: "h." },
-    { level: "fill", rhythmSet: "a-r", noteString: "h" },
-    { level: "fill", rhythmSet: "b-r", noteString: "q" },
-    { level: "fill", rhythmSet: "c-r", noteString: "e" },
-    { level: "fill", rhythmSet: "c-r", noteString: "s" },
+    { level: "fill", rhythmSet: "fill", noteString: "h" },
+    { level: "fill", rhythmSet: "fill", noteString: "q" },
+    { level: "fill", rhythmSet: "fill", noteString: "e" },
+    { level: "fill", rhythmSet: "fill", noteString: "s" },
     ];
 
 
@@ -96,6 +96,16 @@ const filterBlocksByBeatLength = function(rbes, beats){
     });
 };
 
+
+const filterBlocksByTicks = function(rbes, ticks) {
+    return rbes.filter((b)=>{
+        let notes = notesFromString(b.noteString);
+        let totalTicks = 0;
+        notes.forEach((n)=> { totalTicks+=n.ticks.value() })
+        return totalTicks <= ticks;
+    });
+};
+
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
         b.selected = false;
@@ -117,6 +127,7 @@ const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
     this.noteString = block.noteString;
+    //this.notes = notesFromString(this.noteString);
     this.beatLength;
     this.selected = false;
     this.toggleSelect = function(e){
@@ -174,6 +185,8 @@ const renderBlockElements = function(blocksEls,targetEl){
         b.np.updateNotation(b.noteString);
         b.np.render();
         b.beatLength = b.np.beatLength();
+        console.log(b.beatLength);
+        console.log(b);
     })
 };
 

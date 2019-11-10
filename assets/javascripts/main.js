@@ -40,13 +40,19 @@ const durationCharacters = {
     "e": "8",
     "s": "16",
     
-    ".": "d",   //Handling dots locally, calls .addDotsToAll() method
+    ".": "d",   //IDEA: STill use the dot, but pop the last note out of the array, build a new one and put it back in! 
+    "": "2",   //Handling dots locally, calls .addDotsToAll() method
+    "$": "4",
+    "*": "8",
+    "^": "16",
     
     "W": "1r",  //Rest Codes
     "H": "2r",
     "Q": "4r",
     "E": "8r",
     "S": "16r",
+    
+    "Y": "3/4", //hard coding dotted rhythm durations?
 };
 
 
@@ -57,8 +63,19 @@ function notesFromString(noteString){
   let notes = [];
   noteString.split('').map( (n)=>{
     let dur = durationCharacters[n];
-    if(dur==="d"){
-      notes[notes.length-1].addDotToAll();
+    if(dur ==="d"){
+      let prevDur = notes.pop().duration;
+      let sn = new VF.StaveNote({
+        clef: "treble",
+        keys: ["a/4"],
+        duration: prevDur,
+        auto_stem: false,
+        stem_direction: 1
+      }).addDotToAll();
+      sn.setIntrinsicTicks(sn.ticks.value()*1.5);
+      notes.push(sn);
+      
+      
     } else {
       notes.push(new VF.StaveNote({
         clef: "treble",
@@ -73,14 +90,14 @@ function notesFromString(noteString){
 }
   
 //Forcing all blocks to draw for development purposes
-// const updateMusic = function(){
-//   let noteInput = document.getElementById("note-input");
-//   let noteString = noteInput.value;
-//   example.clearContext();
-//   example.updateNotation(noteString);
-//   example.render();
-//   renderBlocks();
-// };
+const updateMusic = function(){
+  let noteInput = document.getElementById("note-input");
+  let noteString = noteInput.value;
+  example.clearContext();
+  example.updateNotation(noteString);
+  example.render();
+  renderBlocks();
+};
 
 
 
@@ -209,11 +226,19 @@ const debugOutput = function(){
 
 
 updateAvailableBlocks(level, difficulty);
+pg.np.reset();
 pg.np.render();
 
 const Levels = buildLevels(levelData);
 
 renderLevelButtons(Levels, levelButtonTarget, level);
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 //INTRODUCTORY MODAL 
 MicroModal.init({
@@ -235,7 +260,6 @@ var continues = document.querySelectorAll(".continue__btn");
 continues.forEach((c)=>{ c.addEventListener('click', function(){
   MicroModal.close('modal-'+introSlideNum);
   introSlideNum +=1;
-  console.log(introSlideNum);
   if(introSlideNum === 4){
     introSlideNum = 1;
   } else {
