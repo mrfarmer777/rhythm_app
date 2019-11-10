@@ -65,15 +65,14 @@ function notationPanel(options){
     }
     
     
-    if(measures > 4){
-      this.stave2 = new VF.Stave(width*0.05, 70, width*0.90).addClef('percussion').setEndBarType(VF.Barline.type.END);
-      this.stave2
-      .setConfigForLine(2, {visible: true})
-      .setConfigForLine(0, {visible: false})
-      .setConfigForLine(1, {visible: false})
-      .setConfigForLine(3, {visible: false})
-      .setConfigForLine(4, {visible: false});
-    }
+    this.stave2 = new VF.Stave(width*0.05, 70, width*0.85).addClef('percussion').setEndBarType(VF.Barline.type.END);
+    this.stave2
+    .setConfigForLine(2, {visible: true})
+    .setConfigForLine(0, {visible: false})
+    .setConfigForLine(1, {visible: false})
+    .setConfigForLine(3, {visible: false})
+    .setConfigForLine(4, {visible: false});
+  
   };
   
   this.reset = function(){
