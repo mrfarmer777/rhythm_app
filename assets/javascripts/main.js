@@ -29,6 +29,7 @@ let availableBlocks = [];
 //Blocks that are activated for inclusion in the passage
 let selectedBlocks = [];
 
+//Difficulties that are available based upon the currently-selected level
 let availableDifficulties = [];
 
 
@@ -54,6 +55,23 @@ const durationCharacters = {
     
     "Y": "3/4", //hard coding dotted rhythm durations?
 };
+
+const levelTimeSignatures = {
+  "q": {"beats": 4, "quaver" : 4 }, 
+  "e": {"beats": 4, "quaver" : 4 }, 
+  "s": {"beats": 4, "quaver" : 4 }, 
+  "4": {"beats": 4, "quaver" : 4 }, 
+  "t": {"beats": 4, "quaver" : 4 }, 
+}
+
+const getTimeSigBeats = function(){
+  return levelTimeSignatures[level].beats;
+}
+
+const getTimeSigQuaver = function(){
+  return levelTimeSignatures[level].quaver;
+}
+
 
 
 

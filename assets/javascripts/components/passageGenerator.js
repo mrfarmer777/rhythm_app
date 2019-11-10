@@ -2,20 +2,24 @@ const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
     this.measureBeats = 4;
     this.quaver = 4;
+    this.quaverTicks = 4*4096/this.quaver;
+    
+    this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
+    this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(2,8))
     this.blocks = blocks;
     this.rhythmOptions=[];
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
     };
-    this.np = new notationPanel({ targetEl: this.el, panelType: "passage" });
+    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (level === "t" ? 6:4), timeSigQuaver: (level==="t" ? 8:4) });
 
     this.measureLength = 6;
     this.beatLength = this.measureLength*this.measureBeats;
     this.chooseRhythm = function(maxBeats){
         //let filtered = filterBlocksByBeatLength(this.blocks, maxBeats);
-        let filtered = filterBlocksByTicks(this.blocks, maxBeats*4096);
-        if( filtered.length===0){ filtered = filterBlocksByTicks(FillerBlocks, maxBeats*4096) };
+        let filtered = filterBlocksByTicks(this.blocks, maxBeats*this.quaverTicks);
+        if( filtered.length===0){ filtered = filterBlocksByTicks(FillerBlocks, maxBeats*this.quaverTicks) };
         //if( filtered.length===0){ filtered = filterBlocksByBeatLength(FillerBlocks, maxBeats) };
 
         return filtered[Math.floor(Math.random()*filtered.length)].noteString;
@@ -84,7 +88,7 @@ const passageGenerator = function(blocks){
                     voice2.addTickables(notes); //add the notes to the voice
                 }
                 
-                var beams = VF.Beam.generateBeams(voice1.tickables, {groups: new VF.Fraction(2,8)})  //gen beams
+                var beams = VF.Beam.generateBeams(voice2.tickables, {groups: new VF.Fraction(2,8)})  //gen beams
             
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave

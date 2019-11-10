@@ -12,8 +12,8 @@ function notationPanel(options){
   
   //Time signature handling
   this.numberOfMeasures = (this.panelType==="passage" ? 8:1);
-  this.numberOfBeats = 4;
-  this.quaver=4;
+  this.numberOfBeats = options.timeSigBeats;
+  this.quaver=options.timeSigQuaver;
   this.timeSignature = ""+this.numberOfBeats+"/"+this.quaver;
 
 

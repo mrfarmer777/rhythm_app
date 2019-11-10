@@ -140,7 +140,7 @@ const rhythmBlockElement = function(block){
         this.np.render();
     };
     this.el = createBlockElement(this);
-    this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block"});
+    this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block", timeSigBeats: 4, timeSigQuaver: 4});
     this.render = function(){
         this.el.className = "item block";
         this.np.updateNotation(this.noteString);
