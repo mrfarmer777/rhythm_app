@@ -5,7 +5,7 @@ const passageGenerator = function(blocks){
     this.quaverTicks = 4*4096/this.quaver;
     
     this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
-    this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(2,2))
+    this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(1,2))
     this.blocks = blocks;
     this.rhythmOptions=[];
     this.refresh = function(){
@@ -15,7 +15,7 @@ const passageGenerator = function(blocks){
         this.quaver = (level==="t" ? 8:4)
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
-        this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(2,2))
+        this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(1,4))
         this.beatLength=this.measureLength*this.measureBeats;
         this.np.reset();
     };
@@ -58,7 +58,7 @@ const passageGenerator = function(blocks){
                 voice1.addTickables(notes); //add the notes to the voice
             }
             
-            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.beamGrouping})  //gen beams
+            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [this.beamGrouping]})  //gen beams
             
             let formatter = new VF.Formatter(); //instantiate formatter
             this.np.stave.setContext(this.np.context).draw();  //draw the stave
@@ -90,8 +90,8 @@ const passageGenerator = function(blocks){
                     voice2.addTickables(notes); //add the notes to the voice
                 }
                 
-                var beams = VF.Beam.generateBeams(voice2.tickables, {groups: this.beamGrouping})  //gen beams
-            
+                let beams = VF.Beam.generateBeams(voice2.tickables, {groups: [this.beamGrouping]})  //gen beams
+
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
                 
