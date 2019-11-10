@@ -46,21 +46,18 @@ const passageGenerator = function(blocks){
             }
             
            
-            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: new VF.Fraction(2,8)}) 
-            ///FINISH THIS UP!
-            let formatter = new VF.Formatter();
+            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: new VF.Fraction(2,8)})  //gen beams
             
+            let formatter = new VF.Formatter(); //instantiate formatter
+            this.np.stave.setContext(this.np.context).draw();  //draw the stave
             
-            this.np.stave.setContext(this.np.context).draw();
+            formatter.joinVoices([voice1]).formatToStave([voice1], this.np.stave); //put the voice on the stave
             
-            formatter.joinVoices([voice1]).formatToStave([voice1], this.np.stave);
+            voice1.draw(this.np.context, this.np.stave); //draw the voice
             
-            voice1.draw(this.np.context, this.np.stave);
-            
-            ;
             
             beams.forEach((b) => {
-                b.setContext(this.np.context).draw();
+                b.setContext(this.np.context).draw(); //draw the beams
             });
             
            

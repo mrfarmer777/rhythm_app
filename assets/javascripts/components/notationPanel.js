@@ -48,7 +48,7 @@ function notationPanel(options){
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.05, -12, width*0.90, {
+    this.stave = new VF.Stave(width*0.05, -12, width*0.85, {
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
@@ -96,23 +96,13 @@ function notationPanel(options){
     if(this.notes.length > 0){
       let voice1 = new VF.Voice({num_beats: this.notesToBeats(this.notes, this.quaver), beat_value: this.quaver}).setMode(3);
       voice1.addTickables(this.notes);
+      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: new VF.Fraction(2,8)})  //gen beams
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
       voice1.draw(this.context, this.stave);
-    }
-    
-    
-    if(this.stave2){
-      let voice2 = new VF.Voice({num_beats: this.notesToBeats(this.notes2,this.quaver), beat_value: this.quaver});
-      voice2.addTickables(this.notes2);
-      formatter.joinVoices([voice2]).formatToStave([voice2], this.stave2);
-      voice2.draw(this.context, this.stave2);
-    }
       
-    
-    // if(this.notes===[] && this.notes2===[]){
-    //   VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, this.autoBeaming);
-    //   VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, this.autoBeaming)
-    // }
-    
+      beams.forEach((b) => {
+        b.setContext(this.context).draw(); //draw the beams
+      });
+    }
   };
 }

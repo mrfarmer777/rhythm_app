@@ -165,7 +165,7 @@ a.active{
 
 .block {
   height: 80px;
-  flex-basis: 8%;
+  flex-basis: 10%;
   flex-grow: 1;
   padding: 3px;
   background-color: var(--primary-2);
