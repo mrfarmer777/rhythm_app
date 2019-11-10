@@ -61,7 +61,7 @@ const levelTimeSignatures = {
   "e": {"beats": 4, "quaver" : 4 }, 
   "s": {"beats": 4, "quaver" : 4 }, 
   "4": {"beats": 4, "quaver" : 4 }, 
-  "t": {"beats": 4, "quaver" : 4 }, 
+  "t": {"beats": 6, "quaver" : 8 }, 
 }
 
 const getTimeSigBeats = function(){

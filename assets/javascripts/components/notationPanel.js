@@ -79,6 +79,9 @@ function notationPanel(options){
     this.notes=[];
     this.notes2=[];
     this.context.clear();
+    this.numberOfBeats = (level==="t" ? 6:4);
+    this.quaver = (level==="t" ? 8:4);
+    this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
   };
   
   this.render = function(){

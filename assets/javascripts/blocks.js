@@ -52,6 +52,28 @@ const blockData = [
     { level: "s-r", rhythmSet: "c-r", noteString: "Se." },
     { level: "s-r", rhythmSet: "d-r", noteString: "Ses" },
     { level: "s-r", rhythmSet: "d-r", noteString: "E.s" },
+    
+    
+    { level: "t", rhythmSet: "a", noteString: "h." },
+    { level: "t", rhythmSet: "a", noteString: "q." },
+    { level: "t", rhythmSet: "a", noteString: "eee" },
+    { level: "t", rhythmSet: "b", noteString: "qe" },
+    { level: "t", rhythmSet: "c", noteString: "eq" },
+    { level: "t", rhythmSet: "d", noteString: "Eee" },
+    { level: "t", rhythmSet: "e", noteString: "Qe" },
+    { level: "t", rhythmSet: "f", noteString: "Eq" },
+
+    { level: "u", rhythmSet: "a", noteString: "h" },
+    { level: "u", rhythmSet: "a", noteString: "qq" },
+    { level: "u", rhythmSet: "a", noteString: "eeee" },
+    { level: "u", rhythmSet: "b", noteString: "qee" },
+    { level: "u", rhythmSet: "b", noteString: "eeq" },
+    { level: "u", rhythmSet: "c", noteString: "q.e" },
+    { level: "u", rhythmSet: "c", noteString: "eq." },
+    { level: "u", rhythmSet: "d", noteString: "eqe" },
+    
+    
+    
 ];
 
 

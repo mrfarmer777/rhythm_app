@@ -1,26 +1,31 @@
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
-    this.measureBeats = 4;
-    this.quaver = 4;
+    this.measureBeats = 4
+    this.quaver = 4
     this.quaverTicks = 4*4096/this.quaver;
     
     this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
-    this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(2,8))
+    this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(2,2))
     this.blocks = blocks;
     this.rhythmOptions=[];
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
+        this.measureBeats = (level==="t" ? 6:4)
+        this.quaver = (level==="t" ? 8:4)
+        this.quaverTicks = 4*4096/this.quaver;
+        this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
+        this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(2,2))
+        this.beatLength=this.measureLength*this.measureBeats;
+        this.np.reset();
     };
     this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (level === "t" ? 6:4), timeSigQuaver: (level==="t" ? 8:4) });
 
-    this.measureLength = 6;
+    this.measureLength = 8;
     this.beatLength = this.measureLength*this.measureBeats;
     this.chooseRhythm = function(maxBeats){
-        //let filtered = filterBlocksByBeatLength(this.blocks, maxBeats);
         let filtered = filterBlocksByTicks(this.blocks, maxBeats*this.quaverTicks);
         if( filtered.length===0){ filtered = filterBlocksByTicks(FillerBlocks, maxBeats*this.quaverTicks) };
-        //if( filtered.length===0){ filtered = filterBlocksByBeatLength(FillerBlocks, maxBeats) };
 
         return filtered[Math.floor(Math.random()*filtered.length)].noteString;
     };
@@ -39,18 +44,15 @@ const passageGenerator = function(blocks){
             } else {
                 voice1 = new VF.Voice({ num_beats: this.beatLength, beat_value: this.quaver })  //Build a voice here, to be populated and sent to renderer
             }
-            
             while(!voice1.isComplete()){ //while the voice is not filled...
-                let measureBeatsRemaining = (voice1.totalTicks.value()-voice1.ticksUsed.value())/(4096)%(4)  //calculate number of beats left in current measure
-                
+                let measureBeatsRemaining = (voice1.totalTicks.value()-voice1.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)  //calculate number of beats left in current measure
                 if (measureBeatsRemaining === 0 ) { //Measure is completed, add a bar line and reset measureBeatsRemaining
                     if(voice1.tickables.length > 0 && !voice1.isComplete()){
                         let bar = new VF.BarNote(VF.Barline.type.SINGLE);
                         voice1.addTickable(bar);
                     }
-                    measureBeatsRemaining = 4;
+                    measureBeatsRemaining = this.measureBeats;
                 }; //correct for beats left in the measure....
-                
                 rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                 notes = notesFromString(rhy); //build notes from the rhythm string
                 voice1.addTickables(notes); //add the notes to the voice
@@ -80,7 +82,7 @@ const passageGenerator = function(blocks){
                             let bar = new VF.BarNote(VF.Barline.type.SINGLE);
                             voice2.addTickable(bar);
                         }
-                        measureBeatsRemaining = 4;
+                        measureBeatsRemaining = this.measureBeats;
                     }; //correct for beats left in the measure....
                     
                     rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
@@ -112,12 +114,8 @@ const passageGenerator = function(blocks){
         
     };
     
-    this.beatsRemaining = function(){
-        return this.beatLength-this.np.notesToBeats(this.np.notes.concat(this.np.notes2),4);
-    };
-    
     this.measureBeatsRemaining = function(){
         const measureRemainder = this.beatsRemaining()%this.measureBeats;
-        return  ( measureRemainder === 0 ? this.measureBeats : measureRemainder )
+        return  ( measureRemainder === 0 ? this.measureBeats : measureRemainder );
     }
 };
