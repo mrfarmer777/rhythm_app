@@ -54,7 +54,7 @@ function notationPanel(options){
       right_bar: (this.panelType==="passage")
     });
     this.stave
-      .setConfigForLine(2, {visible: (this.panelType==="passage" ? true : false)})
+      .setConfigForLine(2, {visible: (this.panelType==="passage" ? false : false)})
       .setConfigForLine(0, {visible: false})
       .setConfigForLine(1, {visible: false})
       .setConfigForLine(3, {visible: false})

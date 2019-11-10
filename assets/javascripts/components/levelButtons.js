@@ -1,4 +1,4 @@
-const levelData = ["q", "e", "s", "4","t"];
+const levelData = ["q", "e", "s", "4", "t", "u", "v"];
 
 
 const createButton = function(levelObject){

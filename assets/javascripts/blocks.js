@@ -63,15 +63,19 @@ const blockData = [
     { level: "t", rhythmSet: "e", noteString: "Qe" },
     { level: "t", rhythmSet: "f", noteString: "Eq" },
 
-    { level: "u", rhythmSet: "a", noteString: "h" },
-    { level: "u", rhythmSet: "a", noteString: "qq" },
-    { level: "u", rhythmSet: "a", noteString: "eeee" },
-    { level: "u", rhythmSet: "b", noteString: "qee" },
-    { level: "u", rhythmSet: "b", noteString: "eeq" },
-    { level: "u", rhythmSet: "c", noteString: "q.e" },
-    { level: "u", rhythmSet: "c", noteString: "eq." },
-    { level: "u", rhythmSet: "d", noteString: "eqe" },
+    { level: "u", rhythmSet: "a", noteString: "esse" },
+    { level: "u", rhythmSet: "a", noteString: "ssssss" },
+    { level: "u", rhythmSet: "b", noteString: "ssee" },
+    { level: "u", rhythmSet: "c", noteString: "eess" },
+    { level: "u", rhythmSet: "d", noteString: "sssse" },
+    { level: "u", rhythmSet: "e", noteString: "essss" },
+    { level: "u", rhythmSet: "f", noteString: "ssess" },
     
+    { level: "v", rhythmSet: "a", noteString: "e.se" },
+    { level: "v", rhythmSet: "b", noteString: "ee.s" },
+    { level: "v", rhythmSet: "c", noteString: "e.sss" },
+    { level: "v", rhythmSet: "d", noteString: "sse.s" },
+
     
     
 ];
