@@ -56,7 +56,7 @@ const passageGenerator = function(blocks){
                 voice1.addTickables(notes); //add the notes to the voice
             }
             
-            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: new VF.Fraction(2,8)})  //gen beams
+            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.beamGrouping})  //gen beams
             
             let formatter = new VF.Formatter(); //instantiate formatter
             this.np.stave.setContext(this.np.context).draw();  //draw the stave
@@ -73,7 +73,7 @@ const passageGenerator = function(blocks){
             
             if(this.measureLength > 4){
                 while(!voice2.isComplete()){ //while the voice is not filled...
-                    let measureBeatsRemaining = (voice2.totalTicks.value()-voice2.ticksUsed.value())/(4096)%(4)  //calculate number of beats left in current measure
+                    let measureBeatsRemaining = (voice2.totalTicks.value()-voice2.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)  //calculate number of beats left in current measure
                     
                     if (measureBeatsRemaining === 0 ) { //Measure is completed, add a bar line and reset measureBeatsRemaining
                         if(voice2.tickables.length > 0 && !voice2.isComplete()){
@@ -88,7 +88,7 @@ const passageGenerator = function(blocks){
                     voice2.addTickables(notes); //add the notes to the voice
                 }
                 
-                var beams = VF.Beam.generateBeams(voice2.tickables, {groups: new VF.Fraction(2,8)})  //gen beams
+                var beams = VF.Beam.generateBeams(voice2.tickables, {groups: this.beamGrouping})  //gen beams
             
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
