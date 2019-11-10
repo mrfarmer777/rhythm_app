@@ -109,10 +109,10 @@ function notationPanel(options){
     }
       
     
-    if(this.notes===[] && this.notes2===[]){
-      VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, this.autoBeaming);
-      VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, this.autoBeaming)
-    }
+    // if(this.notes===[] && this.notes2===[]){
+    //   VF.Formatter.FormatAndDraw(renderContext, this.stave, this.notes, this.autoBeaming);
+    //   VF.Formatter.FormatAndDraw(renderContext, this.stave2, this.notes2, this.autoBeaming)
+    // }
     
   };
 }
