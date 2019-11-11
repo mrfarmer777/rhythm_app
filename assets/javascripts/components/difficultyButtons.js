@@ -58,15 +58,15 @@ const renderDifficultyButtons = function(difficulties, targetEl, selectedDifficu
     optsContainer.innerHTML="";
     let restButton = createRestButton(restsOn);
     
-    let infoButton = document.createElement('button');
-    infoButton.setAttribute("id","myButton")
-    infoButton.innerHTML = "Info"
-    infoButton.className = "item difficulty-button";
-    infoButton.addEventListener('click', function(){
-      MicroModal.show('modal-1');    
-    });
+    // let infoButton = document.createElement('button');
+    // infoButton.setAttribute("id","myButton")
+    // infoButton.innerHTML = "Info"
+    // infoButton.className = "item difficulty-button";
+    // infoButton.addEventListener('click', function(){
+    //   MicroModal.show('modal-1');    
+    // });
     optsContainer.appendChild(restButton);
-    optsContainer.appendChild(infoButton);
+    //optsContainer.appendChild(infoButton);
 };
 
 

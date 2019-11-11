@@ -234,12 +234,6 @@ const toggleRests = function(){
 };
 
 
-const debugOutput = function(){
-  console.log("Level: "+ level);
-  console.log("Difficulty: "+ difficulty);
-  console.log("Rests On?: " + restsOn);
-  console.log("Available Difficulties: " + availableDifficulties);
-}
 
 
 
