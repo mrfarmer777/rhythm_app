@@ -186,6 +186,14 @@ a.active{
   background-color: var(--highlight);
 }
 
+.block .canvas-container{
+  background-color: #aaa;
+}
+
+.block.selected .canvas-container{
+  background-color: var(--white);
+}
+
 
 
 /*//////INPUTS/////////////*/
@@ -214,6 +222,17 @@ a.active{
   box-shadow: 0 0 18px var(--primary-1);
   border-color: var(--primary-1);
 }
+
+.control-button{
+  font-family: Raleway, sans-serif;
+  font-size: 16px;
+  background-color: var(--highlight);
+  border: 2px solid var(--highlight);
+  border-radius: 3px;
+  height:24px;
+  margin: 3px;
+}
+
 
 
 /*/////TARGETS AND CANVASES/////*/
@@ -246,13 +265,18 @@ canvas {
   background-color: white;
 }
 
-.block .canvas-container{
-  background-color: #aaa;
+
+/*////METRONOME//////*/
+#metronome-controls, #option-buttons-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.block.selected .canvas-container{
-  background-color: var(--white);
+#bpm{
+  width: 4em;
 }
+
 
 
 

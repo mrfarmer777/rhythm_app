@@ -13,7 +13,7 @@ const createDiffButton = function(difficultyObject){
 const createRestButton = function(restsOn){
     let b = document.createElement("button");
     b.innerHTML = "Rests: "+ (restsOn ? "On":"Off");
-    b.className = "difficulty-button item "+(restsOn ? "selected": "");
+    b.className = "control-button item "+(restsOn ? "selected": "");
     b.setAttribute("id","rests-toggle-button");
     b.onclick = toggleRests;
     return b;
@@ -29,7 +29,6 @@ const Difficulty = function(difficultyId){
 
     this.handleClick = function(){
         changeDifficulty(this.id);
-        //updateAvailableBlocks([level], difficulty);
         this.render();
     };
     

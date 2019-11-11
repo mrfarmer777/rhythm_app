@@ -4,6 +4,7 @@
   
   <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
   <script src="assets/javascripts/vendor/micromodal.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.10/Tone.min.js"></script>
   <link rel="stylesheet" href="./assets/stylesheets/main-styles.css" type="text/css"/>
   <link rel="stylesheet" href="./assets/stylesheets/modal-styles.css" type="text/css"/>
 
@@ -13,6 +14,7 @@
 
 </head>
 <body>
+  <!--<h2 id="header-brand">Rhythm Training</h2>-->
   <div id="primary-container" class="container">
     <div id="panels-container" class="container">
       <div id="quaver-select-container" class="container">
@@ -28,12 +30,16 @@
             <div id="difficulty-select-buttons" class="item container">
             </div>
           </div>
-          <div id="header-container" class = "item container">
-            <h2 id="header-brand">Rhythm Training</h2>
-          </div>
+          
           <div id="option-buttons-container" class="item container">
                 
 
+          </div>
+          <div id="metronome-controls" class="item container">
+            <h3>Metronome: </h3>
+            <button class="item control-button"onclick="play()">Start</button>
+        	  <button class="item control-button"onclick="stop()">Stop</button>
+          	<input id="bpm" class="item" type="number" value="90">
           </div>
         </div>
         <div id="target-container" class="canvas-container">
@@ -162,6 +168,8 @@
   <script src="./assets/javascripts/components/passageGenerator.js"></script>
   <script src="./assets/javascripts/components/levelButtons.js"></script>
   <script src="./assets/javascripts/components/difficultyButtons.js"></script>
+  <script src="./assets/javascripts/components/tjsmetronome.js"></script>
+
   <script src="./assets/javascripts/main.js"></script>
   
 

@@ -1,32 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Hello tone</title>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.10/Tone.min.js"></script>
-</head>
-<body>
-	<button onclick="play()">Start</button>
-	<button onclick="stop()">Stop</button>
-	<form>
-		<input id="bpm" type="number" value="60">
-		<button type="button" onclick="submitBPM()">Enter BPM</button>
-	</form>
-	<script type="text/javascript">
 
-var woodblock = new Tone.MonoSynth().toMaster();
+var woodblock = new Tone.Synth().toMaster();
 
 woodblock.envelope.sustain=0.01
 woodblock.envelope.release=0.01
-//Play a 'boot'
-function boot(){
-  bass.triggerAttackRelease("C2",'16n');
-}
 
-//Play a 'cat'
-function cat(){
-  snr.triggerAttackRelease('16n');  
-
-}
 
 //Play a 'ts'
 function ts(){
@@ -63,13 +40,9 @@ function updateBpm(){
 //Start the loop.
 function play(){  
   updateBpm();
-  Tone.Transport.Start();
+  Tone.Transport.start();
 }
 
 function stop(){
   Tone.Transport.stop();
 }
-
-	</script>
-</body>
-</html>
