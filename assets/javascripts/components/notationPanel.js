@@ -104,7 +104,7 @@ function notationPanel(options){
       voice1.addTickables(this.notes);
      
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
-       var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [new VF.Fraction(3,8),
+      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [new VF.Fraction(3,8),
                                                                     new VF.Fraction(3,8),
                                                                     new VF.Fraction(3,8),
                                                                     new VF.Fraction(3,8),
