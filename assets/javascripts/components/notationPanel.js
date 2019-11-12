@@ -83,7 +83,6 @@ function notationPanel(options){
     this.numberOfBeats = (["t","u","v"].includes(level) ? 6:4);
     this.quaver = (["t","u","v"].includes(level) ? 8:4);
     this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
-    this.beamGrouping = (this.timeSignature==="4/4" ? new VF.Fraction(2,8): new VF.Fraction(4,8))
   };
   
   this.render = function(){
@@ -104,14 +103,8 @@ function notationPanel(options){
       voice1.addTickables(this.notes);
      
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
-      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),
-                                                                    new VF.Fraction(3,8),]})  //gen beams
+      console.log(this.beamGrouping);
+      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [["t","u","v"].includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);
       
      
