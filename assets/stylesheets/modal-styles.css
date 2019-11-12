@@ -163,3 +163,7 @@
 .micromodal-slide .modal__overlay {
   will-change: transform;
 }
+
+button:focus{
+  border: 0px;
+}

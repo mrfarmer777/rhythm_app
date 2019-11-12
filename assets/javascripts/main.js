@@ -296,8 +296,8 @@ closes.forEach((c)=>{ c.addEventListener('click', function(){
     introSlideNum = 1;
 })});
 
-
-MicroModal.show("intro-modal");
+//Intro modal disabled
+//MicroModal.show("intro-modal");
 
 const startIntro = function(){
   MicroModal.close("intro-modal");
