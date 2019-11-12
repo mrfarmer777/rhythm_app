@@ -85,7 +85,7 @@
   text-transform: none;
   overflow: visible;
   line-height: 1.15;
-  margin: 0;
+  margin: 3px;
   will-change: transform;
   -moz-osx-font-smoothing: grayscale;
   -webkit-backface-visibility: hidden;
