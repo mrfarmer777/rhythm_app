@@ -15,10 +15,24 @@ const passageGenerator = function(blocks){
         this.quaver = (["t","u","v"].includes(level) ? 8:4)
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
-        this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(1,4))
+        this.beamGrouping = this.getBeamGrouping();
         this.beatLength=this.measureLength*this.measureBeats;
         this.np.reset();
     };
+    
+    this.getBeamGrouping = function(beats){
+        let res;
+        if(this.timeSignature === "6/8"){
+            res = Array(beats).fill(new VF.Fraction(3,8));
+        } else if(level==="e") {
+            res = Array(beats).fill(new VF.Fraction(1,2));
+        } else {
+            res = Array(beats).fill(new VF.Fraction(1,4));
+        }
+        console.log(res);
+        return res;
+    }
+    
     this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (["t","u","v"].includes(level) ? 6:4), timeSigQuaver: (["t","u","v"].includes(level) ? 8:4) });
 
     this.measureLength = 8;
@@ -58,7 +72,7 @@ const passageGenerator = function(blocks){
                 voice1.addTickables(notes); //add the notes to the voice
             }
             
-            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [this.beamGrouping]})  //gen beams
+            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.getBeamGrouping(voice1.totalTicks.value()/this.quaverTicks)})  //gen beams
             
             let formatter = new VF.Formatter(); //instantiate formatter
             this.np.stave.setContext(this.np.context).draw();  //draw the stave
@@ -90,7 +104,7 @@ const passageGenerator = function(blocks){
                     voice2.addTickables(notes); //add the notes to the voice
                 }
                 
-                let beams = VF.Beam.generateBeams(voice2.tickables, {groups: [this.beamGrouping]})  //gen beams
+                let beams = VF.Beam.generateBeams(voice2.tickables, {groups: this.getBeamGrouping(voice2.totalTicks.value()/this.quaverTicks)})  //gen beams
 
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
