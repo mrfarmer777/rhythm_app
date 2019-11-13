@@ -49,7 +49,7 @@ function notationPanel(options){
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.05, -12, width*0.80, {
+    this.stave = new VF.Stave(width*0.03, -12, width*0.80, {
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
@@ -66,7 +66,7 @@ function notationPanel(options){
     }
     
     
-    this.stave2 = new VF.Stave(width*0.05, 70, width*0.80).addClef('percussion').setEndBarType(VF.Barline.type.END);
+    this.stave2 = new VF.Stave(width*0.03, 70, width*0.80).addClef('percussion').setEndBarType(VF.Barline.type.END);
     this.stave2
     .setConfigForLine(2, {visible: true})
     .setConfigForLine(0, {visible: false})
@@ -80,8 +80,8 @@ function notationPanel(options){
     this.notes=[];
     this.notes2=[];
     this.context.clear();
-    this.numberOfBeats = (["t","u","v"].includes(level) ? 6:4);
-    this.quaver = (["t","u","v"].includes(level) ? 8:4);
+    this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
+    this.quaver = (["t","u","v","8"].includes(level) ? 8:4);
     this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
   };
   
@@ -103,7 +103,7 @@ function notationPanel(options){
       voice1.addTickables(this.notes);
      
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
-      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [["t","u","v"].includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
+      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [["t","u","v","8"].includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);
       
      

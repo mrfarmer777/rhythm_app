@@ -74,7 +74,7 @@ const blockData = [
     { level: "v", rhythmSet: "a", noteString: "e.se" },
     { level: "v", rhythmSet: "b", noteString: "ee.s" },
     { level: "v", rhythmSet: "c", noteString: "e.sss" },
-    { level: "v", rhythmSet: "d", noteString: "sse.s" },
+    { level: "v", rhythmSet: "d", noteString: "ssse" },
 
     
     
@@ -211,9 +211,8 @@ const renderBlockElements = function(blocksEls,targetEl){
         b.np.updateNotation(b.noteString);
         b.np.render();
         b.beatLength = b.np.beatLength();
-        console.log(b.beatLength);
-        console.log(b);
-    })
+        
+    });
 };
 
 const renderBlocks = function(blocksToDisplay){

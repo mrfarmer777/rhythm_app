@@ -162,8 +162,16 @@ const changeLevel = function(selectedLevel){
 
 //Logic for building level array, more than one level can be selected (i.e. level 4)
 const getLevelArray = function(level){
-  let levelArray = (level === "4" ? ["q","e","s"] : [level]);
-  if(restsOn){
+  let levelArray;
+  if(level==="4"){
+    levelArray = ["q","e","s"];
+  } else if(level ==="8"){
+    levelArray = ["t", "u", "v"];
+  } else {
+    levelArray = [level];
+  }
+    
+  if(restsOn && !tupletsOn){
     levelArray.forEach((l) => { levelArray.push(l + "-r") });
   }
   return levelArray;
