@@ -1,21 +1,19 @@
 :root {
   --white: #FEFEFE;
   --bold-color: #16001E;
-  --highlight: #74AAC1;
+  --highlight: #81A9BA;
   --primary-1: #DE639A;
   --primary-2: #7F2982;
+  --primary-2hov: #964F98;
+  --highlighthov: #8DB9CC;
+  --primary-1hov: #E47FAC;
 }
 
-/*ALT COLORS SCHEME
-:root {
-  --white: #FEFEFE;
-  --bold-color: #846B8A;
-  --highlight: #74AAC1;
-  --primary-1: #CFA5B4;
-  --primary-2: #F7D4BC;
-}
 
-*/
+/*Clear out the focus border*/
+*:focus{
+  outline:0;
+}
 
 
 body{
@@ -108,35 +106,55 @@ a.active{
   justify-content: center;
 }
 
-#options-buttons-container{
-}
-
-#difficulty-buttons-container.item{
-}
 
 .difficulty-button {
   border: 3px white;
   background-color: var(--primary-2);
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
-  font-style: bold;
+  font-weight: bold;
   height: 40px;
   border-radius: 3px;
   margin: 3px;
   padding: 10px;
+  color: #ccc;
 }
 
 .difficulty-button.selected {
   background-color: var(--highlight);
+  color: var(--white);
+}
+
+.difficulty-button.selected:hover {
+  color: var(--white);
 }
 
 .difficulty-button:hover:not(.selected), .level-button:hover:not(.selected) {
-  background-color: var(--primary-2);
+  background-color: var(--primary-2hov);
 }
 
 #rests-toggle-button.selected{
   background-color: var(--highlight);
+  color: var(--white);
 }
+
+#rests-toggle-button.selected:hover{
+  background-color: var(--highlighthov);
+}
+
+#rests-toggle-button{
+  background-color: var(--primary-2);
+  font-weight: bold;
+  color: #ccc
+}
+
+#rests-toggle-button:hover{
+  background-color: var(--primary-2hov);
+}
+
+
+
+
 
 .button-image{
   height: 100%;
@@ -156,11 +174,10 @@ a.active{
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-
   background-color: var(--bold-color);
-  /*flex-grow: 1;*/
 }
 
+/*wanna toggle the blocks?*/
 #blocks-select-container.hidden{
   display: none;
 }
@@ -178,14 +195,19 @@ a.active{
 }
 
 .block:hover {
-  border: 2px solid var(--primary-1);
-  background-color: var(--primary-1);
+  border: 2px solid var(--primary-2hov);
+  background-color: var(--primary-2hov);
 }
 
 .block.selected{
   border: 2px solid var(--highlight);
   box-shadow: 0 0 12px var(--highlight);
   background-color: var(--highlight);
+}
+
+.block.selected:hover{
+  border: 2px solid var(--highlighthov);
+  background-color: var(--highlighthov);
 }
 
 .block .canvas-container{
