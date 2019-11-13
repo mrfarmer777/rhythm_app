@@ -1,3 +1,16 @@
+:root {
+  --white: #FEFEFE;
+  --bold-color: #16001E;
+  --highlight: #81A9BA;
+  --primary-1: #DE639A;
+  --primary-2: #7F2982;
+  --primary-2hov: #964F98;
+  --highlighthov: #8DB9CC;
+  --primary-1hov: #E47FAC;
+}
+
+
+
 .modal {
     font-family: Raleway,arial,sans-serif;
 }
@@ -51,7 +64,7 @@
   font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.25;
-  color: var(--bold);
+  color: var(--bold-color);
   box-sizing: border-box;
 }
 
@@ -97,10 +110,14 @@
   transition: transform .25s ease-out,-webkit-transform .25s ease-out;
 }
 
+.modal__btn.next {
+  float: right;
+}
+
 
 
 .modal__btn-primary {
-  background-color: #00449e;
+  background-color: var(--highlight);
   color: #fff;
 }
 

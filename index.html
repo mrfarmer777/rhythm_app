@@ -15,8 +15,7 @@
 <body>
   <div class="navbar">
       <h2 id="header-brand">Rhythm Training App</h2>
-      <!--Info button disabled-->
-      <!--<button id="info-button" href="#" onclick="startIntro()">?</button>-->
+      
   </div>
   <div id="primary-container" class="container">
     
@@ -36,9 +35,9 @@
           </div>
           
           <div id="option-buttons-container" class="item container">
-                <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests: Off</button>
-                <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()">Tuplets?</button>
-
+            <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests: Off</button>
+            <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
+            <button id="info-button" class='control-button item' href="#" onclick="startIntro()">Info</button>
           </div>
           <!--<div id="metronome-controls" class="item container">
             <h3>Metronome: </h3>
@@ -108,8 +107,7 @@
         </p>
       </main>
       <footer class="modal__footer">
-        <button class="modal__btn modal__btn-primary continue__btn">The Base Rhythms</button>
-        <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+        <button class="modal__btn modal__btn-primary continue__btn next">2. The Base Rhythms</button>
       </footer>
     </div>
   </div>
@@ -132,8 +130,7 @@
       </main>
       <footer class="modal__footer">
         <button class="modal__btn modal__btn-primary prev__btn">1. The Core Concepts</button>
-        <button class="modal__btn modal__btn-primary continue__btn">3. The Process</button>
-        <button class="modal__btn close__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+        <button class="modal__btn modal__btn-primary continue__btn next">3. The Process</button>
       </footer>
     </div>
   </div>
@@ -159,7 +156,7 @@
       </main>
       <footer class="modal__footer">
         <button class="modal__btn modal__btn-primary prev__btn">2. The Base Rhythms</button>
-        <button class="modal__btn close__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+        <button class="modal__btn close__btn next" data-micromodal-close aria-label="Close this dialog window">Close</button>
       </footer>
     </div>
   </div>

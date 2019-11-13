@@ -152,7 +152,8 @@ const changeLevel = function(selectedLevel){
   deselectAllBlocks(Blocks);
   let la = getLevelArray(level);
   updateAvailableBlocks(la, difficulty);
-  renderLevelButtons(Levels, levelButtonTarget, selectedLevel);
+  let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels)
+  renderLevelButtons(availableLevels, levelButtonTarget, selectedLevel);
   changeDifficulty(( restsOn ? "a-r": "a"));
   pg.np.reset();
   pg.np.render();
@@ -234,17 +235,22 @@ const toggleRests = function(){
   changeLevel(level); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
-  button.className = "control-button item "+(restsOn ? "selected": "");
+  button.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
   button.innerHTML = "Rests: "+(restsOn ? "On" : "Off");
 };
 
 const toggleTuplets = function(){
   tupletsOn = !tupletsOn;
+  if(tupletsOn){ restsOn = false };
   changeLevel(tupletsOn ? "t" : "q"); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
   button.className = "control-button item "+(tupletsOn ? "selected": "");
-  button.innerHTML = "Tuplets: "+(restsOn ? "On" : "Off");
+  let restsButton = document.getElementById("rests-toggle-button")
+  restsButton.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
+
+
+  
   renderLevelButtons((tupletsOn ? CompoundLevels : SimpleLevels), levelButtonTarget, level);
 };
 
@@ -319,7 +325,7 @@ closes.forEach((c)=>{ c.addEventListener('click', function(){
 //MicroModal.show("intro-modal");
 
 const startIntro = function(){
-  MicroModal.close("intro-modal");
+  //MicroModal.close("intro-modal");
   MicroModal.show('modal-1')
 }
 

@@ -24,14 +24,13 @@ const passageGenerator = function(blocks){
         let res;
         if(this.timeSignature === "6/8"){
             res = Array(beats).fill(new VF.Fraction(3,8));
-        } else if(level==="e") {
-            res = Array(beats).fill(new VF.Fraction(1,2));
+        } else if(level==="e" || level==="4") {
+            res = Array(beats).fill(new VF.Fraction(4,8));
         } else {
             res = Array(beats).fill(new VF.Fraction(1,4));
         }
-        console.log(res);
         return res;
-    }
+    };
     
     this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (["t","u","v"].includes(level) ? 6:4), timeSigQuaver: (["t","u","v"].includes(level) ? 8:4) });
 
