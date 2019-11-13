@@ -23,6 +23,8 @@ let difficulty = "a";
 
 let restsOn = false;
 
+let tupletsOn = false;
+
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -231,6 +233,19 @@ const toggleRests = function(){
   restsOn = !restsOn;
   changeLevel(level); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
+  let button = document.getElementById("rests-toggle-button")
+  button.className = "control-button item "+(restsOn ? "selected": "");
+  button.innerHTML = "Rests: "+(restsOn ? "On" : "Off");
+};
+
+const toggleTuplets = function(){
+  tupletsOn = !tupletsOn;
+  changeLevel(tupletsOn ? "t" : "q"); //change level to current level to force a re-render
+  changeDifficulty(restsOn ? "a-r" : "a");
+  let button = document.getElementById("tuplets-toggle-button")
+  button.className = "control-button item "+(tupletsOn ? "selected": "");
+  button.innerHTML = "Tuplets: "+(restsOn ? "On" : "Off");
+  renderLevelButtons((tupletsOn ? CompoundLevels : SimpleLevels), levelButtonTarget, level);
 };
 
 
@@ -243,7 +258,11 @@ pg.np.render();
 
 const Levels = buildLevels(levelData);
 
-renderLevelButtons(Levels, levelButtonTarget, level);
+const SimpleLevels = Levels.filter((l) => {  return !l.tuplet; })
+
+const CompoundLevels = Levels.filter((l)=>{ return l.tuplet })
+
+renderLevelButtons(SimpleLevels, levelButtonTarget, level);
  
  
  

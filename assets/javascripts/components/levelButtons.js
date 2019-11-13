@@ -16,12 +16,7 @@ const Level = function(levelId){
     this.imgUrl = "./assets/images/"+this.id+".png";
     this.restImgUrl = "./assets/images/"+this.id+"-r.png";
     this.selected = false;
-    
-    // this.render = function(){
-    //     this.el.className = "level-button item " + (this.id === level ? "selected": "");
-    //     this.el.innerHTML;
-    // }
-
+    this.tuplet = (["t", "u", "v", "8"].includes(this.id) ? true : false);
     this.handleClick = function(){
         changeLevel(this.id);
     };

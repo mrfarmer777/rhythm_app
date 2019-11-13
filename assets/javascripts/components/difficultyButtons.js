@@ -52,12 +52,6 @@ const renderDifficultyButtons = function(difficulties, targetEl, selectedDifficu
             targetEl.appendChild(diffObj.el);
         }
     });
-    
-    //Drawing options buttons here for now...
-    const optsContainer = document.getElementById("option-buttons-container");
-    optsContainer.innerHTML="";
-    let restButton = createRestButton(restsOn);
-    optsContainer.appendChild(restButton);
 };
 
 
