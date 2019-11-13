@@ -159,7 +159,8 @@ a.active{
 #blocks-select-container{
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: left;
+
   background-color: var(--bold-color);
 }
 
@@ -172,8 +173,8 @@ a.active{
 .block {
   height: 80px;
   flex-basis: 11%;
+  min-width: 100px;
   padding: 3px;
-  justify-content: center;
   background-color: var(--primary-2);
   border: 2px solid var(--primary-2);
   border-radius: 5px;

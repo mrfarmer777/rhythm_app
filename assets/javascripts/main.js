@@ -265,7 +265,7 @@ const toggleTuplets = function(){
 
 
 
-
+//Initialization
 updateAvailableBlocks(level, difficulty);
 pg.np.reset();
 pg.np.render();
@@ -279,7 +279,19 @@ const CompoundLevels = Levels.filter((l)=>{ return l.tuplet })
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
  
  
+const resizeNotation = function(){
+  console.log('called');
+  pg.np.render();
+  availableBlocks.forEach((b)=>{
+    console.log("resize block: " + b.id);
+    b.np.render();
+  });
+};
  
+
+window.addEventListener('resize', resizeNotation);
+
+
  
  
  
