@@ -82,10 +82,11 @@ const getTimeSigQuaver = function(){
 function notesFromString(noteString){
   //Returns an array of VF StaveNotes from a string
   let notes = [];
-  noteString.split('').map( (n)=>{
+  noteString.split('').map( (n,i)=>{
     let dur = durationCharacters[n];
     if(dur ==="d"){
-      let prevDur = notes.pop().duration;
+      notes.pop();
+      let prevDur = durationCharacters[noteString.split('')[i-1]];
       let sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
