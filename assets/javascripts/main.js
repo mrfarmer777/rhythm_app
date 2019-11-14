@@ -14,6 +14,7 @@ MicroModal.init();
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-buttons");
 const difficultyButtonTarget = document.getElementById("difficulty-select-buttons");
+const blockContainerTarget = document.getElementById("blocks-select-container")
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
 let level = "q"; 
@@ -164,7 +165,7 @@ const changeLevel = function(selectedLevel){
 const getLevelArray = function(level){
   let levelArray;
   if(level==="4"){
-    levelArray = ["q","e","s"];
+    levelArray = ["q", "e", "s"];
   } else if(level ==="8"){
     levelArray = ["t", "u", "v"];
   } else {
@@ -179,11 +180,16 @@ const getLevelArray = function(level){
 
 //Adds/Removes available blocks, automatically selects them based upon difficulty and levels
 const updateAvailableBlocks = function(levels, selectedDifficulty){
+  blockContainerTarget.innerHTML = "";
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
-  renderBlocks(availableBlocks);
+  
+  levels.forEach((l)=>{
+    let levelBlocks = filterBlocksByLevels(Blocks, l)
+    renderBlocks(levelBlocks);
+  })
 };
 
 //Changes activated difficulty and updates difficulty blocks
@@ -266,7 +272,7 @@ const toggleTuplets = function(){
 
 
 //Initialization
-updateAvailableBlocks(level, difficulty);
+updateAvailableBlocks([level], difficulty);
 pg.np.reset();
 pg.np.render();
 

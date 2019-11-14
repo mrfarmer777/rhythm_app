@@ -10,7 +10,6 @@ const blockData = [
     { level: "q", rhythmSet: "a", noteString: "qh." },
     { level: "q", rhythmSet: "a", noteString: "qhq" },
     
-    
     { level: "e", rhythmSet: "a", noteString: "h" },
     { level: "e", rhythmSet: "a", noteString: "qq" },
     { level: "e", rhythmSet: "a", noteString: "eeee" },
@@ -52,7 +51,6 @@ const blockData = [
     { level: "s-r", rhythmSet: "c-r", noteString: "Se." },
     { level: "s-r", rhythmSet: "d-r", noteString: "Ses" },
     { level: "s-r", rhythmSet: "d-r", noteString: "E.s" },
-    
     
     { level: "t", rhythmSet: "a", noteString: "h." },
     { level: "t", rhythmSet: "a", noteString: "q." },
@@ -161,7 +159,6 @@ const rhythmBlockElement = function(block){
         e.currentTarget.className="item block " + (this.selected ? "selected": "");
         checkActiveDifficulty();
     };
-    
     this.handleResize = function(e){
         this.np.render();
     };
@@ -218,7 +215,11 @@ const renderBlockElements = function(blocksEls,targetEl){
 const renderBlocks = function(blocksToDisplay){
     let blocksToDraw = blocksToDisplay;
     let target = document.getElementById("blocks-select-container");
-    renderBlockElements(blocksToDraw, target);
+    let blockSubsetContainer = document.createElement("div");
+    blockSubsetContainer.className = "container item block-subset-container";
+    target.appendChild(blockSubsetContainer);
+    renderBlockElements(blocksToDraw, blockSubsetContainer);
+    
 };
 
 const getSelectedBlocks = function(){

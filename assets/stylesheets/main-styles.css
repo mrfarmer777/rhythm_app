@@ -157,11 +157,14 @@ a.active{
 
 /*///////BLOCKS///////////*/
 #blocks-select-container{
+  flex-direction: column;
+  justify-content: top;
+  background-color: var(--bold-color);
+}
+
+.block-subset-container{
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: left;
-
-  background-color: var(--bold-color);
 }
 
 /*wanna toggle the blocks?*/
