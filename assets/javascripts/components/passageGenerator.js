@@ -11,8 +11,8 @@ const passageGenerator = function(blocks){
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
-        this.measureBeats = (["t","u","v"].includes(level) ? 6:4)
-        this.quaver = (["t","u","v"].includes(level) ? 8:4)
+        this.measureBeats = (["t","u","v","8"].includes(level) ? 6:4)
+        this.quaver = (["t","u","v","8"].includes(level) ? 8:4)
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
         this.beamGrouping = this.getBeamGrouping();
@@ -32,7 +32,7 @@ const passageGenerator = function(blocks){
         return res;
     };
     
-    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (["t","u","v"].includes(level) ? 6:4), timeSigQuaver: (["t","u","v"].includes(level) ? 8:4) });
+    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (["t","u","v","8"].includes(level) ? 6:4), timeSigQuaver: (["t","u","v","8"].includes(level) ? 8:4) });
 
     this.measureLength = 8;
     this.beatLength = this.measureLength*this.measureBeats;
