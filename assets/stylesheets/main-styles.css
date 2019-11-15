@@ -230,11 +230,20 @@ a.active{
   background-color: var(--highlight);
   border: 2px solid var(--highlight);
   border-radius: 3px;
+  margin-left: 3px;
+  color: var(--white);
 
 }
 
+#inputs button.dark{
+  background-color: var(--primary-1);
+  border-color: var(--primary-1);
+  font-size: 16px;
+  color: black;
+}
+
 #inputs button:hover{
-  box-shadow: 0 0 10px var(--highlight);
+  box-shadow: 0 0 10px var(--white);
 }
 
 #inputs button:active{

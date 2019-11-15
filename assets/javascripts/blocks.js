@@ -62,8 +62,8 @@ const blockData = [
     { level: "t", rhythmSet: "f", noteString: "Eq" },
 
     { level: "u", rhythmSet: "a", noteString: "esse" },
-    { level: "u", rhythmSet: "a", noteString: "ssssss" },
     { level: "u", rhythmSet: "b", noteString: "ssee" },
+    { level: "u", rhythmSet: "a", noteString: "ssssss" },
     { level: "u", rhythmSet: "c", noteString: "eess" },
     { level: "u", rhythmSet: "d", noteString: "sssse" },
     { level: "u", rhythmSet: "e", noteString: "essss" },
@@ -142,6 +142,12 @@ const selectBlocksByDifficulty = function(rbes, difficulty){
 const deselectAllBlocks = function(rbes){
     rbes.forEach((b) => {
         b.selected = false;
+    });
+};
+
+const selectAllBlocks = function(rbes){
+    rbes.forEach((b)=> {
+        b.selected = true;
     });
 };
 

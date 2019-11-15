@@ -14,7 +14,7 @@ MicroModal.init();
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-buttons");
 const difficultyButtonTarget = document.getElementById("difficulty-select-buttons");
-const blockContainerTarget = document.getElementById("blocks-select-container")
+const blockContainerTarget = document.getElementById("blocks-select-container");
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
 let level = "q"; 
@@ -62,7 +62,7 @@ const durationCharacters = {
 const levelTimeSignatures = {
   "q": {"beats": 4, "quaver" : 4 }, 
   "e": {"beats": 4, "quaver" : 4 }, 
-  "s": {"beats": 4, "quaver" : 4 }, 
+  "s": {"beats": 2, "quaver" : 4 }, 
   "4": {"beats": 4, "quaver" : 4 }, 
   "t": {"beats": 6, "quaver" : 8 }, 
 }
@@ -192,6 +192,14 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
     renderBlocks(levelBlocks);
   })
 };
+
+const clearBlocks = function(){
+  blockContainerTarget.innerHTML="";
+}
+
+
+
+
 
 //Changes activated difficulty and updates difficulty blocks
 const changeDifficulty = function(selectedDifficulty){
@@ -354,7 +362,22 @@ closes.forEach((c)=>{ c.addEventListener('click', function(){
 const startIntro = function(){
   //MicroModal.close("intro-modal");
   MicroModal.show('modal-1')
-}
+};
+
+
+const deselectAll = function(){
+  deselectAllBlocks(availableBlocks);
+  clearBlocks();
+  renderBlocks(availableBlocks);
+  
+};
+
+const selectAll = function(){
+  selectAllBlocks(availableBlocks);
+  clearBlocks();
+  renderBlocks(availableBlocks);
+  
+};
 
 
 
