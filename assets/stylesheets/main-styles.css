@@ -39,10 +39,10 @@ a.active{
 }
 
 #header-brand, #intro-modal h1{
-  font-size: 25px;
+  font-size: 45px;
   color: var(--highlight);
   text-shadow: 2px 2px 1px var(--bold-color);
-  font-family: 'Righteous', cursive;
+  font-family: 'Righteous', sans-serif;
   font-style: italic;
   font-weight: bolder;
 }

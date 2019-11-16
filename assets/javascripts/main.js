@@ -368,15 +368,26 @@ const startIntro = function(){
 const deselectAll = function(){
   deselectAllBlocks(availableBlocks);
   clearBlocks();
-  renderBlocks(availableBlocks);
+
+  let levels = getLevelArray(level);
   
+  levels.forEach((l)=>{
+    let levelBlocks = filterBlocksByLevels(Blocks, l)
+    renderBlocks(levelBlocks);
+  })
+  checkActiveDifficulty();
 };
 
 const selectAll = function(){
   selectAllBlocks(availableBlocks);
   clearBlocks();
-  renderBlocks(availableBlocks);
+  let levels = getLevelArray(level);
   
+  levels.forEach((l)=>{
+    let levelBlocks = filterBlocksByLevels(Blocks, l)
+    renderBlocks(levelBlocks);
+  })
+  checkActiveDifficulty();
 };
 
 
