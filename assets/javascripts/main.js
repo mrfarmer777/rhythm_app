@@ -168,7 +168,7 @@ const getLevelArray = function(level){
   if(level==="4"){
     levelArray = ["q", "e", "s"];
   } else if(level ==="8"){
-    levelArray = ["t", "u", "v"];
+    levelArray = ["t", "u"];
   } else {
     levelArray = [level];
   }

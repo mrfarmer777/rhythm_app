@@ -166,7 +166,6 @@ a.active{
 
 .block-subset-container{
   flex-direction: row;
-  flex-wrap: wrap;
 }
 
 /*wanna toggle the blocks?*/

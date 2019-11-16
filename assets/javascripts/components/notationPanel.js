@@ -49,7 +49,7 @@ function notationPanel(options){
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.03, -12, width*0.80, {
+    this.stave = new VF.Stave(width*0.00, -12, width*0.98, {
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
@@ -66,7 +66,7 @@ function notationPanel(options){
     }
     
     
-    this.stave2 = new VF.Stave(width*0.03, 70, width*0.80).addClef('percussion').setEndBarType(VF.Barline.type.END);
+    this.stave2 = new VF.Stave(width*0.00, 70, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
     this.stave2
     .setConfigForLine(2, {visible: true})
     .setConfigForLine(0, {visible: false})
