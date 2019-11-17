@@ -61,8 +61,6 @@ const blockData = [
     { level: "t", rhythmSet: "e", noteString: "Qe" },
     { level: "t", rhythmSet: "f", noteString: "Eq" },
 
-    { level: "u", rhythmSet: "a", noteString: "q." },
-    { level: "u", rhythmSet: "a", noteString: "eee" },
     { level: "u", rhythmSet: "a", noteString: "ssssss" },
     { level: "u", rhythmSet: "a", noteString: "esse" },
     { level: "u", rhythmSet: "b", noteString: "ssee" },
@@ -78,6 +76,12 @@ const blockData = [
     
     
 ];
+
+
+const dupBlockData = [
+    { level: "u", rhythmSet: "a", noteString: "q." },
+    { level: "u", rhythmSet: "a", noteString: "eee" },
+    ]
 
 
 //Set of blocks to fill out empty passage beats when no other rhythms are selected

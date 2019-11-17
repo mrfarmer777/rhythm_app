@@ -6,6 +6,15 @@ const passageGenerator = function(blocks){
     
     this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
     this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(1,2))
+    
+    this.beamGroups=[];
+    this.beamGroups2=[];
+    
+    this.getBeamGroup = function(beats, quaver){
+        return new VF.Fraction(beats,quaver);
+    };
+    
+    
     this.blocks = blocks;
     this.rhythmOptions=[];
     this.refresh = function(){
@@ -68,11 +77,18 @@ const passageGenerator = function(blocks){
                 }; //correct for beats left in the measure....
                 rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                 notes = notesFromString(rhy); //build notes from the rhythm string
+                let blockBeats = this.np.notesToBeats(notes, this.quaver);
+                console.log("Rhythm: "+rhy);
+                console.log("Beats: " + blockBeats);
+                let beamGroup = this.getBeamGroup(blockBeats, this.quaver);
+                console.log("Group: "+ beamGroup);
+                this.beamGroups.unshift(beamGroup);
+                
                 voice1.addTickables(notes); //add the notes to the voice
             }
             
-            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.getBeamGrouping(voice1.totalTicks.value()/this.quaverTicks)})  //gen beams
-            
+            debugger;
+            var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.beamGroups})  //gen beams
             let formatter = new VF.Formatter(); //instantiate formatter
             this.np.stave.setContext(this.np.context).draw();  //draw the stave
             

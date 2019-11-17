@@ -4,6 +4,8 @@ const VF = Vex.Flow;
 //Global Blocks, represents all possible rhythm block options
 const Blocks = buildRhythmBlocks(blockData);
 
+const DupBlocks = buildRhythmBlocks(dupBlockData);
+
 //Filler blocks used incase a a passageGenerator needs them to fill remaining 
 //space in a passage when all available blocks are too large
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
@@ -183,12 +185,17 @@ const getLevelArray = function(level){
 const updateAvailableBlocks = function(levels, selectedDifficulty){
   blockContainerTarget.innerHTML = "";
   availableBlocks = filterBlocksByLevels(Blocks, levels);
+  
+  if(levels[0][0]==="u") {
+    availableBlocks = DupBlocks.concat(availableBlocks);
+    
+  } //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
   
   levels.forEach((l)=>{
-    let levelBlocks = filterBlocksByLevels(Blocks, l)
+    let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
   })
 };
