@@ -186,8 +186,13 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   blockContainerTarget.innerHTML = "";
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   
-  if(levels[0][0]==="u") {
-    availableBlocks = DupBlocks.concat(availableBlocks);
+  if(level==="8") {
+    console.log("yup")
+    let removeLevel = "u";
+    let removeStrings = ["q.","eee"]
+    availableBlocks = availableBlocks.filter((b)=>{
+      return (!removeStrings.includes(b.noteString) || b.level==="t");
+    });
     
   } //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
@@ -373,25 +378,25 @@ const startIntro = function(){
 
 
 const deselectAll = function(){
-  deselectAllBlocks(availableBlocks);
+  deselectAllBlocks(Blocks);
   clearBlocks();
 
   let levels = getLevelArray(level);
   
   levels.forEach((l)=>{
-    let levelBlocks = filterBlocksByLevels(Blocks, l)
+    let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
   })
   checkActiveDifficulty();
 };
 
 const selectAll = function(){
-  selectAllBlocks(availableBlocks);
+  selectAllBlocks(Blocks);
   clearBlocks();
   let levels = getLevelArray(level);
   
   levels.forEach((l)=>{
-    let levelBlocks = filterBlocksByLevels(Blocks, l)
+    let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
   })
   checkActiveDifficulty();
