@@ -391,7 +391,7 @@ const deselectAll = function(){
 };
 
 const selectAll = function(){
-  selectAllBlocks(Blocks);
+  selectAllBlocks(availableBlocks);
   clearBlocks();
   let levels = getLevelArray(level);
   
