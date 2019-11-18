@@ -12,8 +12,7 @@ const passageGenerator = function(blocks){
     this.beamGroups2=[];
     this.noteGroups2=[];    
     this.getBeamGroup = function(beats, quaver){
-        return new VF.Fraction(beats, quaver
-        );
+        return new VF.Fraction(beats, quaver);
     };
     
     
@@ -92,7 +91,7 @@ const passageGenerator = function(blocks){
                 voice1.addTickables(notes); //add the notes to the voice
             }
             this.noteGroups.forEach((ng)=>{
-                this.beamGroups.push(new VF.Beam.generateBeams(ng, this.getBeamGrouping(ng, this.quaver)));
+                this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
             })
             
             //var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.beamGroups})  //gen beams
@@ -134,7 +133,7 @@ const passageGenerator = function(blocks){
                     voice2.addTickables(notes); //add the notes to the voice
                 }
                 this.noteGroups2.forEach((ng)=>{
-                    this.beamGroups2.push(new VF.Beam.generateBeams(ng, this.getBeamGrouping(ng, this.quaver)));
+                    this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
                 })
                 
                 
