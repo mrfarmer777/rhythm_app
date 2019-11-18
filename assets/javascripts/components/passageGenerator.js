@@ -58,6 +58,7 @@ const passageGenerator = function(blocks){
     };
     this.generate = function(){
         this.np.reset();
+        this.np.resizeContents();
         this.refresh();
         let rhy, notes, beats;
         if(this.rhythmOptions.length<2){
