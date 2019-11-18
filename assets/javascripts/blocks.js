@@ -74,9 +74,6 @@ const blockData = [
     { level: "u", rhythmSet: "d", noteString: "ee.s" },
     { level: "u", rhythmSet: "e", noteString: "e.sss" },
     { level: "u", rhythmSet: "e", noteString: "ssse." },
-
-    
-    
 ];
 
 
