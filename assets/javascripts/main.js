@@ -159,6 +159,7 @@ const changeLevel = function(selectedLevel){
   let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels)
   renderLevelButtons(availableLevels, levelButtonTarget, selectedLevel);
   changeDifficulty(( restsOn ? "a-r": "a"));
+  pg.refresh();
   pg.np.reset();
   pg.np.render();
   

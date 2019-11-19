@@ -15,16 +15,28 @@ const passageGenerator = function(blocks){
         return new VF.Fraction(beats, quaver);
     };
     
+    this.getMeasureBeats = function(){
+        if(["t","u","v","8"].includes(level)){
+                return 6;
+            } else if(level==="s"){
+                return 2;
+            } else {
+                return 4;
+        }
+    }
     
     this.blocks = blocks;
     this.rhythmOptions=[];
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
-        this.measureBeats = (["t","u","v","8"].includes(level) ? 6:4)
+        this.measureBeats = this.getMeasureBeats();
+
         this.quaver = (["t","u","v","8"].includes(level) ? 8:4)
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
+        console.log(this.timeSignature);
+        this.np.timeSignature = this.timeSignature;
         this.beamGrouping = this.getBeamGrouping();
         this.beamGroups=[];
         this.beamGroups2=[];

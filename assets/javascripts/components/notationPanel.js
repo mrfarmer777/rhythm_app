@@ -80,9 +80,10 @@ function notationPanel(options){
     this.notes=[];
     this.notes2=[];
     this.context.clear();
-    this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
+    //this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
     this.quaver = (["t","u","v","8"].includes(level) ? 8:4);
-    this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
+    //this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
+    console.log(this.timeSignature);
   };
   
   this.render = function(){
