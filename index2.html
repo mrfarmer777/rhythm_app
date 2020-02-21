@@ -2,74 +2,9 @@
 <html>
 <head>
 	<title>Hello tone</title>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.10/Tone.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.10/Tone.min.js"></script>-->
+  <script type="text/javascript" src="./assets/javascripts/components/queryParser.js"></script>
 </head>
 <body>
-	<button onclick="play()">Start</button>
-	<button onclick="stop()">Stop</button>
-	<form>
-		<input id="bpm" type="number" value="60">
-		<button type="button" onclick="submitBPM()">Enter BPM</button>
-	</form>
-	<script type="text/javascript">
-
-var woodblock = new Tone.MonoSynth().toMaster();
-
-woodblock.envelope.sustain=0.01
-woodblock.envelope.release=0.01
-//Play a 'boot'
-function boot(){
-  bass.triggerAttackRelease("C2",'16n');
-}
-
-//Play a 'cat'
-function cat(){
-  snr.triggerAttackRelease('16n');  
-
-}
-
-//Play a 'ts'
-function ts(){
-  woodblock.triggerAttackRelease("f5", "16n");
-}
-
-//Hacky way to play a loop.
-let count=1;
-var loop = new Tone.Loop(function(time){
-	//triggered every eighth note. 
-	if(count%2===1){
-    ts();
-	}
-  if(count===8){
-    count=1;
-  } else {
-    count++;
-  }
-}, "8n").start(0);
-
-//Setup the transport 
-Tone.Transport.bpm.value=parseInt(document.getElementById("bpm").value, 10);
-function updateBpm(){
-  let bpm = parseInt(document.getElementById("bpm").value, 10);
-  if(bpm < 300 && bpm > 30){
-    Tone.Transport.bpm.value=bpm;
-  } else {
-    document.getElementById("bpm").value=Tone.Transport.bpm.value;
-  }
-}
-
-
-
-//Start the loop.
-function play(){  
-  updateBpm();
-  Tone.Transport.Start();
-}
-
-function stop(){
-  Tone.Transport.stop();
-}
-
-	</script>
+  <h2>Don't worry, I still loaded.</h2>
 </body>
-</html>

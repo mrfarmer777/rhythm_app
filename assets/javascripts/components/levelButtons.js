@@ -1,4 +1,4 @@
-const levelData = ["q", "e", "s", "4", "t", "u", "v"];
+const levelData = ["1", "2", "3", "4", "5", "6", "7"];
 
 
 const createButton = function(levelObject){
@@ -16,7 +16,7 @@ const Level = function(levelId){
     this.imgUrl = "./assets/images/"+this.id+".png";
     this.restImgUrl = "./assets/images/"+this.id+"-r.png";
     this.selected = false;
-    this.tuplet = (["t", "u", "v", "8"].includes(this.id) ? true : false);
+    this.tuplet = (["5", "6", "7", "8"].includes(this.id) ? true : false);
     this.handleClick = function(){
         changeLevel(this.id);
     };

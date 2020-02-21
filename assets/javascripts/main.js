@@ -19,7 +19,7 @@ const difficultyButtonTarget = document.getElementById("difficulty-select-button
 const blockContainerTarget = document.getElementById("blocks-select-container");
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
-let level = "q"; 
+let level = "1"; 
 
 //Difficulty refers to the level of complexity of selected rhythms
 let difficulty = "a";
@@ -62,11 +62,11 @@ const durationCharacters = {
 };
 
 const levelTimeSignatures = {
-  "q": {"beats": 4, "quaver" : 4 }, 
-  "e": {"beats": 4, "quaver" : 4 }, 
-  "s": {"beats": 2, "quaver" : 4 }, 
+  "1": {"beats": 4, "quaver" : 4 }, 
+  "2": {"beats": 4, "quaver" : 4 }, 
+  "3": {"beats": 2, "quaver" : 4 }, 
   "4": {"beats": 4, "quaver" : 4 }, 
-  "t": {"beats": 6, "quaver" : 8 }, 
+  "5": {"beats": 6, "quaver" : 8 }, 
 }
 
 const getTimeSigBeats = function(){
@@ -169,9 +169,9 @@ const changeLevel = function(selectedLevel){
 const getLevelArray = function(level){
   let levelArray;
   if(level==="4"){
-    levelArray = ["q", "e", "s"];
+    levelArray = ["1", "2", "3"];
   } else if(level ==="8"){
-    levelArray = ["t", "u"];
+    levelArray = ["5", "6"];
   } else {
     levelArray = [level];
   }
@@ -188,11 +188,10 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   
   if(level==="8") {
-    console.log("yup")
     let removeLevel = "u";
     let removeStrings = ["q.","eee"]
     availableBlocks = availableBlocks.filter((b)=>{
-      return (!removeStrings.includes(b.noteString) || b.level==="t");
+      return (!removeStrings.includes(b.noteString) || b.level==="5");
     });
     
   } //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
@@ -278,7 +277,7 @@ const toggleRests = function(){
 const toggleTuplets = function(){
   tupletsOn = !tupletsOn;
   if(tupletsOn){ restsOn = false };
-  changeLevel(tupletsOn ? "t" : "q"); //change level to current level to force a re-render
+  changeLevel(tupletsOn ? "5" : "1"); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
   button.className = "control-button item "+(tupletsOn ? "selected": "");
@@ -403,7 +402,16 @@ const selectAll = function(){
   checkActiveDifficulty();
 };
 
+const handleQueryParams = function(){
+  parameters = getParamArray(getRawParams());
+  if(parameters.length > 0){
+    console.log(parameters);
+  } else {
+    console.log("no params");
+  }
+}
 
+handleQueryParams();
 
 
 
