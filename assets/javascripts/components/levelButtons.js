@@ -1,4 +1,4 @@
-const levelData = ["1", "2", "3", "4", "5", "6", "7"];
+//const levelData = ["1", "2", "3", "4", "5", "6", "7"];
 
 
 const createButton = function(levelObject){
@@ -11,6 +11,7 @@ const createButton = function(levelObject){
     return b;
 };
 
+/*
 const Level = function(levelId){
     this.id = levelId;
     this.imgUrl = "./assets/images/"+this.id+".png";
@@ -23,8 +24,9 @@ const Level = function(levelId){
     
     this.el = createButton(this);
 };
+*/
 
-
+/*
 const buildLevels = function(levelArray){
     let res = [];
     levelArray.forEach((l) =>{
@@ -33,7 +35,7 @@ const buildLevels = function(levelArray){
     });
     return res;
 };
-
+*/
 const renderLevelButtons = function(levels, targetEl, selectedLevel){
     targetEl.innerHTML = "";
     levels.forEach((levelObj)=>{

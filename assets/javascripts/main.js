@@ -297,11 +297,12 @@ updateAvailableBlocks([level], difficulty);
 pg.np.reset();
 pg.np.render();
 
-const Levels = buildLevels(levelData);
+const Levels = buildLevels();
 
-const SimpleLevels = Levels.filter((l) => {  return !l.tuplet; })
+const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
 
-const CompoundLevels = Levels.filter((l)=>{ return l.tuplet })
+const CompoundLevels = Levels.filter((l)=>{ return l.measureBeats===6 })
+
 
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
  
