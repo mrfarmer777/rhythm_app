@@ -37,7 +37,7 @@ const buildLevels = function(levelArray){
 };
 */
 const renderLevelButtons = function(levels, targetEl, selectedLevel){
-    targetEl.innerHTML = "";
+    targetEl. innerHTML = "";
     levels.forEach((levelObj)=>{
         levelObj.el.className = "level-button item " + (levelObj.id === selectedLevel ? "selected": "");
         levelObj.el.setAttribute("src",(restsOn ? levelObj.restImgUrl : levelObj.imgUrl));

@@ -35,7 +35,6 @@ const passageGenerator = function(blocks){
         this.quaver = (["5","6","7","8"].includes(level) ? 8:4)
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
-        console.log(this.timeSignature);
         this.np.timeSignature = this.timeSignature;
         this.beamGrouping = this.getBeamGrouping();
         this.beamGroups=[];

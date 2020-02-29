@@ -28,6 +28,12 @@ const Level = function(opts){
     this.el = createButton(this);
 }
 
+// Level.prototype.handleClick = function(){
+//     changeLevel(this.id);
+// }
+
+// Level.prototype.el = createButton(this);
+
 /*
 this.id = levelId;
     this.imgUrl = "./assets/images/"+this.id+".png";

@@ -13,8 +13,12 @@ const FillerBlocks = buildRhythmBlocks(fillerBlockData);
 //Initializing MicroModal for introduction flow;
 MicroModal.init();
 
+//Custom level retrieval
+getCustomLevels();
+
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-buttons");
+const customLevelButtonTarget = document.getElementById("custom-level-select-buttons");
 const difficultyButtonTarget = document.getElementById("difficulty-select-buttons");
 const blockContainerTarget = document.getElementById("blocks-select-container");
 
@@ -308,10 +312,8 @@ renderLevelButtons(SimpleLevels, levelButtonTarget, level);
  
  
 const resizeNotation = function(){
-  console.log('called');
   pg.np.render();
   availableBlocks.forEach((b)=>{
-    console.log("resize block: " + b.id);
     b.np.render();
   });
 };

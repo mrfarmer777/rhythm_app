@@ -2,20 +2,23 @@ const gSheetKey = "1jIuWf_NE162ME9bH6XuBOXBdKfLhgnriu0WraTjaybQ"
 
 const jsonUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/od6/public/values?alt=json`
 
-let customLevels = [];
 
-// Send async request to start custom rhythm request flow
-getCustomRhythms()
+
 
 function getCustomRhythms(){
     httpGetAsync(jsonUrl, buildCustomRhythms);
+}
+
+function getCustomLevels(){
+    let res = httpGetAsync(jsonUrl, buildCustomLevels);
+    return res
 }
 
 
 
 function httpGetAsync(theUrl, callback)
 {
-    var xmlHttp = new XMLHttpRequest();
+    let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
@@ -26,17 +29,22 @@ function httpGetAsync(theUrl, callback)
 
 
 
-function buildCustomRhythms(responseText){
+function buildCustomLevels(responseText){
+    let customLevels = [];
     //TODO handle errors from response text gracefully
-    parsedResponse = JSON.parse(responseText);
-    entries = getEntries(parsedResponse);
+    let parsedResponse = JSON.parse(responseText);
+    let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         level = buildLevelFromEntry(e);
         customLevels.push(level);
     })
 
     console.log(customLevels);
+    renderLevelButtons(customLevels,customLevelButtonTarget,level);
+}
 
+function renderCustomLevelButtons(){
+    renderLevelButtons(customLevels, customLevelButtonTarget, level);
 }
 
 function getEntries(parsedResponse){
@@ -44,12 +52,15 @@ function getEntries(parsedResponse){
 }
 
 function buildLevelFromEntry(entry){
-    let level = {
+    let levelAttrs = {
         "name": entry.gsx$name.$t,
         "description": entry.gsx$description.$t,
         "measureBeats": entry.gsx$measurebeats.$t,
         "quaver": entry.gsx$quaver.$t,
         "active": entry.gsx$active.$t,
     }
-    return level;
+    const newLevel = new Level(levelAttrs)
+    return newLevel;
 }
+
+

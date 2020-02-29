@@ -83,7 +83,6 @@ function notationPanel(options){
     //this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
     this.quaver = (["5","6","7","8"].includes(level) ? 8:4);
     //this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
-    console.log(this.timeSignature);
   };
   
   this.render = function(){
