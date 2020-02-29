@@ -2,10 +2,16 @@
 
 
 const createButton = function(levelObject){
-    let b = document.createElement("img");
-    // image = document.createElement("img");
+    let b; 
+    if(1 <= parseInt(levelObject.id) && parseInt(levelObject.id) <= 8){
+        //Hard-coded levels that are part of the project
+        b = document.createElement("img");
+        b.setAttribute("src",levelObject.imgUrl);
+    } else {
+        b = document.createElement("div")
+        b.innerHTML = levelObject.id;
+    }
     b.className = "button-image level-button item";
-    b.setAttribute("src",levelObject.imgUrl);
     b.setAttribute("data-level", levelObject.id);
     b.onclick = levelObject.handleClick.bind(levelObject);
     return b;
@@ -40,7 +46,11 @@ const renderLevelButtons = function(levels, targetEl, selectedLevel){
     targetEl. innerHTML = "";
     levels.forEach((levelObj)=>{
         levelObj.el.className = "level-button item " + (levelObj.id === selectedLevel ? "selected": "");
-        levelObj.el.setAttribute("src",(restsOn ? levelObj.restImgUrl : levelObj.imgUrl));
+        if(1 <= parseInt(levelObj.id) && parseInt(levelObj.id) <= 8){
+            levelObj.el.setAttribute("src",(restsOn ? levelObj.restImgUrl : levelObj.imgUrl));
+        } else {
+            levelObj.el.innerHTML = levelObj.id;
+        }
         targetEl.appendChild(levelObj.el);
     });
 };

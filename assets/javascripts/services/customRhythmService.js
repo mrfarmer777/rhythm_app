@@ -20,8 +20,9 @@ function httpGetAsync(theUrl, callback)
 {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             callback(xmlHttp.responseText);
+        }
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
@@ -36,7 +37,9 @@ function buildCustomLevels(responseText){
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         level = buildLevelFromEntry(e);
-        customLevels.push(level);
+        if(level.active === true){
+            customLevels.push(level);
+        }
     })
 
     console.log(customLevels);
@@ -57,10 +60,12 @@ function buildLevelFromEntry(entry){
         "description": entry.gsx$description.$t,
         "measureBeats": entry.gsx$measurebeats.$t,
         "quaver": entry.gsx$quaver.$t,
-        "active": entry.gsx$active.$t,
+        "active": (entry.gsx$active.$t === "TRUE"),
     }
     const newLevel = new Level(levelAttrs)
     return newLevel;
 }
+
+
 
 

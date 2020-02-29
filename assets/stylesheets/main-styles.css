@@ -81,7 +81,7 @@ a.active{
   display: none;
 }
 
-#level-select-buttons{
+#level-select-buttons, #custom-level-select-buttons{
   flex-direction: row;
   justify-content: center;
 }
