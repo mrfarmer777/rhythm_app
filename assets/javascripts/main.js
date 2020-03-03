@@ -166,7 +166,6 @@ const changeLevel = function(selectedLevel){
   pg.refresh();
   pg.np.reset();
   pg.np.render();
-
 };
 
 //Logic for building level array, more than one level can be selected (i.e. level 4)
@@ -191,14 +190,15 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   blockContainerTarget.innerHTML = "";
   availableBlocks = filterBlocksByLevels(Blocks, levels);
   
+  //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
   if(level==="8") {
     let removeLevel = "u";
     let removeStrings = ["q.","eee"]
     availableBlocks = availableBlocks.filter((b)=>{
       return (!removeStrings.includes(b.noteString) || b.level==="5");
     });
-
-  } //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
+  } 
+  
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
@@ -228,7 +228,6 @@ const changeDifficulty = function(selectedDifficulty){
     difficulty = selectedDifficulty;
     deselectAllBlocks(Blocks);
     updateAvailableBlocks(getLevelArray(level), difficulty);
-
   }
 };
 
@@ -302,7 +301,7 @@ pg.np.reset();
 pg.np.render();
 
 const Levels = buildLevels();
-
+ 
 const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
 
 const CompoundLevels = Levels.filter((l)=>{ return l.measureBeats===6 })

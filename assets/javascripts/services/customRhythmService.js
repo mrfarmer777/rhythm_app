@@ -11,8 +11,7 @@ function getCustomRhythms(){
     httpGetAsync(blocksUrl, buildCustomBlocks)
 }
 
-function httpGetAsync(theUrl, callback)
-{
+function httpGetAsync(theUrl, callback){
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
@@ -35,9 +34,7 @@ function buildCustomLevels(responseText){
         if(level.active === true){
             customLevels.push(level);
         }
-    })
-
-    console.log(customLevels);
+    })    
     renderLevelButtons(customLevels,customLevelButtonTarget,level);
 }
 
@@ -75,8 +72,8 @@ function buildLevelFromEntry(entry){
 function buildBlockFromEntry(entry){
     let blockAttrs = {
         "level": entry.gsx$level.$t,
-        "rhythmset": entry.gsx$rhythmset.$t,
-        "notestring": entry.gsx$notestring.$t,
+        "rhythmSet": entry.gsx$rhythmset.$t,
+        "noteString": entry.gsx$notestring.$t,
 
     }
     const newBlock = new rhythmBlockElement(blockAttrs);

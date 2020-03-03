@@ -1,5 +1,4 @@
-console.log("LOADED QUERY PARSER");
-
+//TODO Add this as a service rather than a component
 const getRawParams = function(){
     params = new URLSearchParams(window.location.search)
     return params
