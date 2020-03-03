@@ -1,30 +1,25 @@
 const gSheetKey = "1jIuWf_NE162ME9bH6XuBOXBdKfLhgnriu0WraTjaybQ"
 
-const jsonUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/od6/public/values?alt=json`
+const levelsUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/1/public/values?alt=json`
+const blocksUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/2/public/values?alt=json`
 
 
 
 
 function getCustomRhythms(){
-    httpGetAsync(jsonUrl, buildCustomRhythms);
+    httpGetAsync(levelsUrl, buildCustomLevels);
+    httpGetAsync(blocksUrl, buildCustomBlocks)
 }
-
-function getCustomLevels(){
-    let res = httpGetAsync(jsonUrl, buildCustomLevels);
-    return res
-}
-
-
 
 function httpGetAsync(theUrl, callback)
 {
     let xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() { 
+    xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             callback(xmlHttp.responseText);
         }
     }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous
     xmlHttp.send(null);
 }
 
@@ -46,6 +41,17 @@ function buildCustomLevels(responseText){
     renderLevelButtons(customLevels,customLevelButtonTarget,level);
 }
 
+
+function buildCustomBlocks(responseText){
+    let customBlocks = [];
+    let parsedResponse = JSON.parse(responseText);
+    let entries = getEntries(parsedResponse);
+    entries.forEach((e)=>{
+        block = buildBlockFromEntry(e);
+        Blocks.push(block);
+    })
+}
+
 function renderCustomLevelButtons(){
     renderLevelButtons(customLevels, customLevelButtonTarget, level);
 }
@@ -64,6 +70,17 @@ function buildLevelFromEntry(entry){
     }
     const newLevel = new Level(levelAttrs)
     return newLevel;
+}
+
+function buildBlockFromEntry(entry){
+    let blockAttrs = {
+        "level": entry.gsx$level.$t,
+        "rhythmset": entry.gsx$rhythmset.$t,
+        "notestring": entry.gsx$notestring.$t,
+
+    }
+    const newBlock = new rhythmBlockElement(blockAttrs);
+    return newBlock;
 }
 
 

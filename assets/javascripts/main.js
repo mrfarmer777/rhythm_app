@@ -6,7 +6,7 @@ const Blocks = buildRhythmBlocks(blockData);
 
 const DupBlocks = buildRhythmBlocks(dupBlockData);
 
-//Filler blocks used incase a a passageGenerator needs them to fill remaining 
+//Filler blocks used incase a a passageGenerator needs them to fill remaining
 //space in a passage when all available blocks are too large
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
 
@@ -14,7 +14,7 @@ const FillerBlocks = buildRhythmBlocks(fillerBlockData);
 MicroModal.init();
 
 //Custom level retrieval
-getCustomLevels();
+getCustomRhythms();
 
 //Target elements to be updated
 const levelButtonTarget = document.getElementById("quaver-select-buttons");
@@ -23,7 +23,7 @@ const difficultyButtonTarget = document.getElementById("difficulty-select-button
 const blockContainerTarget = document.getElementById("blocks-select-container");
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
-let level = "1"; 
+let level = "1";
 
 //Difficulty refers to the level of complexity of selected rhythms
 let difficulty = "a";
@@ -49,28 +49,28 @@ const durationCharacters = {
     "q": "4",
     "e": "8",
     "s": "16",
-    
-    ".": "d",   //IDEA: STill use the dot, but pop the last note out of the array, build a new one and put it back in! 
+
+    ".": "d",   //IDEA: STill use the dot, but pop the last note out of the array, build a new one and put it back in!
     "": "2",   //Handling dots locally, calls .addDotsToAll() method
     "$": "4",
     "*": "8",
     "^": "16",
-    
+
     "W": "1r",  //Rest Codes
     "H": "2r",
     "Q": "4r",
     "E": "8r",
     "S": "16r",
-    
+
     "Y": "3/4", //hard coding dotted rhythm durations?
 };
 
 const levelTimeSignatures = {
-  "1": {"beats": 4, "quaver" : 4 }, 
-  "2": {"beats": 4, "quaver" : 4 }, 
-  "3": {"beats": 2, "quaver" : 4 }, 
-  "4": {"beats": 4, "quaver" : 4 }, 
-  "5": {"beats": 6, "quaver" : 8 }, 
+  "1": {"beats": 4, "quaver" : 4 },
+  "2": {"beats": 4, "quaver" : 4 },
+  "3": {"beats": 2, "quaver" : 4 },
+  "4": {"beats": 4, "quaver" : 4 },
+  "5": {"beats": 6, "quaver" : 8 },
 }
 
 const getTimeSigBeats = function(){
@@ -102,8 +102,8 @@ function notesFromString(noteString){
       }).addDotToAll();
       sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
-      
-      
+
+
     } else {
       notes.push(new VF.StaveNote({
         clef: "treble",
@@ -116,7 +116,7 @@ function notesFromString(noteString){
   });
   return notes;
 }
-  
+
 //Forcing all blocks to draw for development purposes
 const updateMusic = function(){
   let noteInput = document.getElementById("note-input");
@@ -166,7 +166,7 @@ const changeLevel = function(selectedLevel){
   pg.refresh();
   pg.np.reset();
   pg.np.render();
-  
+
 };
 
 //Logic for building level array, more than one level can be selected (i.e. level 4)
@@ -179,7 +179,7 @@ const getLevelArray = function(level){
   } else {
     levelArray = [level];
   }
-    
+
   if(restsOn && !tupletsOn){
     levelArray.forEach((l) => { levelArray.push(l + "-r") });
   }
@@ -197,12 +197,12 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
     availableBlocks = availableBlocks.filter((b)=>{
       return (!removeStrings.includes(b.noteString) || b.level==="5");
     });
-    
+
   } //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
-  
+
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
@@ -228,7 +228,7 @@ const changeDifficulty = function(selectedDifficulty){
     difficulty = selectedDifficulty;
     deselectAllBlocks(Blocks);
     updateAvailableBlocks(getLevelArray(level), difficulty);
-    
+
   }
 };
 
@@ -289,7 +289,7 @@ const toggleTuplets = function(){
   restsButton.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
 
 
-  
+
   renderLevelButtons((tupletsOn ? CompoundLevels : SimpleLevels), levelButtonTarget, level);
 };
 
@@ -309,25 +309,25 @@ const CompoundLevels = Levels.filter((l)=>{ return l.measureBeats===6 })
 
 
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
- 
- 
+
+
 const resizeNotation = function(){
   pg.np.render();
   availableBlocks.forEach((b)=>{
     b.np.render();
   });
 };
- 
+
 
 window.addEventListener('resize', resizeNotation);
 
 
- 
- 
- 
- 
- 
-//INTRODUCTORY MODAL 
+
+
+
+
+
+//INTRODUCTORY MODAL
 MicroModal.init({
     onShow: modal => console.info(`${modal.id} is shown`), // [1]
     onClose: modal => console.info(`${modal.id} is hidden`), // [2]
@@ -385,7 +385,7 @@ const deselectAll = function(){
   clearBlocks();
 
   let levels = getLevelArray(level);
-  
+
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
@@ -397,7 +397,7 @@ const selectAll = function(){
   selectAllBlocks(availableBlocks);
   clearBlocks();
   let levels = getLevelArray(level);
-  
+
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);

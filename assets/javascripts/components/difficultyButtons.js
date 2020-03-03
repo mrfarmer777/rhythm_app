@@ -1,4 +1,4 @@
-        
+
 
 const createDiffButton = function(difficultyObject){
     let b = document.createElement("button");
@@ -9,7 +9,7 @@ const createDiffButton = function(difficultyObject){
     return b;
 };
 
-
+//Don't think this blongs here....
 const createRestButton = function(restsOn){
     let b = document.createElement("button");
     b.innerHTML = "Rests: "+ (restsOn ? "On":"Off");
@@ -22,7 +22,7 @@ const createRestButton = function(restsOn){
 const Difficulty = function(difficultyId){
     this.id = difficultyId;
     this.selected = false;
-    
+
     this.render = function(){
         this.el.className = "difficulty-button item " + (this.id === difficulty ? "selected": "");
     }
@@ -31,7 +31,7 @@ const Difficulty = function(difficultyId){
         changeDifficulty(this.id);
         this.render();
     };
-    
+
     this.el = createDiffButton(this);
 };
 

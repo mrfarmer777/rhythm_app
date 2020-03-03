@@ -9,7 +9,7 @@ const blockData = [
     { level: "1", rhythmSet: "a", noteString: "h.q" },
     { level: "1", rhythmSet: "a", noteString: "qh." },
     { level: "1", rhythmSet: "a", noteString: "qhq" },
-    
+
     { level: "2", rhythmSet: "a", noteString: "h" },
     { level: "2", rhythmSet: "a", noteString: "qq" },
     { level: "2", rhythmSet: "a", noteString: "eeee" },
@@ -18,7 +18,7 @@ const blockData = [
     { level: "2", rhythmSet: "c", noteString: "q.e" },
     { level: "2", rhythmSet: "c", noteString: "eq." },
     { level: "2", rhythmSet: "d", noteString: "eqe" },
-    
+
     { level: "3", rhythmSet: "a", noteString: "q" },
     { level: "3", rhythmSet: "a", noteString: "ee" },
     { level: "3", rhythmSet: "a", noteString: "ssss" },
@@ -27,7 +27,7 @@ const blockData = [
     { level: "3", rhythmSet: "d", noteString: "e.s" },
     { level: "3", rhythmSet: "e", noteString: "se." },
     { level: "3", rhythmSet: "f", noteString: "ses" },
-    
+
     { level: "1-r", rhythmSet: "a-r", noteString: "Qqqq" },
     { level: "1-r", rhythmSet: "a-r", noteString: "Qqh" },
     { level: "1-r", rhythmSet: "a-r", noteString: "Qhq" },
@@ -43,7 +43,7 @@ const blockData = [
     { level: "2-r", rhythmSet: "c-r", noteString: "Eq." },
     { level: "2-r", rhythmSet: "d-r", noteString: "Qq" },
     { level: "2-r", rhythmSet: "d-r", noteString: "Q.e" },
-    
+
     { level: "3-r", rhythmSet: "a-r", noteString: "Ssss" },
     { level: "3-r", rhythmSet: "a-r", noteString: "Sse" },
     { level: "3-r", rhythmSet: "b-r", noteString: "Ses" },
@@ -51,7 +51,7 @@ const blockData = [
     { level: "3-r", rhythmSet: "c-r", noteString: "Se." },
     { level: "3-r", rhythmSet: "d-r", noteString: "Ee" },
     { level: "3-r", rhythmSet: "d-r", noteString: "E.s" },
-    
+
     { level: "5", rhythmSet: "a", noteString: "h." },
     { level: "5", rhythmSet: "a", noteString: "q." },
     { level: "5", rhythmSet: "a", noteString: "eee" },
@@ -60,7 +60,7 @@ const blockData = [
     { level: "5", rhythmSet: "d", noteString: "Eee" },
     { level: "5", rhythmSet: "e", noteString: "Qe" },
     { level: "5", rhythmSet: "f", noteString: "Eq" },
-    
+
     { level: "6", rhythmSet: "a", noteString: "q." },
     { level: "6", rhythmSet: "a", noteString: "eee" },
     { level: "6", rhythmSet: "a", noteString: "ssssss" },
@@ -177,6 +177,7 @@ const selectAllBlocks = function(rbes){
 
 
 // RhythmBlockElement object definition
+//TODO Rename class to something like Block
 const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
@@ -238,7 +239,7 @@ const renderBlockElements = function(blocksEls,targetEl){
         b.np.updateNotation(b.noteString);
         b.np.render();
         b.beatLength = b.np.beatLength();
-        
+
     });
 };
 
@@ -249,7 +250,7 @@ const renderBlocks = function(blocksToDisplay){
     blockSubsetContainer.className = "container item block-subset-container";
     target.appendChild(blockSubsetContainer);
     renderBlockElements(blocksToDraw, blockSubsetContainer);
-    
+
 };
 
 const getSelectedBlocks = function(){
