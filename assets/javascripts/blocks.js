@@ -129,7 +129,7 @@ const filterBlocks=function(options){
 };
 
 const filterBlocksByLevels=function(rbes, levelArray){
-    if(levelArray===[]){
+    if(levelArray.length===0){
         return rbes;
     } else {
         return rbes.filter((b) => {

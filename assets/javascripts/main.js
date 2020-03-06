@@ -24,6 +24,7 @@ const blockContainerTarget = document.getElementById("blocks-select-container");
 
 //Level refers to the base beat (quaver) for the rhythm blocks, can be q, e, or s
 let level = "1";
+let activeLevel;
 
 //Difficulty refers to the level of complexity of selected rhythms
 let difficulty = "a";
@@ -65,20 +66,24 @@ const durationCharacters = {
     "Y": "3/4", //hard coding dotted rhythm durations?
 };
 
-const levelTimeSignatures = {
-  "1": {"beats": 4, "quaver" : 4 },
-  "2": {"beats": 4, "quaver" : 4 },
-  "3": {"beats": 2, "quaver" : 4 },
-  "4": {"beats": 4, "quaver" : 4 },
-  "5": {"beats": 6, "quaver" : 8 },
-}
+
+//This is deprecated
+// const levelTimeSignatures = {
+//   "1": {"beats": 4, "quaver" : 4 },
+//   "2": {"beats": 4, "quaver" : 4 },
+//   "3": {"beats": 2, "quaver" : 4 },
+//   "4": {"beats": 4, "quaver" : 4 },
+//   "5": {"beats": 6, "quaver" : 8 },
+// }
 
 const getTimeSigBeats = function(){
-  return levelTimeSignatures[level].beats;
+  return activeLevel.measureBeats;
+  //return levelTimeSignatures[level].beats;
 }
 
 const getTimeSigQuaver = function(){
-  return levelTimeSignatures[level].quaver;
+  return activeLevel.quaver;
+  //return levelTimeSignatures[level].quaver;
 }
 
 
@@ -129,9 +134,6 @@ const updateMusic = function(){
 
 
 
-
-//let exampleBlocks = Blocks.filter((b)=>{return b.level===1});
-
 //Instantiates the passageGenerator object based on selected blocks
 let pg = new passageGenerator(getSelectedBlocks());
 
@@ -144,46 +146,35 @@ const generate = function(){
 
 
 //Responds to user clicking new level, changes buttons, calls changeLevel
-const handleLevelChange = function(){
-  let btns = document.querySelectorAll('.level-button');
-  btns.forEach((b)=> {
-    b.className = "level-button item";
-  });
-  level = this.event.target.dataset.level;
-  this.event.target.className = "level-button item selected";
-  changeLevel(level);
-};
+// const handleLevelChange = function(){
+//   let btns = document.querySelectorAll('.level-button');
+//   btns.forEach((b)=> {
+//     b.className = "level-button item";
+//   });
+//   level = this.event.target.dataset.level;
+//   selectedLevelObject = getLevel(level);
+//   this.event.target.className = "level-button item selected";
+//   changeLevel(selectedLevelObject);
+// };
 
 //Changes active level, resets difficulty to A, redraws a blank passage
-const changeLevel = function(selectedLevel){
-  level = selectedLevel;
+//REFACTORED to take in the level object itself.
+const changeLevel = function(selectedLevelObject){
+  level = selectedLevelObject.name;
+  activeLevel = selectedLevelObject
   deselectAllBlocks(Blocks);
-  let la = getLevelArray(level);
+  let la = selectedLevelObject.getLevelArray();
+
+
   updateAvailableBlocks(la, difficulty);
   let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels)
-  renderLevelButtons(availableLevels, levelButtonTarget, selectedLevel);
+  renderLevelButtons(availableLevels, levelButtonTarget, activeLevel.name);
   changeDifficulty(( restsOn ? "a-r": "a"));
   pg.refresh();
   pg.np.reset();
   pg.np.render();
 };
 
-//Logic for building level array, more than one level can be selected (i.e. level 4)
-const getLevelArray = function(level){
-  let levelArray;
-  if(level==="4"){
-    levelArray = ["1", "2", "3"];
-  } else if(level ==="8"){
-    levelArray = ["5", "6"];
-  } else {
-    levelArray = [level];
-  }
-
-  if(restsOn && !tupletsOn){
-    levelArray.forEach((l) => { levelArray.push(l + "-r") });
-  }
-  return levelArray;
-};
 
 //Adds/Removes available blocks, automatically selects them based upon difficulty and levels
 const updateAvailableBlocks = function(levels, selectedDifficulty){
@@ -192,13 +183,14 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   
   //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
   if(level==="8") {
-    let removeLevel = "u";
+    let removeLevel = "6";
     let removeStrings = ["q.","eee"]
     availableBlocks = availableBlocks.filter((b)=>{
       return (!removeStrings.includes(b.noteString) || b.level==="5");
     });
   } 
   
+  //Getting and rendering difficulty buttons and selecting blocks in that difficulty
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
   selectBlocksByDifficulty(availableBlocks, difficulty);
@@ -219,15 +211,11 @@ const clearBlocks = function(){
 
 //Changes activated difficulty and updates difficulty blocks
 const changeDifficulty = function(selectedDifficulty){
-  if(selectedDifficulty==="custom"){
-    difficulty = selectedDifficulty;
-    let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
-    renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
-  } else {
-    deselectAllBlocks(Blocks);
-    difficulty = selectedDifficulty;
-    deselectAllBlocks(Blocks);
-    updateAvailableBlocks(getLevelArray(level), difficulty);
+  difficulty = selectedDifficulty;
+  let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
+  renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
+  if(selectedDifficulty !== "custom"){
+    updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
   }
 };
 
@@ -280,7 +268,8 @@ const toggleRests = function(){
 const toggleTuplets = function(){
   tupletsOn = !tupletsOn;
   if(tupletsOn){ restsOn = false };
-  changeLevel(tupletsOn ? "5" : "1"); //change level to current level to force a re-render
+  let newLevel = getLevel(tupletsOn ? "5" : "1")
+  changeLevel(newLevel); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
   button.className = "control-button item "+(tupletsOn ? "selected": "");
@@ -301,6 +290,7 @@ pg.np.reset();
 pg.np.render();
 
 const Levels = buildLevels();
+activeLevel = getLevel(level);
  
 const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
 
@@ -310,13 +300,14 @@ const CompoundLevels = Levels.filter((l)=>{ return l.measureBeats===6 })
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
 
 
+
+//Handling Resizing
 const resizeNotation = function(){
   pg.np.render();
   availableBlocks.forEach((b)=>{
     b.np.render();
   });
 };
-
 
 window.addEventListener('resize', resizeNotation);
 
@@ -383,7 +374,7 @@ const deselectAll = function(){
   deselectAllBlocks(Blocks);
   clearBlocks();
 
-  let levels = getLevelArray(level);
+  let levels = activeLevel.getLevelArray();
 
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)
@@ -395,7 +386,7 @@ const deselectAll = function(){
 const selectAll = function(){
   selectAllBlocks(availableBlocks);
   clearBlocks();
-  let levels = getLevelArray(level);
+  let levels = activeLevel.getLevelArray();
 
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)

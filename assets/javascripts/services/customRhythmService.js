@@ -30,12 +30,13 @@ function buildCustomLevels(responseText){
     let parsedResponse = JSON.parse(responseText);
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
-        level = buildLevelFromEntry(e);
-        if(level.active === true){
-            customLevels.push(level);
+        let newLevel = buildLevelFromEntry(e);
+        if(newLevel.active === true){
+            customLevels.push(newLevel);
         }
     })    
     renderLevelButtons(customLevels,customLevelButtonTarget,level);
+    Levels.concat(customLevels);
 }
 
 
@@ -64,6 +65,7 @@ function buildLevelFromEntry(entry){
         "measureBeats": entry.gsx$measurebeats.$t,
         "quaver": entry.gsx$quaver.$t,
         "active": (entry.gsx$active.$t === "TRUE"),
+        "subLevels": getSubLevelArray(entry.gsx$sublevels.$t)
     }
     const newLevel = new Level(levelAttrs)
     return newLevel;
@@ -74,10 +76,14 @@ function buildBlockFromEntry(entry){
         "level": entry.gsx$level.$t,
         "rhythmSet": entry.gsx$rhythmset.$t,
         "noteString": entry.gsx$notestring.$t,
-
     }
     const newBlock = new rhythmBlockElement(blockAttrs);
     return newBlock;
+}
+
+function getSubLevelArray(subLevelString){
+    let res = subLevelString==="" ? [] : subLevelString.split(",")
+    return res;
 }
 
 

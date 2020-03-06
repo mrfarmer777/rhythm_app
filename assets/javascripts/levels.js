@@ -1,3 +1,5 @@
+
+//Standard Level Data
 const levelData = [
     {name: "1", quaver: 4, measureBeats: 4, active: true, subLevels: []},
     {name: "2", quaver: 4, measureBeats: 4, active: true, subLevels: []},
@@ -10,6 +12,7 @@ const levelData = [
 ]
 
 
+//Level constructor function
 const Level = function(opts){
     this.name = opts["name"];
     this.id = opts["name"]; //added for backward compatibility
@@ -20,32 +23,18 @@ const Level = function(opts){
     this.quaver = opts["quaver"];
     this.measureBeats = opts["measureBeats"];
     this.active = opts["active"];
-    this.subLevels = opts["subLevels"];
+    this.subLevels = opts["subLevels"]
     this.levelBlocks = [];
     this.handleClick = function(){
-        changeLevel(this.id);
+        changeLevel(this);
     }
+    this.getLevelArray = function(){
+        return this.subLevels.length===0 ? [this.name] : this.subLevels;
+    }
+
     this.el = createButton(this);
 }
 
-// Level.prototype.handleClick = function(){
-//     changeLevel(this.id);
-// }
-
-// Level.prototype.el = createButton(this);
-
-/*
-this.id = levelId;
-    this.imgUrl = "./assets/images/"+this.id+".png";
-    this.restImgUrl = "./assets/images/"+this.id+"-r.png";
-    this.selected = false;
-    this.tuplet = (["5", "6", "7", "8"].includes(this.id) ? true : false);
-    this.handleClick = function(){
-        changeLevel(this.id);
-    };
-    
-    this.el = createButton(this);
-*/
 
 const buildLevels = function(){
     let res = [];
@@ -55,5 +44,10 @@ const buildLevels = function(){
     })
     return res;
 }
+
+const getLevel = function(name){
+    return Levels.find(l => l.name===name)
+}
+
 
 
