@@ -45,13 +45,16 @@ const buildLevels = function(levelArray){
 const renderLevelButtons = function(levels, targetEl, selectedLevel){
     targetEl. innerHTML = "";
     levels.forEach((levelObj)=>{
-        levelObj.el.className = "level-button item " + (levelObj.id === selectedLevel ? "selected": "");
-        if(1 <= parseInt(levelObj.id) && parseInt(levelObj.id) <= 8){
-            levelObj.el.setAttribute("src",(restsOn ? levelObj.restImgUrl : levelObj.imgUrl));
-        } else {
-            levelObj.el.innerHTML = levelObj.id;
+        if(levelObj.includesRests === restsOn ){
+            levelObj.el.className = "level-button item " + (levelObj.id === selectedLevel ? "selected": "");
+            if(1 <= parseInt(levelObj.id) && parseInt(levelObj.id) <= 8){
+                levelObj.el.setAttribute("src",levelObj.imgUrl);
+            } else {
+                levelObj.el.innerHTML = levelObj.id;
+            }
+            targetEl.appendChild(levelObj.el);
+
         }
-        targetEl.appendChild(levelObj.el);
     });
 };
 

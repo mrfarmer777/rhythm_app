@@ -258,7 +258,8 @@ const getAvailableDifficulties = function(blocks){
 
 const toggleRests = function(){
   restsOn = !restsOn;
-  changeLevel(level); //change level to current level to force a re-render
+  activeLevel = getLevel(level);
+  changeLevel(activeLevel); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
   button.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
