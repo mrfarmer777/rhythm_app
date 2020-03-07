@@ -31,8 +31,12 @@ function buildCustomLevels(responseText){
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let newLevel = buildLevelFromEntry(e);
-        if(newLevel.active === true){
-            customLevels.push(newLevel);
+        if(newLevel.isValid()){
+            if(newLevel.active){
+                customLevels.push(newLevel);
+            }            
+        } else {
+            console.warn(`Custom Level ${newLevel.name} was not included for the following reasons:` + newLevel.errors.join(""))
         }
     })    
     renderLevelButtons(customLevels,customLevelButtonTarget,level);
@@ -62,8 +66,8 @@ function buildLevelFromEntry(entry){
     let levelAttrs = {
         "name": entry.gsx$name.$t,
         "description": entry.gsx$description.$t,
-        "measureBeats": entry.gsx$measurebeats.$t,
-        "quaver": entry.gsx$quaver.$t,
+        "measureBeats": parseInt(entry.gsx$measurebeats.$t),
+        "quaver": parseInt(entry.gsx$quaver.$t),
         "active": (entry.gsx$active.$t === "TRUE"),
         "subLevels": getSubLevelArray(entry.gsx$sublevels.$t)
     }

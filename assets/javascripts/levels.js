@@ -35,6 +35,33 @@ const Level = function(opts){
         return this.subLevels.concat(this.name)
     }
 
+    this.isValid = function(){
+        if (!Number.isInteger(this.measureBeats)){
+            this.errors.push("Measure beats must be an integer");
+        }
+        if (![1,2,4,8,16,32].includes(this.quaver)){
+            this.errors.push("Quavers must be valid (1,2,4,8,16,32)");
+        }
+        if (!this.hasBlocks){
+            this.errors.push("Levels must have at least 2 rhythm blocks");
+        }
+        if (!this.nameUnique){
+            this.errors.push("Another level of the same name is already present");
+        }
+
+        return this.errors.length===0
+    }
+
+    this.errors = [];
+
+    this.nameUnique = function(){
+        return !Levels.some((l) => l.name === this.name)
+    }
+
+    this.hasBlocks = function(){
+        return Blocks.filter((b)=> b.level === this.name).length > 1
+    }
+
     this.el = createButton(this);
     this.includesRests = (opts["name"].includes("-r"))
 }
