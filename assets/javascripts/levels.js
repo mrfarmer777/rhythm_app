@@ -8,6 +8,7 @@ const levelData = [
     {name: "3", quaver: 4, measureBeats: 4, active: true, subLevels: []},
     {name: "3-r", quaver: 4, measureBeats: 4, active: true, subLevels: ["3"]},
     {name: "4", quaver: 4, measureBeats: 4, active: true, subLevels: ["1","2","3"]},
+    {name: "4-r", quaver: 4, measureBeats: 4, active: true, subLevels: ["1","2","3","1-r","2-r","3-r"]},
     {name: "5", quaver: 8, measureBeats: 6, active: true, subLevels: []},
     {name: "6", quaver: 8, measureBeats: 6, active: true, subLevels: []},
     {name: "7", quaver: 8, measureBeats: 6, active: true, subLevels: []},
