@@ -50,7 +50,11 @@ function buildCustomBlocks(responseText){
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         block = buildBlockFromEntry(e);
-        Blocks.push(block);
+        if(block.isValid()){
+            Blocks.push(block);
+        } else {
+            console.warn(`Custom block ${block.noteString} was not included for the following reasons: `+ block.errors.join(""))
+        }
     })
 }
 

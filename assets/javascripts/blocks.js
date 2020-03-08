@@ -200,6 +200,20 @@ const rhythmBlockElement = function(block){
         this.np.updateNotation(this.noteString);
         this.np.render();
     };
+    this.errors = []
+    this.isValid = function(){
+        if(!this.noteStringValid()){
+            this.errors.push("The note string contains invalid characters.");
+        }
+        if(this.noteString.length === 0){
+            this.errors.push("The note string cannot be blank");
+        }
+        return this.errors.length === 0        
+    }
+
+    this.noteStringValid = function(){
+        return this.noteString.match(/[^wWhHqQeEsS.]+/)===null
+    }
 };
 
 //Builds HTML for a block element
