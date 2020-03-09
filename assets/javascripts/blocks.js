@@ -1,105 +1,105 @@
 //Master array of all blocks to be used in the project
 const blockData = [
 
-    { level: "q", rhythmSet: "a", noteString: "w" },
-    { level: "q", rhythmSet: "a", noteString: "hh" },
-    { level: "q", rhythmSet: "a", noteString: "qqqq" },
-    { level: "q", rhythmSet: "a", noteString: "hqq" },
-    { level: "q", rhythmSet: "a", noteString: "qqh" },
-    { level: "q", rhythmSet: "a", noteString: "h.q" },
-    { level: "q", rhythmSet: "a", noteString: "qh." },
-    { level: "q", rhythmSet: "a", noteString: "qhq" },
-    
-    { level: "e", rhythmSet: "a", noteString: "h" },
-    { level: "e", rhythmSet: "a", noteString: "qq" },
-    { level: "e", rhythmSet: "a", noteString: "eeee" },
-    { level: "e", rhythmSet: "b", noteString: "qee" },
-    { level: "e", rhythmSet: "b", noteString: "eeq" },
-    { level: "e", rhythmSet: "c", noteString: "q.e" },
-    { level: "e", rhythmSet: "c", noteString: "eq." },
-    { level: "e", rhythmSet: "d", noteString: "eqe" },
-    
-    { level: "s", rhythmSet: "a", noteString: "q" },
-    { level: "s", rhythmSet: "a", noteString: "ee" },
-    { level: "s", rhythmSet: "a", noteString: "ssss" },
-    { level: "s", rhythmSet: "b", noteString: "ess" },
-    { level: "s", rhythmSet: "c", noteString: "sse" },
-    { level: "s", rhythmSet: "d", noteString: "e.s" },
-    { level: "s", rhythmSet: "e", noteString: "se." },
-    { level: "s", rhythmSet: "f", noteString: "ses" },
-    
-    { level: "q-r", rhythmSet: "a-r", noteString: "Qqqq" },
-    { level: "q-r", rhythmSet: "a-r", noteString: "Qqh" },
-    { level: "q-r", rhythmSet: "a-r", noteString: "Qhq" },
-    { level: "q-r", rhythmSet: "a-r", noteString: "Hqq" },
-    { level: "q-r", rhythmSet: "b-r", noteString: "Qh." },
-    { level: "q-r", rhythmSet: "b-r", noteString: "Hh" },
-    { level: "q-r", rhythmSet: "b-r", noteString: "H.q" },
+    { level: "1", rhythmSet: "a", noteString: "w" },
+    { level: "1", rhythmSet: "a", noteString: "hh" },
+    { level: "1", rhythmSet: "a", noteString: "qqqq" },
+    { level: "1", rhythmSet: "a", noteString: "hqq" },
+    { level: "1", rhythmSet: "a", noteString: "qqh" },
+    { level: "1", rhythmSet: "a", noteString: "h.q" },
+    { level: "1", rhythmSet: "a", noteString: "qh." },
+    { level: "1", rhythmSet: "a", noteString: "qhq" },
 
-    { level: "e-r", rhythmSet: "a-r", noteString: "Eeee" },
-    { level: "e-r", rhythmSet: "a-r", noteString: "Eeq" },
-    { level: "e-r", rhythmSet: "b-r", noteString: "Eqe" },
-    { level: "e-r", rhythmSet: "c-r", noteString: "Qee" },
-    { level: "e-r", rhythmSet: "c-r", noteString: "Eq." },
-    { level: "e-r", rhythmSet: "d-r", noteString: "Qq" },
-    { level: "e-r", rhythmSet: "d-r", noteString: "Q.e" },
-    
-    { level: "s-r", rhythmSet: "a-r", noteString: "Ssss" },
-    { level: "s-r", rhythmSet: "a-r", noteString: "Sse" },
-    { level: "s-r", rhythmSet: "b-r", noteString: "Ses" },
-    { level: "s-r", rhythmSet: "c-r", noteString: "Ess" },
-    { level: "s-r", rhythmSet: "c-r", noteString: "Se." },
-    { level: "s-r", rhythmSet: "d-r", noteString: "Ee" },
-    { level: "s-r", rhythmSet: "d-r", noteString: "E.s" },
-    
-    { level: "t", rhythmSet: "a", noteString: "h." },
-    { level: "t", rhythmSet: "a", noteString: "q." },
-    { level: "t", rhythmSet: "a", noteString: "eee" },
-    { level: "t", rhythmSet: "b", noteString: "qe" },
-    { level: "t", rhythmSet: "c", noteString: "eq" },
-    { level: "t", rhythmSet: "d", noteString: "Eee" },
-    { level: "t", rhythmSet: "e", noteString: "Qe" },
-    { level: "t", rhythmSet: "f", noteString: "Eq" },
-    
-    { level: "u", rhythmSet: "a", noteString: "q." },
-    { level: "u", rhythmSet: "a", noteString: "eee" },
-    { level: "u", rhythmSet: "a", noteString: "ssssss" },
-    { level: "u", rhythmSet: "a", noteString: "esse" },
-    { level: "u", rhythmSet: "b", noteString: "ssee" },
-    { level: "u", rhythmSet: "b", noteString: "eess" },
-    { level: "u", rhythmSet: "c", noteString: "sssse" },
-    { level: "u", rhythmSet: "c", noteString: "essss" },
-    { level: "u", rhythmSet: "c", noteString: "ssess" },
-    { level: "u", rhythmSet: "d", noteString: "e.se" },
-    { level: "u", rhythmSet: "d", noteString: "ee.s" },
-    { level: "u", rhythmSet: "e", noteString: "e.sss" },
-    { level: "u", rhythmSet: "e", noteString: "ssse." },
+    { level: "2", rhythmSet: "a", noteString: "h" },
+    { level: "2", rhythmSet: "a", noteString: "qq" },
+    { level: "2", rhythmSet: "a", noteString: "eeee" },
+    { level: "2", rhythmSet: "b", noteString: "qee" },
+    { level: "2", rhythmSet: "b", noteString: "eeq" },
+    { level: "2", rhythmSet: "c", noteString: "q.e" },
+    { level: "2", rhythmSet: "c", noteString: "eq." },
+    { level: "2", rhythmSet: "d", noteString: "eqe" },
 
-    { level: "v", rhythmSet: "a", noteString: "h." },
-    { level: "v", rhythmSet: "a", noteString: "q." },
-    { level: "v", rhythmSet: "a", noteString: "eee" },
-    { level: "v", rhythmSet: "a", noteString: "qe" },
-    { level: "v", rhythmSet: "a", noteString: "eq" },
-    { level: "v", rhythmSet: "a", noteString: "e.se" },
-    { level: "v", rhythmSet: "a", noteString: "esse" },
-    { level: "v", rhythmSet: "a", noteString: "ssssss" },
-    { level: "v", rhythmSet: "b", noteString: "ssee" },
-    { level: "v", rhythmSet: "b", noteString: "eess" },
-    { level: "v", rhythmSet: "c", noteString: "ee.s" },
-    { level: "v", rhythmSet: "c", noteString: "Eee" },
-    { level: "v", rhythmSet: "d", noteString: "Qe" },
-    { level: "v", rhythmSet: "d", noteString: "sssse" },
-    { level: "v", rhythmSet: "d", noteString: "essss" },
-    { level: "v", rhythmSet: "e", noteString: "ssess" },
-    { level: "v", rhythmSet: "e", noteString: "Eq" },
-    { level: "v", rhythmSet: "f", noteString: "e.sss" },
-    { level: "v", rhythmSet: "f", noteString: "ssse." },
+    { level: "3", rhythmSet: "a", noteString: "q" },
+    { level: "3", rhythmSet: "a", noteString: "ee" },
+    { level: "3", rhythmSet: "a", noteString: "ssss" },
+    { level: "3", rhythmSet: "b", noteString: "ess" },
+    { level: "3", rhythmSet: "c", noteString: "sse" },
+    { level: "3", rhythmSet: "d", noteString: "e.s" },
+    { level: "3", rhythmSet: "e", noteString: "se." },
+    { level: "3", rhythmSet: "f", noteString: "ses" },
+
+    { level: "1-r", rhythmSet: "a-r", noteString: "Qqqq" },
+    { level: "1-r", rhythmSet: "a-r", noteString: "Qqh" },
+    { level: "1-r", rhythmSet: "a-r", noteString: "Qhq" },
+    { level: "1-r", rhythmSet: "a-r", noteString: "Hqq" },
+    { level: "1-r", rhythmSet: "b-r", noteString: "Qh." },
+    { level: "1-r", rhythmSet: "b-r", noteString: "Hh" },
+    { level: "1-r", rhythmSet: "b-r", noteString: "H.q" },
+
+    { level: "2-r", rhythmSet: "a-r", noteString: "Eeee" },
+    { level: "2-r", rhythmSet: "a-r", noteString: "Eeq" },
+    { level: "2-r", rhythmSet: "b-r", noteString: "Eqe" },
+    { level: "2-r", rhythmSet: "c-r", noteString: "Qee" },
+    { level: "2-r", rhythmSet: "c-r", noteString: "Eq." },
+    { level: "2-r", rhythmSet: "d-r", noteString: "Qq" },
+    { level: "2-r", rhythmSet: "d-r", noteString: "Q.e" },
+
+    { level: "3-r", rhythmSet: "a-r", noteString: "Ssss" },
+    { level: "3-r", rhythmSet: "a-r", noteString: "Sse" },
+    { level: "3-r", rhythmSet: "b-r", noteString: "Ses" },
+    { level: "3-r", rhythmSet: "c-r", noteString: "Ess" },
+    { level: "3-r", rhythmSet: "c-r", noteString: "Se." },
+    { level: "3-r", rhythmSet: "d-r", noteString: "Ee" },
+    { level: "3-r", rhythmSet: "d-r", noteString: "E.s" },
+
+    { level: "5", rhythmSet: "a", noteString: "h." },
+    { level: "5", rhythmSet: "a", noteString: "q." },
+    { level: "5", rhythmSet: "a", noteString: "eee" },
+    { level: "5", rhythmSet: "b", noteString: "qe" },
+    { level: "5", rhythmSet: "c", noteString: "eq" },
+    { level: "5", rhythmSet: "d", noteString: "Eee" },
+    { level: "5", rhythmSet: "e", noteString: "Qe" },
+    { level: "5", rhythmSet: "f", noteString: "Eq" },
+
+    { level: "6", rhythmSet: "a", noteString: "q." },
+    { level: "6", rhythmSet: "a", noteString: "eee" },
+    { level: "6", rhythmSet: "a", noteString: "ssssss" },
+    { level: "6", rhythmSet: "a", noteString: "esse" },
+    { level: "6", rhythmSet: "b", noteString: "ssee" },
+    { level: "6", rhythmSet: "b", noteString: "eess" },
+    { level: "6", rhythmSet: "c", noteString: "sssse" },
+    { level: "6", rhythmSet: "c", noteString: "essss" },
+    { level: "6", rhythmSet: "c", noteString: "ssess" },
+    { level: "6", rhythmSet: "d", noteString: "e.se" },
+    { level: "6", rhythmSet: "d", noteString: "ee.s" },
+    { level: "6", rhythmSet: "e", noteString: "e.sss" },
+    { level: "6", rhythmSet: "e", noteString: "ssse." },
+
+    { level: "7", rhythmSet: "a", noteString: "h." },
+    { level: "7", rhythmSet: "a", noteString: "q." },
+    { level: "7", rhythmSet: "a", noteString: "eee" },
+    { level: "7", rhythmSet: "a", noteString: "qe" },
+    { level: "7", rhythmSet: "a", noteString: "eq" },
+    { level: "7", rhythmSet: "a", noteString: "e.se" },
+    { level: "7", rhythmSet: "a", noteString: "esse" },
+    { level: "7", rhythmSet: "a", noteString: "ssssss" },
+    { level: "7", rhythmSet: "b", noteString: "ssee" },
+    { level: "7", rhythmSet: "b", noteString: "eess" },
+    { level: "7", rhythmSet: "c", noteString: "ee.s" },
+    { level: "7", rhythmSet: "c", noteString: "Eee" },
+    { level: "7", rhythmSet: "d", noteString: "Qe" },
+    { level: "7", rhythmSet: "d", noteString: "sssse" },
+    { level: "7", rhythmSet: "d", noteString: "essss" },
+    { level: "7", rhythmSet: "e", noteString: "ssess" },
+    { level: "7", rhythmSet: "e", noteString: "Eq" },
+    { level: "7", rhythmSet: "f", noteString: "e.sss" },
+    { level: "7", rhythmSet: "f", noteString: "ssse." },
 ];
 
 
 const dupBlockData = [
-    { level: "u", rhythmSet: "a", noteString: "q." },
-    { level: "u", rhythmSet: "a", noteString: "eee" },
+    { level: "6", rhythmSet: "a", noteString: "q." },
+    { level: "6", rhythmSet: "a", noteString: "eee" },
     ]
 
 
@@ -129,7 +129,7 @@ const filterBlocks=function(options){
 };
 
 const filterBlocksByLevels=function(rbes, levelArray){
-    if(levelArray===[]){
+    if(levelArray.length===0){
         return rbes;
     } else {
         return rbes.filter((b) => {
@@ -177,6 +177,7 @@ const selectAllBlocks = function(rbes){
 
 
 // RhythmBlockElement object definition
+//TODO Rename class to something like Block
 const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
@@ -199,6 +200,20 @@ const rhythmBlockElement = function(block){
         this.np.updateNotation(this.noteString);
         this.np.render();
     };
+    this.errors = []
+    this.isValid = function(){
+        if(!this.noteStringValid()){
+            this.errors.push("The note string contains invalid characters.");
+        }
+        if(this.noteString.length === 0){
+            this.errors.push("The note string cannot be blank");
+        }
+        return this.errors.length === 0        
+    }
+
+    this.noteStringValid = function(){
+        return this.noteString.match(/[^wWhHqQeEsS.]+/)===null
+    }
 };
 
 //Builds HTML for a block element
@@ -238,7 +253,7 @@ const renderBlockElements = function(blocksEls,targetEl){
         b.np.updateNotation(b.noteString);
         b.np.render();
         b.beatLength = b.np.beatLength();
-        
+
     });
 };
 
@@ -249,7 +264,7 @@ const renderBlocks = function(blocksToDisplay){
     blockSubsetContainer.className = "container item block-subset-container";
     target.appendChild(blockSubsetContainer);
     renderBlockElements(blocksToDraw, blockSubsetContainer);
-    
+
 };
 
 const getSelectedBlocks = function(){

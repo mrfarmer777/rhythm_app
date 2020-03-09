@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  
+
   <title>Rhythm Trainer</title>
   <script src="https://unpkg.com/vexflow/releases/vexflow-min.js"></script>
   <script src="assets/javascripts/vendor/micromodal.js"></script>
@@ -18,12 +18,15 @@
       <span width="120px"></span>
   </div>
   <div id="primary-container" class="container">
-    
+
     <div id="panels-container" class="container">
       <div id="quaver-select-container" class="container">
         <h3 class="container">Levels:</h3>
         <div id="quaver-select-buttons">
-          
+
+        </div>
+        <div id="custom-level-select-buttons">
+
         </div>
       </div>
       <div id="main-container" class="container">
@@ -33,7 +36,7 @@
             <div id="difficulty-select-buttons" class="item container">
             </div>
           </div>
-          
+
           <div id="option-buttons-container" class="item container">
             <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests: Off</button>
             <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
@@ -51,9 +54,9 @@
           </canvas>
         </div>
         <div id="blocks-select-container" class="container">
-          
+
         </div>
-        
+
         <div id="inputs" class="container">
           <button onclick="generate()">New Mix</button>
           <button class="dark" onclick="deselectAll()">Deselect All</button>
@@ -62,9 +65,9 @@
       </div>
     </div>
   </div>
-  
-  
-<!-- INTRODUCTORY MODALS -->  
+
+
+<!-- INTRODUCTORY MODALS -->
 <!--
 <div class="modal micromodal-slide" id="intro-modal" aria-hidden="true">
   <div class="modal__overlay" tabindex="-1" data-micromodal-close>
@@ -86,8 +89,8 @@
   </div>
 </div>
 -->
-  
-  
+
+
 <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
   <div class="modal__overlay" tabindex="-1" data-micromodal-close>
     <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
@@ -149,7 +152,7 @@
       </header>
       <main class="modal__content" id="modal-3-content">
         <p>
-          The process is based on learning these rhythms in sequenced steps through the three most common levels of subdivision: quarters, eighths, and sixteenths. First we go through all levels learning only the non-rest rhythms. I find that for a young musician, the concept of a rest can be quite challenging and can greatly complicate learning rhythms. I believe it is important that students master the non-rest rhythms first and then gradually introduce the rhythms with rests. 
+          The process is based on learning these rhythms in sequenced steps through the three most common levels of subdivision: quarters, eighths, and sixteenths. First we go through all levels learning only the non-rest rhythms. I find that for a young musician, the concept of a rest can be quite challenging and can greatly complicate learning rhythms. I believe it is important that students master the non-rest rhythms first and then gradually introduce the rhythms with rests.
         </p>
         <p>At all levels, rhythms are introduced gradually and sequentially from least syncopated to most syncopated. This allows the students time to practice each new rhythm such that they can internalize and quickly identify them.</p>
         <p>
@@ -165,16 +168,21 @@
 </div>
 
 
-  
+
   <script src="./assets/javascripts/blocks.js"></script>
   <script src="./assets/javascripts/components/notationPanel.js"></script>
   <script src="./assets/javascripts/components/passageGenerator.js"></script>
   <script src="./assets/javascripts/components/levelButtons.js"></script>
   <script src="./assets/javascripts/components/difficultyButtons.js"></script>
+  <script src="./assets/javascripts/components/queryParser.js"></script>
+  <script src="./assets/javascripts/levels.js"></script>
+  <script src="./assets/javascripts/services/customRhythmService.js"></script>
+
+
   <!--<script src="./assets/javascripts/components/tjsmetronome.js"></script>-->
 
   <script src="./assets/javascripts/main.js"></script>
-  
+
 
 </body>
 </html>
