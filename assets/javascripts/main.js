@@ -213,7 +213,7 @@ const clearBlocks = function(){
 const changeDifficulty = function(selectedDifficulty){
   difficulty = selectedDifficulty;
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
-  renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
+  renderDifficultyButtons(diffs, difficultyButtonTarget, difficulty);
   if(selectedDifficulty !== "custom"){
     updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
   }

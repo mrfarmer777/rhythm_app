@@ -82,7 +82,7 @@ function buildLevelFromEntry(entry){
 function buildBlockFromEntry(entry){
     let blockAttrs = {
         "level": entry.gsx$level.$t,
-        "rhythmSet": entry.gsx$rhythmset.$t,
+        "rhythmSet": entry.gsx$rhythmset.$t.toLowerCase(),
         "noteString": entry.gsx$notestring.$t,
     }
     const newBlock = new rhythmBlockElement(blockAttrs);
