@@ -12,7 +12,6 @@ const levelData = [
     {name: "5", quaver: 8, measureBeats: 6, active: true, subLevels: []},
     {name: "6", quaver: 8, measureBeats: 6, active: true, subLevels: []},
     {name: "7", quaver: 8, measureBeats: 6, active: true, subLevels: []},
-    {name: "8", quaver: 8, measureBeats: 6, active: true, subLevels: ["5", "6", "7"]},
 ]
 
 

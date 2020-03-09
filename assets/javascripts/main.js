@@ -267,7 +267,6 @@ const toggleRests = function(){
     level = restsOn ? "1-r": "1";
     activeLevel = getLevel(level);
   }
-  console.log(level);
   changeLevel(activeLevel); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
@@ -407,6 +406,7 @@ const selectAll = function(){
 
 const handleQueryParams = function(){
   parameters = getParamArray(getRawParams());
+  console.log(parameters);
   if(parameters.length > 0){
     console.log(parameters);
   } else {
@@ -414,7 +414,7 @@ const handleQueryParams = function(){
   }
 }
 
-handleQueryParams();
+//handleQueryParams();
 
 
 

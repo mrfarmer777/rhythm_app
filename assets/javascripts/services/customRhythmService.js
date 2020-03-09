@@ -33,13 +33,18 @@ function buildCustomLevels(responseText){
         let newLevel = buildLevelFromEntry(e);
         if(newLevel.isValid()){
             if(newLevel.active){
-                customLevels.push(newLevel);
+                //Let's try the real levels!
+                if(newLevel.quaver===8){
+                    CompoundLevels.push(newLevel);
+                } else {
+                    SimpleLevels.push(newLevel);
+                }                    
             }            
         } else {
             console.warn(`Custom Level ${newLevel.name} was not included for the following reasons:` + newLevel.errors.join(""))
         }
-    })    
-    renderLevelButtons(customLevels,customLevelButtonTarget,level);
+    })
+    changeLevel(activeLevel); //forces a re-render    
     Levels.concat(customLevels);
 }
 
