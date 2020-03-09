@@ -9,6 +9,9 @@ A static webpage for generating progressive rhythmic sight reading passages. Sel
 
 Simply visit the [Rhythm Trainer](http://rhythmtrainer.app) page to try it out for yourself. Select the blocks you'd like to use to generate the passage and get practicing!
 
+## Easy-Add Rhythms
+If you're the owner of this project, you can easily add new blocks and levels to the app. Check out the docs about it [here](./docs/CustomRhythms.md)
+
 ## Development setup
 
 Clone this repository to your local machine and visit the `index.html` file from any modern web browser to view the trainer.
