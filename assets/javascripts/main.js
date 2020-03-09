@@ -258,7 +258,16 @@ const getAvailableDifficulties = function(blocks){
 
 const toggleRests = function(){
   restsOn = !restsOn;
+  level = (restsOn ? level + "-r": level.replace("-r",""))
   activeLevel = getLevel(level);
+
+  //If no "rest level" is available, go back to level 1 and log it
+  if(activeLevel===undefined){
+    console.warn("No corresponding rest level was found. Defaulting to first level")
+    level = restsOn ? "1-r": "1";
+    activeLevel = getLevel(level);
+  }
+  console.log(level);
   changeLevel(activeLevel); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
