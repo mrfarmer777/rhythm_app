@@ -1,7 +1,7 @@
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
-    this.measureBeats = 4
-    this.quaver = 4
+    this.measureBeats = 4;
+    this.quaver = 4;
     this.quaverTicks = 4*4096/this.quaver;
     
     this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
@@ -15,24 +15,13 @@ const passageGenerator = function(blocks){
         return new VF.Fraction(beats, quaver);
     };
     
-    this.getMeasureBeats = function(){
-        if(["5","6","7","8"].includes(level)){
-                return 6;
-            } else if(level==="s"){
-                return 2;
-            } else {
-                return 4;
-        }
-    }
-    
     this.blocks = blocks;
     this.rhythmOptions=[];
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
-        this.measureBeats = this.getMeasureBeats();
-
-        this.quaver = (["5","6","7","8"].includes(level) ? 8:4)
+        this.measureBeats = activeLevel.measureBeats;
+        this.quaver = activeLevel.quaver;
         this.quaverTicks = 4*4096/this.quaver;
         this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
         this.np.timeSignature = this.timeSignature;
@@ -57,8 +46,7 @@ const passageGenerator = function(blocks){
         return res;
     };
     
-    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: (["5","6","7","8"].includes(level) ? 6:4), timeSigQuaver: (["5","6","7","8"].includes(level) ? 8:4) });
-
+    this.np = new notationPanel({ targetEl: this.el, panelType: "passage", timeSigBeats: this.measureBeats, timeSigQuaver: this.quaver});
     this.measureLength = 8;
     this.beatLength = this.measureLength*this.measureBeats;
     this.chooseRhythm = function(maxBeats){
@@ -106,7 +94,6 @@ const passageGenerator = function(blocks){
                 this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
             })
             
-            //var beams = VF.Beam.generateBeams(voice1.tickables, {groups: this.beamGroups})  //gen beams
             let formatter = new VF.Formatter(); //instantiate formatter
             this.np.stave.setContext(this.np.context).draw();  //draw the stave
             
@@ -148,9 +135,6 @@ const passageGenerator = function(blocks){
                     this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
                 })
                 
-                
-                //let beams = VF.Beam.generateBeams(voice2.tickables, {groups: this.getBeamGrouping(voice2.totalTicks.value()/this.quaverTicks)})  //gen beams
-
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
                 

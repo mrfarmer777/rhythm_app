@@ -31,18 +31,19 @@ function buildCustomLevels(responseText){
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let newLevel = buildLevelFromEntry(e);
-        if(newLevel.isValid()){
-            if(newLevel.active){
-                //Let's try the real levels!
+        if(newLevel.active){
+            if(newLevel.isValid()){
+                //Let's add it to the pre-made levels!
                 if(newLevel.quaver===8){
                     CompoundLevels.push(newLevel);
                 } else {
                     SimpleLevels.push(newLevel);
-                }                    
-            }            
-        } else {
-            console.warn(`Custom Level ${newLevel.name} was not included for the following reasons:` + newLevel.errors.join(""))
-        }
+                }   
+                Levels.push(newLevel);                 
+            } else {
+                console.warn(`Custom Level ${newLevel.name} was not included for the following reasons: ` + newLevel.errors.join(""))
+            }
+        }            
     })
     changeLevel(activeLevel); //forces a re-render    
     Levels.concat(customLevels);

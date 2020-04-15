@@ -208,6 +208,10 @@ const rhythmBlockElement = function(block){
         if(this.noteString.length === 0){
             this.errors.push("The note string cannot be blank");
         }
+        let levelObj = getLevel(this.level)
+        if(levelObj && this.beatLength > levelObj.measureBeats){
+            this.errors.push("The note string is too long to fit in a single measure at this level.")
+        }
         return this.errors.length === 0        
     }
 
