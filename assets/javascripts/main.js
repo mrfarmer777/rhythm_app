@@ -404,18 +404,6 @@ const selectAll = function(){
   checkActiveDifficulty();
 };
 
-const handleQueryParams = function(){
-  parameters = getParamArray(getRawParams());
-  console.log(parameters);
-  if(parameters.length > 0){
-    console.log(parameters);
-  } else {
-    console.log("no params");
-  }
-}
-
-//handleQueryParams();
-
 
 
 
