@@ -193,8 +193,9 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   //Getting and rendering difficulty buttons and selecting blocks in that difficulty
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
-  selectBlocksByDifficulty(availableBlocks, difficulty);
-
+  if(difficulty !== "custom"){
+    selectBlocksByDifficulty(availableBlocks, difficulty);
+  }
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
@@ -294,20 +295,19 @@ const toggleTuplets = function(){
 
 
 //Initialization
-updateAvailableBlocks([level], difficulty);
-pg.np.reset();
-pg.np.render();
-
 const Levels = buildLevels();
 activeLevel = getLevel(level);
  
 const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
+const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 })
 
-const CompoundLevels = Levels.filter((l)=>{ return l.measureBeats===6 })
-
+handleQueryParams();
+console.log(level,difficulty);
+updateAvailableBlocks([level], difficulty);
+pg.np.reset();
+pg.np.render();
 
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
-
 
 
 //Handling Resizing
@@ -403,6 +403,7 @@ const selectAll = function(){
   })
   checkActiveDifficulty();
 };
+
 
 
 

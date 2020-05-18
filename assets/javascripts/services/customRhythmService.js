@@ -45,7 +45,7 @@ function buildCustomLevels(responseText){
             }
         }            
     })
-    changeLevel(activeLevel); //forces a re-render    
+    renderLevelButtons(SimpleLevels, levelButtonTarget, level);
     Levels.concat(customLevels);
 }
 

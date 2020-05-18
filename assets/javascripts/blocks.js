@@ -154,6 +154,15 @@ const filterBlocksByTicks = function(rbes, ticks) {
     });
 };
 
+const batchSelectBlocks = function(rbes, rhythmStringArray){
+    rbes.forEach((b)=>{
+        b.selected = false;
+        if(rhythmStringArray.includes(b.noteString)){
+            b.selected = true;
+        }
+    })
+}
+
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
         b.selected = false;

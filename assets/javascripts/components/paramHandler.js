@@ -28,28 +28,39 @@ const getParamActiveBlocks = function(){
     return blockArr;
 }
 
-const paramLevelValid = function(){
-    return Levels.some((l) => l.name === getParamLevel() )
+const paramLevelValid = function(paramLevel){
+    res = paramLevel == null ? false : Levels.some((l) => l.name === paramLevel.name )
+    return res;
 };
 
-
 const handleQueryParams = function(){
-    //If params exist
+    //If any params exist
+    
     if(paramsPresent()){
-      if(paramLevelValid()){
-        let paramLevel = getLevel(getParamLevel());
-
-        console.log("now selecting level: "+ paramLevel)
+      let paramLevel = getLevel(getParamLevel());
+      let blockStringArray = getParamActiveBlocks();
+      if(paramLevelValid(paramLevel)){
         changeLevel(paramLevel);
-        //select available blocks
-        //notify when blocks are not available
+        let availableBlocks = filterBlocksByLevels(Blocks, [level]);
+        batchSelectBlocks(availableBlocks, blockStringArray)
+        changeDifficulty('custom')
+        clearBlocks();
+        checkActiveDifficulty();
+      } else if (paramLevel === null & blockStringArray.length > 0){
+        changeLevel(8);
       }
+      
+
+
+
     }
       //if a valid level is given
         //select that level
         //if blocks are given
           //select blocks that are available
           //notify that some blocks are not available
+        //elseif (blocks not given)
+          //select "A" difficulty for the provided level
       //elseif blocks are given
         //show all levels
         //select blocks that are available
@@ -59,6 +70,6 @@ const handleQueryParams = function(){
     
 }
   
-handleQueryParams();
+
   
   
