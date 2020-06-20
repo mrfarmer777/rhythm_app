@@ -24,7 +24,10 @@ const getParamLevel = function(){
 
 const getParamActiveBlocks = function(){
     const p = getRawParams();
-    const blockArr = p.get("blocks").split(",");
+    let blockArr = p.get("blocks");
+    if(blockArr != null){
+      blockArr = blockArr.split(",");
+    };
     return blockArr;
 }
 
@@ -33,41 +36,47 @@ const paramLevelValid = function(paramLevel){
     return res;
 };
 
-const handleQueryParams = function(){
-    //If any params exist
-    
-    if(paramsPresent()){
-      let paramLevel = getLevel(getParamLevel());
-      let blockStringArray = getParamActiveBlocks();
-      if(paramLevelValid(paramLevel)){
-        changeLevel(paramLevel);
-        let availableBlocks = filterBlocksByLevels(Blocks, [level]);
-        batchSelectBlocks(availableBlocks, blockStringArray)
-        changeDifficulty('custom')
-        clearBlocks();
-        checkActiveDifficulty();
-      } else if (paramLevel === null & blockStringArray.length > 0){
-        changeLevel(8);
-      }
-      
-
-
-
+// Separate blocks from params into those that are available and those that are not
+const separateParamBlocks = function(availableRhythmStrings, paramBlockStrings){
+  let prohibitedStrings = [];
+  let availableStrings = [];
+  paramBlockStrings.forEach( s => {
+    if(availableRhythmStrings.includes(s)){
+      availableStrings.push(s);
+    } else {
+      prohibitedStrings.push(s);
     }
-      //if a valid level is given
-        //select that level
-        //if blocks are given
-          //select blocks that are available
-          //notify that some blocks are not available
-        //elseif (blocks not given)
-          //select "A" difficulty for the provided level
-      //elseif blocks are given
-        //show all levels
-        //select blocks that are available
-        //notify that some blocks are not available
-      //else
-        //do nothing
+  })
+  return [ availableStrings, prohibitedStrings ];
+}
+
+
+const handleQueryParams = function(){
     
+  if(paramsPresent()){
+    let paramLevel = getLevel(getParamLevel());
+    let blockStringArray = getParamActiveBlocks();
+    if(paramLevelValid(paramLevel)){
+      if(restsOn !== paramLevel.includesRests){
+        toggleRests();
+      };
+      if(tupletsOn !== paramLevel.tuplet){
+        toggleTuplets();
+      }
+      changeLevel(paramLevel);
+      let availableRhythmStrings = availableBlocks.map( b => { return b.noteString })
+      let separatedBlockStrings = separateParamBlocks(availableRhythmStrings, blockStringArray);
+      blockStringArray = separatedBlockStrings[0];
+      let prohibitedBlocks = separatedBlockStrings[1];
+      if (prohibitedBlocks.length > 0 ){
+        console.info("Some rhythm blocks were excluded because they are not valid or unavailable in this level: " + prohibitedBlocks.join(","))
+      }
+      batchSelectBlocks(availableBlocks, blockStringArray);
+      changeDifficulty('custom');
+      checkActiveDifficulty();
+      updateAvailableBlocks([level], difficulty);
+    }
+  }    
 }
   
 

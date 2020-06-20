@@ -301,8 +301,6 @@ activeLevel = getLevel(level);
 const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
 const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 })
 
-handleQueryParams();
-console.log(level,difficulty);
 updateAvailableBlocks([level], difficulty);
 pg.np.reset();
 pg.np.render();
