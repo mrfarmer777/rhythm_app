@@ -128,6 +128,12 @@ const filterBlocks=function(options){
     }
 };
 
+const findBlockByNoteString = function(rbes, noteString){
+    return rbes.filter((b)=>{
+        return b.noteString === noteString;
+    })
+}
+
 const filterBlocksByLevels=function(rbes, levelArray){
     if(levelArray.length===0){
         return rbes;

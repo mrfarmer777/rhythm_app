@@ -51,11 +51,17 @@ const separateParamBlocks = function(availableRhythmStrings, paramBlockStrings){
 }
 
 
-const handleQueryParams = function(){
-    
+const handleQueryParams = function(){    
   if(paramsPresent()){
     let paramLevel = getLevel(getParamLevel());
     let blockStringArray = getParamActiveBlocks();
+
+    //Handling blocks-only params
+    //Defaults to the level of the first valid block
+    if(paramLevel == null){
+      let firstParamBlock = findBlockByNoteString(Blocks, blockStringArray[0])[0];
+      paramLevel = getLevel(firstParamBlock.level)
+    }
     if(paramLevelValid(paramLevel)){
       if(restsOn !== paramLevel.includesRests){
         toggleRests();
