@@ -75,6 +75,13 @@ const handleQueryParams = function(){
       blockStringArray = separatedBlockStrings[0];
       let prohibitedBlocks = separatedBlockStrings[1];
       if (prohibitedBlocks.length > 0 ){
+        let notifyString = "Unavailable or invalid rhythms were excluded: " + prohibitedBlocks.join(", ")
+        Toastify({
+          text: notifyString,
+          duration: 3000,
+          gravity: "bottom",
+          stopOnFocus: true,
+        }).showToast();
         console.info("Some rhythm blocks were excluded because they are not valid or unavailable in this level: " + prohibitedBlocks.join(","))
       }
       batchSelectBlocks(availableBlocks, blockStringArray);
