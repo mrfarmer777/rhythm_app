@@ -48,6 +48,9 @@ function buildCustomLevels(responseText){
     renderLevelButtons(SimpleLevels, levelButtonTarget, level);
     Levels.concat(customLevels);
     handleQueryParams();
+    Toastify({
+        text: "Custom Levels loaded: " + customLevels.join(", ")
+    }).showToast();
 }
 
 

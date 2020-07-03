@@ -11,7 +11,7 @@ const paramsPresent = function(){
 const getParamArray = function(params){
     res = []
     params.forEach((p)=>{
-        res.push(p.toString())
+        res.push(p.toString());
     })
     return res;
 }
@@ -24,7 +24,8 @@ const getParamLevel = function(){
 
 const getParamActiveBlocks = function(){
     const p = getRawParams();
-    let blockArr = p.get("blocks");
+    let blockArr = p.get("blocks").replace(/\s/g,''); //get blocks and clear white space
+  
     if(blockArr != null){
       blockArr = blockArr.split(",");
     };
