@@ -402,6 +402,28 @@ const selectAll = function(){
   checkActiveDifficulty();
 };
 
+const toggleShareSettings = function(){
+  let shareModal = document.querySelector("#share-link");
+  let baseUrl = window.location.href.split("?")[0];
+  let blockString = getSelectedBlocks().map(b=>{ return b.noteString}).join(",")
+  let paramString = `${baseUrl}?level=${level}&blocks=${blockString}`
+  shareModal.setAttribute("value",paramString);
+  MicroModal.show('share-modal');
+}
+
+const copyLink = function(){
+  let shareModal = document.querySelector("#share-link");
+  shareModal.select();
+  document.execCommand('copy');
+  MicroModal.close('share-modal');
+  Toastify({
+    text: "Settings copied to clipboard",
+    duration: 3000,
+    gravity: "bottom",
+  }).showToast();
+
+}
+
 
 
 

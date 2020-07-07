@@ -64,6 +64,7 @@
           <button onclick="generate()">New Mix</button>
           <button class="dark" onclick="deselectAll()">Deselect All</button>
           <button class="dark" onclick="selectAll()">Select All</button>
+          <button class="dark" onclick="toggleShareSettings()">Share Settings</button>
         </div>
       </div>
     </div>
@@ -166,6 +167,23 @@
         <button class="modal__btn modal__btn-primary prev__btn">2. The Base Rhythms</button>
         <button class="modal__btn close__btn next" data-micromodal-close aria-label="Close this dialog window">Close</button>
       </footer>
+    </div>
+  </div>
+</div>
+
+<div class="modal micromodal-slide" id="share-modal" aria-hidden="true">
+  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="intro-modal-title">
+      <header class="modal__header">
+        <h1 class="modal__title" id="intro-modal-title">
+          Share Current Settings
+        </h1>
+      </header>
+      <main class="modal__content" id="intro-modal-content">
+        <p>Copy and share the link below to share the current Rhythm Trainer settings</p>
+        <input type="url" readonly="readonly" id="share-link" value=""></input>
+        <button class="modal__btn close__btn" onclick="copyLink()">Copy</button>
+      </main>
     </div>
   </div>
 </div>
