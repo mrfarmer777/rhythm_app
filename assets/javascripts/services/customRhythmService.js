@@ -49,7 +49,9 @@ function buildCustomLevels(responseText){
     Levels.concat(customLevels);
     handleQueryParams();
     Toastify({
-        text: "Custom Levels loaded: " + customLevels.join(", ")
+        text: "Custom Levels loaded",
+        duration: 3000,
+        gravity: "bottom"
     }).showToast();
 }
 
