@@ -64,6 +64,9 @@ const durationCharacters = {
     "S": "16r",
 
     "Y": "3/4", //hard coding dotted rhythm durations?
+
+    "(":"(", //passing through triplet indicators
+    ")":")",
 };
 
 
@@ -93,8 +96,10 @@ const getTimeSigQuaver = function(){
 function notesFromString(noteString){
   //Returns an array of VF StaveNotes from a string
   let notes = [];
+  let tickMultiplier = 1; //a multiplier used for triplets and dots
   noteString.split('').map( (n,i)=>{
     let dur = durationCharacters[n];
+    // console.log(dur);
     if(dur ==="d"){
       notes.pop();
       let prevDur = durationCharacters[noteString.split('')[i-1]];
@@ -107,19 +112,56 @@ function notesFromString(noteString){
       }).addDotToAll();
       sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
-
-
+    } else if(dur === "(" ) {
+      tickMultiplier = 1;
+    } else if(dur === ")"){
+      tickMultiplier = 1;
     } else {
-      notes.push(new VF.StaveNote({
+      sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
         duration: dur,
         auto_stem: false,
         stem_direction: 1
-      }));
+      })
+      sn.setIntrinsicTicks(sn.ticks.value()*tickMultiplier)
+      notes.push(sn);
     }
   });
   return notes;
+}
+
+
+const createTuplets = function(rhythmString, notes){
+  let tupletIndeces = tupletsIndecesFromString(rhythmString);
+  let tuplets = tupletIndeces.map((is) => {
+    // let tupletedNotes = np.notes.slice(is[0], is[1]);
+    // tupletedNotes.forEach((n)=> n.setIntrinsicTicks(n.ticks.value()*0.667))
+    let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]));;
+    return tuplet;
+  })
+  return tuplets;
+}
+
+// From a note string, build an array of indeces for creating tuplet objects
+const tupletsIndecesFromString = function(noteString){
+  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]
+  let result = [];
+  let noteCount = 0;
+  let tupletStartStopIndeces = [];
+  noteString.split('').forEach((char, i)=> {
+    if(char === "("){
+      tupletStartStopIndeces.push(noteCount);
+
+    } else if(char === ")"){
+      tupletStartStopIndeces.push(noteCount);
+      result.push(tupletStartStopIndeces); 
+      tupletStartStopIndeces = []; //clear out the start/stop indeces
+    } else if(noteChars.includes(char)) { 
+      noteCount ++; //iterate the note count because a note will be added
+    }
+  })  
+  return result;
 }
 
 //Forcing all blocks to draw for development purposes

@@ -153,10 +153,11 @@ const filterBlocksByBeatLength = function(rbes, beats){
 
 const filterBlocksByTicks = function(rbes, ticks) {
     return rbes.filter((b)=>{
-        let notes = notesFromString(b.noteString);
-        let totalTicks = 0;
-        notes.forEach((n)=> { totalTicks+=n.ticks.value() })
-        return totalTicks <= ticks;
+        // let notes = notesFromString(b.noteString);
+        // let totalTicks = 0;
+        // notes.forEach((n)=> { totalTicks+=n.ticks.value() })
+
+        return b.np.totalTicks() <= ticks;
     });
 };
 
@@ -231,7 +232,7 @@ const rhythmBlockElement = function(block){
     }
 
     this.noteStringValid = function(){
-        return this.noteString.match(/[^wWhHqQeEsS.]+/)===null
+        return this.noteString.match(/[^wWhHqQeEsS.()]+/)===null
     }
 };
 

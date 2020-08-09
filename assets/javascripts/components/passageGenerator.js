@@ -80,8 +80,10 @@ const passageGenerator = function(blocks){
                     }
                     measureBeatsRemaining = this.measureBeats;
                 }; //correct for beats left in the measure....
-                rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
-                notes = notesFromString(rhy); //build notes from the rhythm string
+                let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
+                let notes = notesFromString(rhy); //build notes from the rhythm string
+                let blockTuplets = createTuplets(rhy, notes);
+                this.np.tuplets = this.np.tuplets.concat(blockTuplets);
                 let blockBeats = this.np.notesToBeats(notes, this.quaver);
                 
                 if(rhy.includes("s") || rhy.includes("e")){
@@ -104,10 +106,13 @@ const passageGenerator = function(blocks){
             
             this.beamGroups.forEach((bg) => {
                 bg.forEach((b)=>{
-                    b.setContext(this.np.context).draw(); //draw the beat
+                    b.setContext(this.np.context).draw(); //draw the beams
                 })
                     
             });
+            this.np.tuplets.forEach((t)=>{
+                t.setContext(this.np.context).draw();
+            })
             
             
             if(this.measureLength > 4){
@@ -122,13 +127,14 @@ const passageGenerator = function(blocks){
                         measureBeatsRemaining = this.measureBeats;
                     }; //correct for beats left in the measure....
                     
-                    rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
-                    notes = notesFromString(rhy); //build notes from the rhythm string
+                    let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
+                    let notes = notesFromString(rhy); //build notes from the rhythm string
+                    let blockTuplets = createTuplets(rhy, notes);
+                    this.np.tuplets2 = this.np.tuplets2.concat(blockTuplets);
                     
                     if(rhy.includes("s") || rhy.includes("e")){
                         this.noteGroups2.push(notes);
                     }
-                    
                     voice2.addTickables(notes); //add the notes to the voice
                 }
                 this.noteGroups2.forEach((ng)=>{
@@ -148,6 +154,10 @@ const passageGenerator = function(blocks){
                         b.setContext(this.np.context).draw(); //draw the beat
                     })
                 });
+
+                this.np.tuplets2.forEach((t)=>{
+                    t.setContext(this.np.context).draw();
+                })
             }
             
             
