@@ -57,17 +57,24 @@ function buildCustomLevels(responseText){
 
 
 function buildCustomBlocks(responseText){
-    let customBlocks = [];
+    let levelNames = Levels.map((l) => { return l.name });
     let parsedResponse = JSON.parse(responseText);
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
-        block = buildBlockFromEntry(e);
-        if(block.isValid()){
-            Blocks.push(block);
-        } else {
-            console.warn(`Custom block ${block.noteString} was not included for the following reasons: `+ block.errors.join(""))
+        let block = buildBlockFromEntry(e);
+        
+        if(levelNames.includes(block.level)){
+            //Updates notation so that beat length can be accurately counted
+            //Must be done before checking validity
+            block.np.updateNotation(block.noteString);
+            block.beatLength = block.np.beatLength(); 
+            if(block.isValid()){
+                Blocks.push(block);
+            } else {
+                console.warn(`Custom block ${block.noteString} was not included for the following reasons: `+ block.errors.join(""))
+            }
         }
-    })
+    });
 }
 
 function renderCustomLevelButtons(){

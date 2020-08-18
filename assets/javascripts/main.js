@@ -137,7 +137,7 @@ const createTuplets = function(rhythmString, notes){
   let tuplets = tupletIndeces.map((is) => {
     // let tupletedNotes = np.notes.slice(is[0], is[1]);
     // tupletedNotes.forEach((n)=> n.setIntrinsicTicks(n.ticks.value()*0.667))
-    let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]));;
+    let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]), {num_notes: 3, ratioed: false});;
     return tuplet;
   })
   return tuplets;
