@@ -4,11 +4,8 @@ const levelsUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/1/publ
 const blocksUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/2/public/values?alt=json`
 
 
-
-
-function getCustomRhythms(){
+function getCustomRhythms(){      
     httpGetAsync(levelsUrl, buildCustomLevels);
-    httpGetAsync(blocksUrl, buildCustomBlocks)
 }
 
 function httpGetAsync(theUrl, callback){
@@ -25,6 +22,8 @@ function httpGetAsync(theUrl, callback){
 
 
 function buildCustomLevels(responseText){
+    httpGetAsync(blocksUrl, buildCustomBlocks);
+
     let customLevels = [];
     //TODO handle errors from response text gracefully
     let parsedResponse = JSON.parse(responseText);
@@ -47,7 +46,6 @@ function buildCustomLevels(responseText){
     })
     renderLevelButtons(SimpleLevels, levelButtonTarget, level);
     Levels.concat(customLevels);
-    handleQueryParams();
     Toastify({
         text: "Custom Levels loaded",
         duration: 3000,
@@ -75,6 +73,7 @@ function buildCustomBlocks(responseText){
             }
         }
     });
+    handleQueryParams();
 }
 
 function renderCustomLevelButtons(){

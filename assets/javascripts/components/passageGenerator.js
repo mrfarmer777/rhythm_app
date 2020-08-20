@@ -97,9 +97,9 @@ const passageGenerator = function(blocks){
             })
             
             let formatter = new VF.Formatter(); //instantiate formatter
+            this.np.stave.setContext(this.np.context).draw();  //draw the stave
             
             formatter.joinVoices([voice1]).formatToStave([voice1], this.np.stave); //put the voice on the stave
-            this.np.stave.setContext(this.np.context).draw();  //draw the stave
             
             voice1.draw(this.np.context, this.np.stave); //draw the voice
             

@@ -24,11 +24,12 @@ const getParamLevel = function(){
 
 const getParamActiveBlocks = function(){
     const p = getRawParams();
-    let blockArr = p.get("blocks").replace(/\s/g,''); //get blocks and clear white space
+    let blockArr = p.get("blocks"); //get blocks and clear white space
   
     if(blockArr != null){
+      blockArr = blockArr.replace(/\s/g,'')
       blockArr = blockArr.split(",");
-    };
+    }
     return blockArr;
 }
 
@@ -41,6 +42,7 @@ const paramLevelValid = function(paramLevel){
 const separateParamBlocks = function(availableRhythmStrings, paramBlockStrings){
   let prohibitedStrings = [];
   let availableStrings = [];
+
   paramBlockStrings.forEach( s => {
     if(availableRhythmStrings.includes(s)){
       availableStrings.push(s);
@@ -71,24 +73,32 @@ const handleQueryParams = function(){
         toggleTuplets();
       }
       changeLevel(paramLevel);
-      let availableRhythmStrings = availableBlocks.map( b => { return b.noteString })
-      let separatedBlockStrings = separateParamBlocks(availableRhythmStrings, blockStringArray);
-      blockStringArray = separatedBlockStrings[0];
-      let prohibitedBlocks = separatedBlockStrings[1];
-      if (prohibitedBlocks.length > 0 ){
-        let notifyString = "Unavailable or invalid rhythms were excluded: " + prohibitedBlocks.join(", ")
-        Toastify({
-          text: notifyString,
-          duration: 3000,
-          gravity: "bottom",
-          stopOnFocus: true,
-        }).showToast();
-        console.info("Some rhythm blocks were excluded because they are not valid or unavailable in this level: " + prohibitedBlocks.join(","))
+
+      if(blockStringArray !== null){
+        let availableRhythmStrings = availableBlocks.map( b => { return b.noteString });
+        let separatedBlockStrings = separateParamBlocks(availableRhythmStrings, blockStringArray);
+        blockStringArray = separatedBlockStrings[0];
+        let prohibitedBlocks = separatedBlockStrings[1];
+        if (prohibitedBlocks.length > 0 ){
+          let notifyString = "Unavailable or invalid rhythms were excluded: " + prohibitedBlocks.join(", ")
+          Toastify({
+            text: notifyString,
+            duration: 3000,
+            gravity: "bottom",
+            stopOnFocus: true,
+          }).showToast();
+          console.info("Some rhythm blocks were excluded because they are not valid or unavailable in this level: " + prohibitedBlocks.join(","))
+        }
+        batchSelectBlocks(availableBlocks, blockStringArray);
+        changeDifficulty('custom');
+        checkActiveDifficulty();
       }
-      batchSelectBlocks(availableBlocks, blockStringArray);
-      changeDifficulty('custom');
-      checkActiveDifficulty();
-      updateAvailableBlocks([level], difficulty);
+      let la = paramLevel.getLevelArray();
+      updateAvailableBlocks(la, difficulty);
+
+  
+    } else {
+      console.info("Param level not valid");
     }
   }    
 }

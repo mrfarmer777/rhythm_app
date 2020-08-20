@@ -99,7 +99,6 @@ function notesFromString(noteString){
   let tickMultiplier = 1; //a multiplier used for triplets and dots
   noteString.split('').map( (n,i)=>{
     let dur = durationCharacters[n];
-    // console.log(dur);
     if(dur ==="d"){
       notes.pop();
       let prevDur = durationCharacters[noteString.split('')[i-1]];
@@ -203,13 +202,13 @@ const generate = function(){
 //REFACTORED to take in the level object itself.
 const changeLevel = function(selectedLevelObject){
   level = selectedLevelObject.name;
-  activeLevel = selectedLevelObject
+  activeLevel = selectedLevelObject;
   deselectAllBlocks(Blocks);
   let la = selectedLevelObject.getLevelArray();
 
 
   updateAvailableBlocks(la, difficulty);
-  let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels)
+  let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels);
   renderLevelButtons(availableLevels, levelButtonTarget, activeLevel.name);
   changeDifficulty(( restsOn ? "a-r": "a"));
   pg.refresh();
