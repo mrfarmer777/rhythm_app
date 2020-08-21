@@ -128,6 +128,12 @@ const filterBlocks=function(options){
     }
 };
 
+const findBlockByNoteString = function(rbes, noteString){
+    return rbes.filter((b)=>{
+        return b.noteString === noteString;
+    })
+}
+
 const filterBlocksByLevels=function(rbes, levelArray){
     if(levelArray.length===0){
         return rbes;
@@ -147,12 +153,22 @@ const filterBlocksByBeatLength = function(rbes, beats){
 
 const filterBlocksByTicks = function(rbes, ticks) {
     return rbes.filter((b)=>{
-        let notes = notesFromString(b.noteString);
-        let totalTicks = 0;
-        notes.forEach((n)=> { totalTicks+=n.ticks.value() })
-        return totalTicks <= ticks;
+        // let notes = notesFromString(b.noteString);
+        // let totalTicks = 0;
+        // notes.forEach((n)=> { totalTicks+=n.ticks.value() })
+
+        return b.np.totalTicks() <= ticks;
     });
 };
+
+const batchSelectBlocks = function(rbes, rhythmStringArray){
+    rbes.forEach((b)=>{
+        b.selected = false;
+        if(rhythmStringArray.includes(b.noteString)){
+            b.selected = true;
+        }
+    })
+}
 
 const selectBlocksByDifficulty = function(rbes, difficulty){
     rbes.forEach((b) => {
@@ -195,7 +211,10 @@ const rhythmBlockElement = function(block){
     };
     this.el = createBlockElement(this);
     this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block", timeSigBeats: 4, timeSigQuaver: 4});
+    
     this.render = function(){
+        const l = getLevel(this.level);
+        this.np.updateTimeSignature(this.beatLength,l.quaver);
         this.el.className = "item block";
         this.np.updateNotation(this.noteString);
         this.np.render();
@@ -208,11 +227,15 @@ const rhythmBlockElement = function(block){
         if(this.noteString.length === 0){
             this.errors.push("The note string cannot be blank");
         }
+        const levelObj = getLevel(this.level); 
+        if(this.beatLength > levelObj.measureBeats){
+            this.errors.push("The note string is too long to fit in a single measure at this level.");
+        }
         return this.errors.length === 0        
     }
 
     this.noteStringValid = function(){
-        return this.noteString.match(/[^wWhHqQeEsS.]+/)===null
+        return this.noteString.match(/[^wWhHqQeEsS.()]+/)===null
     }
 };
 

@@ -9,39 +9,64 @@ function notationPanel(options){
   this.notes=[];
   this.notes2=[];
   this.autoBeaming = true;
-  
+
+  this.tuplets=[];
+  this.tuplets2=[];  
   //Time signature handling
   this.numberOfMeasures = (this.panelType==="passage" ? 8:1);
   this.numberOfBeats = options.timeSigBeats;
   this.quaver=options.timeSigQuaver;
   this.timeSignature = ""+this.numberOfBeats+"/"+this.quaver;
-  this.beamGrouping = (this.timeSignature==="4/4" ? new VF.Fraction(2,8): new VF.Fraction(3,8))
+  this.beamGrouping = (["6/8","3/8","12/8"].includes(this.timeSignature) ? new VF.Fraction(3,8): new VF.Fraction(2,8));
 
-
-  
   this.toggleSelected = function(){
     return !this.selected;
   };
   
   this.formatter = new VF.Formatter;
   
+  this.updateTimeSignature = function(measureBeats, quaver){
+    this.numberOfBeats = measureBeats;
+    this.quaver=quaver;
+    this.timeSignature = `${this.numberOfBeats}/${this.quaver}`
+    this.beamGrouping = (["6/8","3/8","12/8"].includes(this.timeSignature) ? new VF.Fraction(3,8): new VF.Fraction(2,8));
+  }
   
   this.updateNotation=function(rhythmString){
     this.notes = notesFromString(rhythmString);
+    this.tuplets = createTuplets(rhythmString, this.notes);
   };
   
   this.notesToBeats = function(notes, quaver){
     let totalBeats = 0;
+
+    //Creating a stavenote from the quaver for comparison/calculation
+    const q = new VF.StaveNote({
+      clef: "treble",
+      keys: ["a/4"],
+      duration: quaver.toString(),
+      auto_stem: false,
+      stem_direction: 1
+    });
     notes.forEach((n)=>{
-      totalBeats += quaver/(n.duration);
-      (n.dots > 0 ? totalBeats+=(quaver/(2*n.duration)): null );
+      totalBeats += n.ticks.value()/q.ticks.value();
     });
     return totalBeats;
   };
+
+  this.notesToTicks = function(notes){
+    let ticks = 0;
+    notes.forEach(n => { ticks += n.ticks.value(); })
+    return ticks;
+  }
   
   this.beatLength = function(){
     return this.notesToBeats(this.notes, this.quaver);
   };
+
+  this.totalTicks = function(){
+    return this.notesToTicks(this.notes);
+  }
   
   
   this.resizeContents = function(){
@@ -79,9 +104,11 @@ function notationPanel(options){
   this.reset = function(){
     this.notes=[];
     this.notes2=[];
+    this.tuplets=[];
+    this.tuplets2=[];
     this.context.clear();
     //this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
-    this.quaver = (["5","6","7","8"].includes(level) ? 8:4);
+    //this.quaver = (["5","6","7","8"].includes(level) ? 8:4);
     //this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
   };
   
@@ -90,6 +117,7 @@ function notationPanel(options){
     let renderContext = this.context;
 
     this.stave.setContext(renderContext).draw();
+    
     if(this.stave2){
       this.stave2.setContext(renderContext).draw();
     }
@@ -97,14 +125,17 @@ function notationPanel(options){
     let formatter = new VF.Formatter();
     
     if(this.notes.length > 0){
-      
-      let voice1 = new VF.Voice({num_beats: this.notesToBeats(this.notes, this.quaver), beat_value: this.quaver}).setMode(3);
-     
+      let voice1 = new VF.Voice({num_beats: this.numberOfBeats, beat_value: this.quaver}).setMode(3);
+ 
       voice1.addTickables(this.notes);
      
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
-      var beams = VF.Beam.generateBeams(voice1.tickables, {groups: [["5","6","7","8"].includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
+      let compoundLevelNames = getCompoundLevelNames();
+      let beams = VF.Beam.generateBeams(voice1.tickables, {groups: [compoundLevelNames.includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);
+      this.tuplets.forEach((t)=>{
+        t.setContext(renderContext).draw();
+      })
       
      
       beams.forEach((b) => {

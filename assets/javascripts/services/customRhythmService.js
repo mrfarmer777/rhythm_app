@@ -4,11 +4,8 @@ const levelsUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/1/publ
 const blocksUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/2/public/values?alt=json`
 
 
-
-
-function getCustomRhythms(){
+function getCustomRhythms(){      
     httpGetAsync(levelsUrl, buildCustomLevels);
-    httpGetAsync(blocksUrl, buildCustomBlocks)
 }
 
 function httpGetAsync(theUrl, callback){
@@ -25,42 +22,63 @@ function httpGetAsync(theUrl, callback){
 
 
 function buildCustomLevels(responseText){
+    httpGetAsync(blocksUrl, buildCustomBlocks);
+
     let customLevels = [];
     //TODO handle errors from response text gracefully
     let parsedResponse = JSON.parse(responseText);
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let newLevel = buildLevelFromEntry(e);
-        if(newLevel.isValid()){
-            if(newLevel.active){
-                //Let's try the real levels!
+        if(newLevel.active){
+            if(newLevel.isValid()){
+                //Let's add it to the pre-made levels!
                 if(newLevel.quaver===8){
                     CompoundLevels.push(newLevel);
                 } else {
                     SimpleLevels.push(newLevel);
-                }                    
-            }            
-        } else {
-            console.warn(`Custom Level ${newLevel.name} was not included for the following reasons:` + newLevel.errors.join(""))
-        }
+                }   
+                Levels.push(newLevel);                 
+            } else {
+                console.warn(`Custom Level ${newLevel.name} was not included for the following reasons: ` + newLevel.errors.join(""))
+            }
+        }            
     })
-    changeLevel(activeLevel); //forces a re-render    
+    renderLevelButtons(SimpleLevels, levelButtonTarget, level);
     Levels.concat(customLevels);
+    Toastify({
+        text: "Custom Levels loaded",
+        duration: 3000,
+        gravity: "bottom"
+    }).showToast();
 }
 
 
 function buildCustomBlocks(responseText){
-    let customBlocks = [];
+    let levelNames = Levels.map((l) => { return l.name });
     let parsedResponse = JSON.parse(responseText);
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
-        block = buildBlockFromEntry(e);
-        if(block.isValid()){
-            Blocks.push(block);
-        } else {
-            console.warn(`Custom block ${block.noteString} was not included for the following reasons: `+ block.errors.join(""))
+        let block = buildBlockFromEntry(e);
+        
+        if(levelNames.includes(block.level)){
+            //Updates notation so that beat length can be accurately counted
+            //Must be done before checking validity
+            const levelObj = getLevel(block.level);
+            block.np.numberOfBeats = levelObj.measureBeats;
+            block.np.quaver  = levelObj.quaver;
+            block.np.timeSignature = ""+block.np.numberOfBeats+"/"+block.np.quaver;
+            block.np.beamGrouping = (["6/8","3/8","12/8"].includes(block.np.timeSignature) ? new VF.Fraction(3,8): new VF.Fraction(2,8));
+            block.np.updateNotation(block.noteString);
+            block.beatLength = block.np.beatLength(); 
+            if(block.isValid()){
+                Blocks.push(block);
+            } else {
+                console.warn(`Custom block ${block.noteString} was not included for the following reasons: `+ block.errors.join(""))
+            }
         }
-    })
+    });
+    handleQueryParams();
 }
 
 function renderCustomLevelButtons(){
@@ -78,6 +96,7 @@ function buildLevelFromEntry(entry){
         "measureBeats": parseInt(entry.gsx$measurebeats.$t),
         "quaver": parseInt(entry.gsx$quaver.$t),
         "active": (entry.gsx$active.$t === "TRUE"),
+        "compound": (entry.gsx$compound.$t === "TRUE"), 
         "subLevels": getSubLevelArray(entry.gsx$sublevels.$t)
     }
     const newLevel = new Level(levelAttrs)

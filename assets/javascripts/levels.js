@@ -1,17 +1,17 @@
 
 //Standard Level Data
 const levelData = [
-    {name: "1", quaver: 4, measureBeats: 4, active: true, subLevels: []},
-    {name: "1-r", quaver: 4, measureBeats: 4, active: true, subLevels: ["1"]},
-    {name: "2", quaver: 4, measureBeats: 4, active: true, subLevels: []},
-    {name: "2-r", quaver: 4, measureBeats: 4, active: true, subLevels: ["2"]},
-    {name: "3", quaver: 4, measureBeats: 4, active: true, subLevels: []},
-    {name: "3-r", quaver: 4, measureBeats: 4, active: true, subLevels: ["3"]},
-    {name: "4", quaver: 4, measureBeats: 4, active: true, subLevels: ["1","2","3"]},
-    {name: "4-r", quaver: 4, measureBeats: 4, active: true, subLevels: ["1","2","3","1-r","2-r","3-r"]},
-    {name: "5", quaver: 8, measureBeats: 6, active: true, subLevels: []},
-    {name: "6", quaver: 8, measureBeats: 6, active: true, subLevels: []},
-    {name: "7", quaver: 8, measureBeats: 6, active: true, subLevels: []},
+    {name: "1", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: []},
+    {name: "1-r", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: ["1"]},
+    {name: "2", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: []},
+    {name: "2-r", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: ["2"]},
+    {name: "3", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: []},
+    {name: "3-r", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: ["3"]},
+    {name: "4", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: ["1","2","3"]},
+    {name: "4-r", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: ["1","2","3","1-r","2-r","3-r"]},
+    {name: "5", quaver: 8, measureBeats: 6, active: true, compound: true, subLevels: []},
+    {name: "6", quaver: 8, measureBeats: 6, active: true, compound: true, subLevels: []},
+    {name: "7", quaver: 8, measureBeats: 6, active: true, compound: true, subLevels: []},
 ]
 
 
@@ -22,7 +22,8 @@ const Level = function(opts){
     this.imgUrl = "./assets/images/"+this.id+".png";
     //this.restImgUrl = "./assets/images/"+this.id+"-r.png";
     this.selected = false;
-    this.tuplet = (["5", "6", "7", "8"].includes(this.id) ? true : false); //added for backward compability
+    this.tuplet = opts["compound"];
+    // this.tuplet = (["5", "6", "7", "8"].includes(this.id) ? true : false); //added for backward compability
     this.quaver = opts["quaver"];
     this.measureBeats = opts["measureBeats"];
     this.active = opts["active"];

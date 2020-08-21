@@ -1,6 +1,9 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
 
+const Levels = buildLevels();
+
+
 //Global Blocks, represents all possible rhythm block options
 const Blocks = buildRhythmBlocks(blockData);
 
@@ -9,6 +12,9 @@ const DupBlocks = buildRhythmBlocks(dupBlockData);
 //Filler blocks used incase a a passageGenerator needs them to fill remaining
 //space in a passage when all available blocks are too large
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
+
+
+
 
 //Initializing MicroModal for introduction flow;
 MicroModal.init();
@@ -64,6 +70,9 @@ const durationCharacters = {
     "S": "16r",
 
     "Y": "3/4", //hard coding dotted rhythm durations?
+
+    "(":"(", //passing through triplet indicators
+    ")":")",
 };
 
 
@@ -93,6 +102,7 @@ const getTimeSigQuaver = function(){
 function notesFromString(noteString){
   //Returns an array of VF StaveNotes from a string
   let notes = [];
+  let tickMultiplier = 1; //a multiplier used for triplets and dots
   noteString.split('').map( (n,i)=>{
     let dur = durationCharacters[n];
     if(dur ==="d"){
@@ -101,25 +111,62 @@ function notesFromString(noteString){
       let sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
-        duration: prevDur,
+        duration: prevDur+"d",
         auto_stem: false,
         stem_direction: 1
       }).addDotToAll();
-      sn.setIntrinsicTicks(sn.ticks.value()*1.5);
+      //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
-
-
+    } else if(dur === "(" ) {
+      tickMultiplier = 1;
+    } else if(dur === ")"){
+      tickMultiplier = 1;
     } else {
-      notes.push(new VF.StaveNote({
+      sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
         duration: dur,
         auto_stem: false,
         stem_direction: 1
-      }));
+      })
+      sn.setIntrinsicTicks(sn.ticks.value()*tickMultiplier)
+      notes.push(sn);
     }
   });
   return notes;
+}
+
+
+const createTuplets = function(rhythmString, notes){
+  let tupletIndeces = tupletsIndecesFromString(rhythmString);
+  let tuplets = tupletIndeces.map((is) => {
+    // let tupletedNotes = np.notes.slice(is[0], is[1]);
+    // tupletedNotes.forEach((n)=> n.setIntrinsicTicks(n.ticks.value()*0.667))
+    let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]), {num_notes: 3, ratioed: false});;
+    return tuplet;
+  })
+  return tuplets;
+}
+
+// From a note string, build an array of indeces for creating tuplet objects
+const tupletsIndecesFromString = function(noteString){
+  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]
+  let result = [];
+  let noteCount = 0;
+  let tupletStartStopIndeces = [];
+  noteString.split('').forEach((char, i)=> {
+    if(char === "("){
+      tupletStartStopIndeces.push(noteCount);
+
+    } else if(char === ")"){
+      tupletStartStopIndeces.push(noteCount);
+      result.push(tupletStartStopIndeces); 
+      tupletStartStopIndeces = []; //clear out the start/stop indeces
+    } else if(noteChars.includes(char)) { 
+      noteCount ++; //iterate the note count because a note will be added
+    }
+  })  
+  return result;
 }
 
 //Forcing all blocks to draw for development purposes
@@ -161,13 +208,13 @@ const generate = function(){
 //REFACTORED to take in the level object itself.
 const changeLevel = function(selectedLevelObject){
   level = selectedLevelObject.name;
-  activeLevel = selectedLevelObject
+  activeLevel = selectedLevelObject;
   deselectAllBlocks(Blocks);
   let la = selectedLevelObject.getLevelArray();
 
 
   updateAvailableBlocks(la, difficulty);
-  let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels)
+  let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels);
   renderLevelButtons(availableLevels, levelButtonTarget, activeLevel.name);
   changeDifficulty(( restsOn ? "a-r": "a"));
   pg.refresh();
@@ -193,8 +240,9 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
   //Getting and rendering difficulty buttons and selecting blocks in that difficulty
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
-  selectBlocksByDifficulty(availableBlocks, difficulty);
-
+  if(difficulty !== "custom"){
+    selectBlocksByDifficulty(availableBlocks, difficulty);
+  }
   levels.forEach((l)=>{
     let levelBlocks = filterBlocksByLevels(availableBlocks, l)
     renderBlocks(levelBlocks);
@@ -294,20 +342,21 @@ const toggleTuplets = function(){
 
 
 //Initialization
+activeLevel = getLevel(level);
+ 
+const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4 });
+const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 });
+
+const getCompoundLevelNames = function(){
+  const names = CompoundLevels.map((l)=>{ return l.name })
+  return names;
+}
+
 updateAvailableBlocks([level], difficulty);
 pg.np.reset();
 pg.np.render();
 
-const Levels = buildLevels();
-activeLevel = getLevel(level);
- 
-const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
-
-const CompoundLevels = Levels.filter((l)=>{ return l.measureBeats===6 })
-
-
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
-
 
 
 //Handling Resizing
@@ -404,17 +453,28 @@ const selectAll = function(){
   checkActiveDifficulty();
 };
 
-const handleQueryParams = function(){
-  parameters = getParamArray(getRawParams());
-  console.log(parameters);
-  if(parameters.length > 0){
-    console.log(parameters);
-  } else {
-    console.log("no params");
-  }
+const toggleShareSettings = function(){
+  let shareModal = document.querySelector("#share-link");
+  let baseUrl = window.location.href.split("?")[0];
+  let blockString = getSelectedBlocks().map(b=>{ return b.noteString}).join(",")
+  let paramString = `${baseUrl}?level=${level}&blocks=${blockString}`
+  shareModal.setAttribute("value",paramString);
+  MicroModal.show('share-modal');
 }
 
-//handleQueryParams();
+const copyLink = function(){
+  let shareModal = document.querySelector("#share-link");
+  shareModal.select();
+  document.execCommand('copy');
+  MicroModal.close('share-modal');
+  Toastify({
+    text: "Settings copied to clipboard",
+    duration: 3000,
+    gravity: "bottom",
+  }).showToast();
+
+}
+
 
 
 
