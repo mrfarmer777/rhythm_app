@@ -1,6 +1,9 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
 
+const Levels = buildLevels();
+
+
 //Global Blocks, represents all possible rhythm block options
 const Blocks = buildRhythmBlocks(blockData);
 
@@ -9,6 +12,9 @@ const DupBlocks = buildRhythmBlocks(dupBlockData);
 //Filler blocks used incase a a passageGenerator needs them to fill remaining
 //space in a passage when all available blocks are too large
 const FillerBlocks = buildRhythmBlocks(fillerBlockData);
+
+
+
 
 //Initializing MicroModal for introduction flow;
 MicroModal.init();
@@ -105,11 +111,11 @@ function notesFromString(noteString){
       let sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
-        duration: prevDur,
+        duration: prevDur+"d",
         auto_stem: false,
         stem_direction: 1
       }).addDotToAll();
-      sn.setIntrinsicTicks(sn.ticks.value()*1.5);
+      //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
     } else if(dur === "(" ) {
       tickMultiplier = 1;
@@ -336,11 +342,15 @@ const toggleTuplets = function(){
 
 
 //Initialization
-const Levels = buildLevels();
 activeLevel = getLevel(level);
  
-const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4; })
-const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 })
+const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4 });
+const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 });
+
+const getCompoundLevelNames = function(){
+  const names = CompoundLevels.map((l)=>{ return l.name })
+  return names;
+}
 
 updateAvailableBlocks([level], difficulty);
 pg.np.reset();

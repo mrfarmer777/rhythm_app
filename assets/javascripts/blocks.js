@@ -211,7 +211,10 @@ const rhythmBlockElement = function(block){
     };
     this.el = createBlockElement(this);
     this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block", timeSigBeats: 4, timeSigQuaver: 4});
+    
     this.render = function(){
+        const l = getLevel(this.level);
+        this.np.updateTimeSignature(this.beatLength,l.quaver);
         this.el.className = "item block";
         this.np.updateNotation(this.noteString);
         this.np.render();
@@ -224,7 +227,7 @@ const rhythmBlockElement = function(block){
         if(this.noteString.length === 0){
             this.errors.push("The note string cannot be blank");
         }
-        const levelObj = getLevel(this.level);
+        const levelObj = getLevel(this.level); 
         if(this.beatLength > levelObj.measureBeats){
             this.errors.push("The note string is too long to fit in a single measure at this level.");
         }

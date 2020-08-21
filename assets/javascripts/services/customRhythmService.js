@@ -64,6 +64,11 @@ function buildCustomBlocks(responseText){
         if(levelNames.includes(block.level)){
             //Updates notation so that beat length can be accurately counted
             //Must be done before checking validity
+            const levelObj = getLevel(block.level);
+            block.np.numberOfBeats = levelObj.measureBeats;
+            block.np.quaver  = levelObj.quaver;
+            block.np.timeSignature = ""+block.np.numberOfBeats+"/"+block.np.quaver;
+            block.np.beamGrouping = (["6/8","3/8","12/8"].includes(block.np.timeSignature) ? new VF.Fraction(3,8): new VF.Fraction(2,8));
             block.np.updateNotation(block.noteString);
             block.beatLength = block.np.beatLength(); 
             if(block.isValid()){
@@ -91,6 +96,7 @@ function buildLevelFromEntry(entry){
         "measureBeats": parseInt(entry.gsx$measurebeats.$t),
         "quaver": parseInt(entry.gsx$quaver.$t),
         "active": (entry.gsx$active.$t === "TRUE"),
+        "compound": (entry.gsx$compound.$t === "TRUE"), 
         "subLevels": getSubLevelArray(entry.gsx$sublevels.$t)
     }
     const newLevel = new Level(levelAttrs)
