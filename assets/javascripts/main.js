@@ -352,6 +352,10 @@ const getCompoundLevelNames = function(){
   return names;
 }
 
+// Updating FillerBlocks so their lengths are properly filtered
+// These blocks don't otherwise get rendered, so they won't be updated
+FillerBlocks.forEach( (b) => { b.np.updateNotation(b.noteString) });
+
 updateAvailableBlocks([level], difficulty);
 pg.np.reset();
 pg.np.render();
