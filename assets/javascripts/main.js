@@ -460,6 +460,7 @@ const toggleShareSettings = function(){
   let paramString = `${baseUrl}?level=${level}&blocks=${blockString}`
   shareModal.setAttribute("value",paramString);
   MicroModal.show('share-modal');
+  shareModal.select();
 }
 
 const copyLink = function(){
