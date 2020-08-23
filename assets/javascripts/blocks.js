@@ -107,7 +107,9 @@ const dupBlockData = [
 const fillerBlockData = [
     { level: "fill", rhythmSet: "fill", noteString: "h." },
     { level: "fill", rhythmSet: "fill", noteString: "h" },
+    { level: "fill", rhythmSet: "fill", noteString: "q." },
     { level: "fill", rhythmSet: "fill", noteString: "q" },
+    { level: "fill", rhythmSet: "fill", noteString: "e." },
     { level: "fill", rhythmSet: "fill", noteString: "e" },
     { level: "fill", rhythmSet: "fill", noteString: "s" },
     ];
@@ -160,6 +162,12 @@ const filterBlocksByTicks = function(rbes, ticks) {
         return b.np.totalTicks() <= ticks;
     });
 };
+
+const findBlockByTicks = function(rbes, ticks){
+    return rbes.find( (b) => {
+        return b.np.totalTicks() === ticks;
+    })
+}
 
 const batchSelectBlocks = function(rbes, rhythmStringArray){
     rbes.forEach((b)=>{
@@ -230,6 +238,10 @@ const rhythmBlockElement = function(block){
         const levelObj = getLevel(this.level); 
         if(this.beatLength > levelObj.measureBeats){
             this.errors.push("The note string is too long to fit in a single measure at this level.");
+        }
+        const beatsRemaining = levelObj.measureBeats - this.beatLength;
+        if(beatsRemaining > 0 && beatsRemaining < 1){
+            this.errors.push("The note string includes partial beats.")
         }
         return this.errors.length === 0        
     }

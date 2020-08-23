@@ -51,7 +51,7 @@ const passageGenerator = function(blocks){
     this.beatLength = this.measureLength*this.measureBeats;
     this.chooseRhythm = function(maxBeats){
         let filtered = filterBlocksByTicks(this.blocks, maxBeats*this.quaverTicks);
-        if( filtered.length===0){ filtered = filterBlocksByTicks(FillerBlocks, maxBeats*this.quaverTicks) };
+        if( filtered.length===0){ filtered = [findBlockByTicks(FillerBlocks, maxBeats*this.quaverTicks)] };
 
         return filtered[Math.floor(Math.random()*filtered.length)].noteString;
     };
