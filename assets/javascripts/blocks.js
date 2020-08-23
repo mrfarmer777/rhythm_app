@@ -239,8 +239,11 @@ const rhythmBlockElement = function(block){
         if(this.beatLength > levelObj.measureBeats){
             this.errors.push("The note string is too long to fit in a single measure at this level.");
         }
-        const beatsRemaining = levelObj.measureBeats - this.beatLength;
-        if(beatsRemaining > 0 && beatsRemaining < 1){
+        let beatsRemaining = levelObj.measureBeats - this.beatLength;
+        if(levelObj.compound){
+            beatsRemaining = (levelObj.measureBeats - this.beatLength)/3;
+        }
+        if(beatsRemaining > 0 && beatsRemaining%1 !==0 ){
             this.errors.push("The note string includes partial beats.")
         }
         return this.errors.length === 0        

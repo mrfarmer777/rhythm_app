@@ -36,7 +36,7 @@ const passageGenerator = function(blocks){
     
     this.getBeamGrouping = function(beats){
         let res;
-        if(this.timeSignature === "6/8"){
+        if(activeLevel.compound){
             res = Array(beats).fill(new VF.Fraction(3,8));
         } else if(level==="e" || level==="4") {
             res = Array(beats).fill(new VF.Fraction(4,8));
@@ -51,7 +51,11 @@ const passageGenerator = function(blocks){
     this.beatLength = this.measureLength*this.measureBeats;
     this.chooseRhythm = function(maxBeats){
         let filtered = filterBlocksByTicks(this.blocks, maxBeats*this.quaverTicks);
-        if( filtered.length===0){ filtered = [findBlockByTicks(FillerBlocks, maxBeats*this.quaverTicks)] };
+        if( filtered.length===0){ 
+            const levelObj = getLevel(level);
+            
+            let maxTicks = levelObj.compound ? this.quaverTicks*3 : this.quaverTicks;
+            filtered = [findBlockByTicks(FillerBlocks, maxTicks)] };
 
         return filtered[Math.floor(Math.random()*filtered.length)].noteString;
     };
