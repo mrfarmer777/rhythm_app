@@ -28,6 +28,7 @@ const Level = function(opts){
     this.measureBeats = opts["measureBeats"];
     this.active = opts["active"];
     this.subLevels = opts["subLevels"];
+    this.compound = opts["compound"];
     this.levelBlocks = [];
     this.handleClick = function(){
         changeLevel(this);
