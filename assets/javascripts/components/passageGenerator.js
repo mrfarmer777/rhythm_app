@@ -1,3 +1,13 @@
+const SIMPLE_COUNT_STRINGS = {
+    "0.500":"&",
+    "0.250":"a",
+    "0.750":"e",
+    "0.333":"te",
+    "0.667":"ta"
+};
+
+
+
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
     this.measureBeats = 4;
@@ -86,6 +96,8 @@ const passageGenerator = function(blocks){
                 }; //correct for beats left in the measure....
                 let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                 let notes = notesFromString(rhy); //build notes from the rhythm string
+
+
                 let blockTuplets = createTuplets(rhy, notes);
                 this.np.tuplets = this.np.tuplets.concat(blockTuplets);
                 let blockBeats = this.np.notesToBeats(notes, this.quaver);
@@ -94,8 +106,20 @@ const passageGenerator = function(blocks){
                     this.noteGroups.push(notes);
                 }
                 
-                voice1.addTickables(notes); //add the notes to the voice
+                //Adding Counts to Notes
+                // let ticksPerBeat = voice1.time.resolution/voice1.time.beat_value;
+                // notes.forEach((n)=>{
+                //     let ticksRemaining = (voice1.totalTicks.value()-voice1.ticksUsed.value())
+                //     let beatNumber = ((voice1.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+                //     let remainder = ((ticksRemaining/ticksPerBeat)%1).toFixed(3);
+                //     let countingText = remainder === "0.000" ? beatNumber : SIMPLE_COUNT_STRINGS[remainder.toString()]
+                    
+                //     n.addAnnotation(0, new VF.Annotation(countingText).setVerticalJustification(3));
+                //     voice1.addTickable(n);
+                // });
+                this.addCountsToNotes(voice1,notes);
             }
+            
             this.noteGroups.forEach((ng)=>{
                 this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
             })
@@ -104,8 +128,8 @@ const passageGenerator = function(blocks){
             this.np.stave.setContext(this.np.context).draw();  //draw the stave
             
             formatter.joinVoices([voice1]).formatToStave([voice1], this.np.stave); //put the voice on the stave
-            
             voice1.draw(this.np.context, this.np.stave); //draw the voice
+            
             
             
             this.beamGroups.forEach((bg) => {
@@ -115,7 +139,7 @@ const passageGenerator = function(blocks){
                     
             });
             this.np.tuplets.forEach((t)=>{
-                t.setContext(this.np.context).draw();
+                t.setContext(this.np.context).draw(); //draw the tuplets
             })
             
             
@@ -139,7 +163,10 @@ const passageGenerator = function(blocks){
                     if(rhy.includes("s") || rhy.includes("e")){
                         this.noteGroups2.push(notes);
                     }
-                    voice2.addTickables(notes); //add the notes to the voice
+
+                    this.addCountsToNotes(voice2,notes);
+
+                    // voice2.addTickables(notes); //add the notes to the voice
                 }
                 this.noteGroups2.forEach((ng)=>{
                     this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
@@ -172,7 +199,19 @@ const passageGenerator = function(blocks){
             
         
     };
-    
+    this.addCountsToNotes = function(voice, notes){
+        let ticksPerBeat = voice.time.resolution/voice.time.beat_value;
+        notes.forEach((n)=>{
+            let ticksRemaining = (voice.totalTicks.value()-voice.ticksUsed.value())
+            let beatNumber = ((voice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+            let remainder = ((ticksRemaining/ticksPerBeat)%1).toFixed(3);
+            let countingText = remainder === "0.000" ? beatNumber : SIMPLE_COUNT_STRINGS[remainder.toString()]
+            
+            n.addAnnotation(0, new VF.Annotation(countingText).setVerticalJustification(3));
+            voice.addTickable(n);
+        });
+    }    
+
     this.measureBeatsRemaining = function(){
         const measureRemainder = this.beatsRemaining()%this.measureBeats;
         return  ( measureRemainder === 0 ? this.measureBeats : measureRemainder );
