@@ -326,7 +326,7 @@ a.active{
   display: flex;
   flex-direction: row;
   flex-grow: 1;
-  height:200px;
+  height:250px;
   width: 90vw;
 }
 

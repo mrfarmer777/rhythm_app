@@ -12,6 +12,7 @@ function notationPanel(options){
 
   this.tuplets=[];
   this.tuplets2=[];  
+
   //Time signature handling
   this.numberOfMeasures = (this.panelType==="passage" ? 8:1);
   this.numberOfBeats = options.timeSigBeats;
@@ -91,7 +92,7 @@ function notationPanel(options){
     }
     
     
-    this.stave2 = new VF.Stave(width*0.00, 70, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
+    this.stave2 = new VF.Stave(width*0.00, 110, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
     this.stave2
     .setConfigForLine(2, {visible: true})
     .setConfigForLine(0, {visible: false})
@@ -107,9 +108,6 @@ function notationPanel(options){
     this.tuplets=[];
     this.tuplets2=[];
     this.context.clear();
-    //this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
-    //this.quaver = (["5","6","7","8"].includes(level) ? 8:4);
-    //this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
   };
   
   this.render = function(){
