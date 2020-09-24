@@ -6,13 +6,16 @@ const SIMPLE_COUNT_STRINGS = {
     "0.667":"ta"
 };
 
+const SMALLEST_DURATION = 16;
+
 
 
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
-    this.measureBeats = 4;
+    this.measureBeats = 4; 
     this.quaver = 4;
     this.quaverTicks = 4*4096/this.quaver;
+    this.smallestDuration = SMALLEST_DURATION;
     
     this.timeSignature = ""+this.measureBeats+"/"+this.quaver;
     this.beamGrouping = (this.timeSignature==="6/8" ? new VF.Fraction(3,8): new VF.Fraction(1,2))
@@ -149,31 +152,35 @@ const passageGenerator = function(blocks){
             //Draws each count as an annotation on the note
             //Disabling this while dead count textNotes are implemented
             this.addCountsToNotes(this.voice1);
+            
+            this.voice1Counts = this.createBeatCountsVoice(this.voice1);
 
-            let ticksPerBeat = this.voice1.time.resolution/this.voice1.time.beat_value
-            for(let i = 0; i < 16; i++){
-                let beatNumber = ((this.voice1Counts.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
-                let tn = new Vex.Flow.TextNote({
-                    text: beatNumber,
-                    font: {
-                        family: "Arial",
-                        size: 10,
-                        weight: ""
-                    },
-                    duration: "q"               
-                })
-                .setLine(9)
-                .setStave(this.np.stave)
-                .setJustification(Vex.Flow.TextNote.Justification.CENTER);
-                let measureBeatsRemaining = (this.voice1Counts.totalTicks.value()-this.voice1Counts.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)
-                if(measureBeatsRemaining%4===0){
-                    if(this.voice1Counts.tickables.length > 0 && !this.voice1Counts.isComplete()){
-                        let bar = new VF.BarNote(VF.Barline.type.SINGLE);
-                        this.voice1Counts.addTickable(bar);
-                    }
-                }
-                this.voice1Counts.addTickable(tn)
-            }
+            // let ticksPerBeat = this.voice1.time.resolution/this.voice1.time.beat_value
+            // let numberOfSmallestDurations = this.voice1.time.num_beats*(this.smallestDuration/this.quaver)
+            // for(let i = 0; i < numberOfSmallestDurations; i++){
+            //     let beatNumber = ((this.voice1Counts.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+            //     let countText = (this.voice1Counts.totalTicks.value() - this.voice1Counts.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
+            //     let tn = new Vex.Flow.TextNote({
+            //         text: countText,
+            //         font: {
+            //             family: "Arial",
+            //             size: 10,
+            //             weight: ""
+            //         },
+            //         duration: this.smallestDuration.toString(),               
+            //     })
+            //     .setLine(9)
+            //     .setStave(this.np.stave)
+            //     .setJustification(Vex.Flow.TextNote.Justification.CENTER);
+            //     let measureBeatsRemaining = (this.voice1Counts.totalTicks.value()-this.voice1Counts.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)
+            //     if(measureBeatsRemaining%4===0){
+            //         if(this.voice1Counts.tickables.length > 0 && !this.voice1Counts.isComplete()){
+            //             let bar = new VF.BarNote(VF.Barline.type.SINGLE);
+            //             this.voice1Counts.addTickable(bar);
+            //         }
+            //     }
+            //     this.voice1Counts.addTickable(tn)
+            // }
 
             
             this.noteGroups.forEach((ng)=>{
@@ -186,11 +193,10 @@ const passageGenerator = function(blocks){
 
             formatter.joinVoices([this.voice1, this.voice1Counts])
                 .formatToStave([this.voice1, this.voice1Counts], this.np.stave); //put the voice on the stave
-            for(let i = 0; i < 0; i++){
-                formatter.tune();
-            }
+            
             this.voice1.draw(this.np.context, this.np.stave); //draw the voice
             this.voice1Counts.draw(this.np.context, this.np.stave);
+            
             this.beamGroups.forEach((bg) => {
                 bg.forEach((b)=>{
                     b.setContext(this.np.context).draw(); //draw the beams
@@ -227,6 +233,8 @@ const passageGenerator = function(blocks){
                     this.voice2.addTickables(notes); //add the notes to the voice
                 }
                 this.addCountsToNotes(this.voice2);
+
+                this.voice2Counts = this.createBeatCountsVoice(this.voice2);
                 this.noteGroups2.forEach((ng)=>{
                     this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
                 })
@@ -234,9 +242,11 @@ const passageGenerator = function(blocks){
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
                 
-                formatter.joinVoices([this.voice2]).formatToStave([this.voice2], this.np.stave2); //put the voice on the stave
+                formatter.joinVoices([this.voice2, this.voice2Counts])
+                    .formatToStave([this.voice2, this.voice2Counts], this.np.stave2); //put the voice on the stave
                 
                 this.voice2.draw(this.np.context, this.np.stave2); //draw the voice
+                this.voice2Counts.draw(this.np.context, this.np.stave2); //draw the voice
                 
                 
                 this.beamGroups2.forEach((bg) => {
@@ -265,7 +275,40 @@ const passageGenerator = function(blocks){
                 ticksUsed+=n.ticks.value();
             }
         });
-    }    
+    }
+    
+    this.createBeatCountsVoice = function(noteVoice){
+        let countsVoice = new VF.Voice({ num_beats: noteVoice.time.num_beats, beat_value: noteVoice.time.beat_value })
+        let ticksPerBeat = noteVoice.time.resolution/noteVoice.time.beat_value
+        let numberOfSmallestDurations = noteVoice.time.num_beats*(this.smallestDuration/this.quaver)
+
+        for(let i = 0; i < numberOfSmallestDurations; i++){
+            let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+            let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
+            let tn = new Vex.Flow.TextNote({
+                text: countText,
+                font: {
+                    family: "Arial",
+                    size: 10,
+                    weight: ""
+                },
+                duration: this.smallestDuration.toString(),               
+            })
+            .setLine(9)
+            .setStave(this.np.stave)
+            .setJustification(Vex.Flow.TextNote.Justification.CENTER);
+            let measureBeatsRemaining = (countsVoice.totalTicks.value()-countsVoice.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)
+            if(measureBeatsRemaining%4===0){
+                if(countsVoice.tickables.length > 0 && !countsVoice.isComplete()){
+                    let bar = new VF.BarNote(VF.Barline.type.SINGLE);
+                    countsVoice.addTickable(bar);
+                }
+            }
+            countsVoice.addTickable(tn)
+        }
+
+        return countsVoice;
+    }
 
     this.measureBeatsRemaining = function(){
         const measureRemainder = this.beatsRemaining()%this.measureBeats;
