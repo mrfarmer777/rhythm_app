@@ -2,8 +2,9 @@ const SIMPLE_COUNT_STRINGS = {
     "0.500":"&",
     "0.250":"a",
     "0.750":"e",
-    "0.333":"te",
-    "0.667":"ta"
+    "0.333":"ta",
+    "0.667":"te",
+    "1.000":""
 };
 
 const SMALLEST_DURATION = 16;
@@ -182,21 +183,18 @@ const passageGenerator = function(blocks){
             //     this.voice1Counts.addTickable(tn)
             // }
 
-            
             this.noteGroups.forEach((ng)=>{
                 this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
             })
             
             let formatter = new VF.Formatter(); //instantiate formatter
+            formatter.joinVoices([this.voice1])
+                .joinVoices([this.voice1Counts])
+                .formatToStave([this.voice1, this.voice1Counts], this.np.stave, { align_rests: true }); //put the voice on the stave
             
-            
-
-            formatter.joinVoices([this.voice1, this.voice1Counts])
-                .formatToStave([this.voice1, this.voice1Counts], this.np.stave); //put the voice on the stave
-            
-            this.voice1.draw(this.np.context, this.np.stave); //draw the voice
             this.voice1Counts.draw(this.np.context, this.np.stave);
-            
+            this.voice1.draw(this.np.context, this.np.stave); //draw the voice
+
             this.beamGroups.forEach((bg) => {
                 bg.forEach((b)=>{
                     b.setContext(this.np.context).draw(); //draw the beams
@@ -242,7 +240,8 @@ const passageGenerator = function(blocks){
                 let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
                 
-                formatter.joinVoices([this.voice2, this.voice2Counts])
+                formatter.joinVoices([this.voice2])
+                    .joinVoices([this.voice2Counts])
                     .formatToStave([this.voice2, this.voice2Counts], this.np.stave2); //put the voice on the stave
                 
                 this.voice2.draw(this.np.context, this.np.stave2); //draw the voice
@@ -280,32 +279,66 @@ const passageGenerator = function(blocks){
     this.createBeatCountsVoice = function(noteVoice){
         let countsVoice = new VF.Voice({ num_beats: noteVoice.time.num_beats, beat_value: noteVoice.time.beat_value })
         let ticksPerBeat = noteVoice.time.resolution/noteVoice.time.beat_value
-        let numberOfSmallestDurations = noteVoice.time.num_beats*(this.smallestDuration/this.quaver)
-
-        for(let i = 0; i < numberOfSmallestDurations; i++){
-            let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
-            let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
-            let tn = new Vex.Flow.TextNote({
-                text: countText,
-                font: {
-                    family: "Arial",
-                    size: 10,
-                    weight: ""
-                },
-                duration: this.smallestDuration.toString(),               
-            })
-            .setLine(9)
-            .setStave(this.np.stave)
-            .setJustification(Vex.Flow.TextNote.Justification.CENTER);
-            let measureBeatsRemaining = (countsVoice.totalTicks.value()-countsVoice.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)
-            if(measureBeatsRemaining%4===0){
-                if(countsVoice.tickables.length > 0 && !countsVoice.isComplete()){
-                    let bar = new VF.BarNote(VF.Barline.type.SINGLE);
-                    countsVoice.addTickable(bar);
+        
+        noteVoice.tickables.forEach((t)=>{
+            if(t.ticks.denominator === 3 || t.attrs.type==="BarNote"){
+                countsVoice.addTickable(t);
+            } else if(t.getCategory()==="stavenotes") {
+                let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver)
+                console.log(t.duration, numberOfSmallestDurations);
+                for(let i = 0; i < numberOfSmallestDurations; i++){
+                    let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+                    let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
+                    let tn = new Vex.Flow.TextNote({
+                        text: countText,
+                        font: {
+                            family: "Arial",
+                            size: 10,
+                            weight: ""
+                        },
+                        duration: this.smallestDuration.toString(),               
+                    })
+                    .setLine(9)
+                    .setStave(this.np.stave)
+                    .setJustification(Vex.Flow.TextNote.Justification.CENTER);
+                    // let measureBeatsRemaining = (countsVoice.totalTicks.value()-countsVoice.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)
+                    // if(measureBeatsRemaining%4===0){
+                    //     if(countsVoice.tickables.length > 0 && !countsVoice.isComplete()){
+                    //         let bar = new VF.BarNote(VF.Barline.type.SINGLE);
+                    //         countsVoice.addTickable(bar);
+                    //     }
+                    // }
+                    countsVoice.addTickable(tn)
                 }
             }
-            countsVoice.addTickable(tn)
-        }
+
+        })
+        // let numberOfSmallestDurations = noteVoice.time.num_beats*(this.smallestDuration/this.quaver)
+
+        // for(let i = 0; i < numberOfSmallestDurations; i++){
+        //     let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+        //     let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
+        //     let tn = new Vex.Flow.TextNote({
+        //         text: countText,
+        //         font: {
+        //             family: "Arial",
+        //             size: 10,
+        //             weight: ""
+        //         },
+        //         duration: this.smallestDuration.toString(),               
+        //     })
+        //     .setLine(9)
+        //     .setStave(this.np.stave)
+        //     .setJustification(Vex.Flow.TextNote.Justification.CENTER);
+        //     let measureBeatsRemaining = (countsVoice.totalTicks.value()-countsVoice.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)
+        //     if(measureBeatsRemaining%4===0){
+        //         if(countsVoice.tickables.length > 0 && !countsVoice.isComplete()){
+        //             let bar = new VF.BarNote(VF.Barline.type.SINGLE);
+        //             countsVoice.addTickable(bar);
+        //         }
+        //     }
+        //     countsVoice.addTickable(tn)
+        // }
 
         return countsVoice;
     }
