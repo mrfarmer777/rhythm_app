@@ -39,6 +39,8 @@ let restsOn = false;
 
 let tupletsOn = false;
 
+let countsOn = false;
+
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -330,13 +332,23 @@ const toggleTuplets = function(){
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
   button.className = "control-button item "+(tupletsOn ? "selected": "");
-  let restsButton = document.getElementById("rests-toggle-button")
+  let restsButton = document.getElementById("rests-toggle-button");
   restsButton.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
 
 
 
   renderLevelButtons((tupletsOn ? CompoundLevels : SimpleLevels), levelButtonTarget, level);
 };
+
+const toggleCounts = function(){
+  countsOn = !countsOn;
+  if(countsOn){
+    pg.showCounts();
+  } else {
+    pg.removeCounts();
+  }
+  pg.redraw();
+}
 
 
 

@@ -13,6 +13,7 @@ const SMALLEST_DURATION = 16;
 
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
+    this.formatter = new VF.Formatter();
     this.measureBeats = 4; 
     this.quaver = 4;
     this.quaverTicks = 4*4096/this.quaver;
@@ -31,8 +32,11 @@ const passageGenerator = function(blocks){
     this.voice2;
     this.beamGroups2=[];
     this.noteGroups2=[]; 
-    
     this.voice2Notes;
+
+    this.tuplets=[];
+    this.tuplets2=[];
+
     this.getBeamGroup = function(beats, quaver){
         return new VF.Fraction(beats, quaver);
     };
@@ -52,6 +56,8 @@ const passageGenerator = function(blocks){
         this.beamGroups2=[];
         this.noteGroups=[];
         this.noteGroups2=[];
+        this.tuplets=[];
+        this.tuplets2=[];
         this.beatLength=this.measureLength*this.measureBeats;
         this.np.reset();
     };
@@ -60,8 +66,24 @@ const passageGenerator = function(blocks){
         this.np.reset();
         this.np.render();
         this.np.context.setFont
+        
+        this.formatter.joinVoices([this.voice1])
+            .joinVoices([this.voice1Counts])
+            .formatToStave([this.voice1, this.voice1Counts], this.np.stave);   
+        this.formatter.joinVoices([this.voice2])
+            .joinVoices([this.voice2Counts])
+            .formatToStave([this.voice2, this.voice2Counts], this.np.stave2); //put the voice on the stave //put the voice on the stave
         this.voice1.draw(this.np.context, this.np.stave);
         this.voice2.draw(this.np.context, this.np.stave2);
+        this.drawBeamGroups(this.beamGroups);
+        this.drawBeamGroups(this.beamGroups2);
+
+        this.drawTuplets(this.tuplets2);
+        this.drawTuplets(this.tuplets);
+        if(countsOn){
+            this.voice1Counts.draw(this.np.context, this.np.stave);
+            this.voice2Counts.draw(this.np.context, this.np.stave2);
+        }
     }
 
     this.removeCounts = function(){
@@ -71,13 +93,11 @@ const passageGenerator = function(blocks){
         this.voice2.tickables.forEach((t)=>{
             t.modifiers = t.modifiers.filter((m)=>{return m.attrs.type!=="Annotation"});
         })
-        this.redraw();
     }
 
     this.showCounts = function(){
         this.addCountsToNotes(this.voice1);
         this.addCountsToNotes(this.voice2);
-        this.redraw();
     }
     
     this.getBeamGrouping = function(beats){
@@ -120,12 +140,12 @@ const passageGenerator = function(blocks){
         } else {
             if(this.measureLength > 4){
                 this.voice1 = new VF.Voice({ num_beats: this.beatLength/2, beat_value: this.quaver });  //Build a voice here, to be populated and sent to renderer
-                this.voice1Counts = new VF.Voice({ num_beats: this.beatLength/2, beat_value: this.quaver });
+                // this.voice1Counts = new VF.Voice({ num_beats: this.beatLength/2, beat_value: this.quaver });
                 this.voice2 = new VF.Voice({ num_beats: this.beatLength/2, beat_value: this.quaver });  //Build a voice here, to be populated and sent to renderer
                 // this.voice2WithCounts = new VF.Voice({ num_beats: this.beatLength/2, beat_value: this.quaver })
             } else {
                 this.voice1 = new VF.Voice({ num_beats: this.beatLength, beat_value: this.quaver })  //Build a voice here, to be populated and sent to renderer
-                this.voice1Counts = new VF.Voice({ num_beats: this.beatLength, beat_value: this.quaver })
+                // this.voice1Counts = new VF.Voice({ num_beats: this.beatLength, beat_value: this.quaver })
             }
             while(!this.voice1.isComplete()){ //while the voice is not filled...
                 let measureBeatsRemaining = (this.voice1.totalTicks.value()-this.voice1.ticksUsed.value())/(this.quaverTicks)%(this.measureBeats)  //calculate number of beats left in current measure
@@ -140,6 +160,7 @@ const passageGenerator = function(blocks){
                 let notes = notesFromString(rhy); //build notes from the rhythm string
                 let blockTuplets = createTuplets(rhy, notes);
                 this.np.tuplets = this.np.tuplets.concat(blockTuplets);
+                this.tuplets = this.tuplets.concat(blockTuplets);
                 let blockBeats = this.np.notesToBeats(notes, this.quaver);
                 
                 if(rhy.includes("s") || rhy.includes("e")){
@@ -150,10 +171,10 @@ const passageGenerator = function(blocks){
                 this.voice1.addTickables(notes);
 
             }
-            //Draws each count as an annotation on the note
-            //Disabling this while dead count textNotes are implemented
-            this.addCountsToNotes(this.voice1);
-            
+
+            if(countsOn){
+                this.addCountsToNotes(this.voice1);
+            }
             this.voice1Counts = this.createBeatCountsVoice(this.voice1);
 
             // let ticksPerBeat = this.voice1.time.resolution/this.voice1.time.beat_value
@@ -187,23 +208,25 @@ const passageGenerator = function(blocks){
                 this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
             })
             
-            let formatter = new VF.Formatter(); //instantiate formatter
-            formatter.joinVoices([this.voice1])
+            this.formatter.joinVoices([this.voice1])
                 .joinVoices([this.voice1Counts])
                 .formatToStave([this.voice1, this.voice1Counts], this.np.stave, { align_rests: true }); //put the voice on the stave
             
-            this.voice1Counts.draw(this.np.context, this.np.stave);
+            if(countsOn){
+                this.voice1Counts.draw(this.np.context, this.np.stave);
+            }
             this.voice1.draw(this.np.context, this.np.stave); //draw the voice
 
-            this.beamGroups.forEach((bg) => {
-                bg.forEach((b)=>{
-                    b.setContext(this.np.context).draw(); //draw the beams
-                })
-                    
-            });
-            this.np.tuplets.forEach((t)=>{
-                t.setContext(this.np.context).draw(); //draw the tuplets
-            })
+            this.drawBeamGroups(this.beamGroups);
+            // this.beamGroups.forEach((bg) => {
+            //     bg.forEach((b)=>{
+            //         b.setContext(this.np.context).draw(); //draw the beams
+            //     })
+            // });
+            this.drawTuplets(this.tuplets);
+            // this.np.tuplets.forEach((t)=>{
+            //     t.setContext(this.np.context).draw(); //draw the tuplets
+            // })
             
             
             if(this.measureLength > 4){
@@ -222,7 +245,8 @@ const passageGenerator = function(blocks){
                     let notes = notesFromString(rhy); //build notes from the rhythm string
                     let blockTuplets = createTuplets(rhy, notes);
                     this.np.tuplets2 = this.np.tuplets2.concat(blockTuplets);
-                    
+                    this.tuplets2 = this.tuplets2.concat(blockTuplets);
+
                     if(rhy.includes("s") || rhy.includes("e")){
                         this.noteGroups2.push(notes);
                     }
@@ -230,33 +254,38 @@ const passageGenerator = function(blocks){
                     
                     this.voice2.addTickables(notes); //add the notes to the voice
                 }
-                this.addCountsToNotes(this.voice2);
+
+                if(countsOn){
+                    this.addCountsToNotes(this.voice2);
+                }
 
                 this.voice2Counts = this.createBeatCountsVoice(this.voice2);
                 this.noteGroups2.forEach((ng)=>{
                     this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
                 })
                 
-                let formatter = new VF.Formatter(); //instantiate formatter
                 this.np.stave2.setContext(this.np.context).draw();  //draw the stave
                 
-                formatter.joinVoices([this.voice2])
+                this.formatter.joinVoices([this.voice2])
                     .joinVoices([this.voice2Counts])
                     .formatToStave([this.voice2, this.voice2Counts], this.np.stave2); //put the voice on the stave
                 
+                if(countsOn){
+                    this.voice2Counts.draw(this.np.context, this.np.stave2); //draw the voice
+                }
                 this.voice2.draw(this.np.context, this.np.stave2); //draw the voice
-                this.voice2Counts.draw(this.np.context, this.np.stave2); //draw the voice
                 
-                
-                this.beamGroups2.forEach((bg) => {
-                    bg.forEach((b)=>{
-                        b.setContext(this.np.context).draw(); //draw the beat
-                    })
-                });
+                this.drawBeamGroups(this.beamGroups2);
+                // this.beamGroups2.forEach((bg) => {
+                //     bg.forEach((b)=>{
+                //         b.setContext(this.np.context).draw(); //draw the beat
+                //     })
+                // });
 
-                this.np.tuplets2.forEach((t)=>{
-                    t.setContext(this.np.context).draw();
-                })
+                this.drawTuplets(this.tuplets2);
+                // this.np.tuplets2.forEach((t)=>{
+                //     t.setContext(this.np.context).draw();
+                // })
             }   
         }
     };
@@ -266,11 +295,15 @@ const passageGenerator = function(blocks){
         let notes = voice.tickables;
         notes.forEach((n)=>{
             let ticksRemaining = (voice.totalTicks.value()-ticksUsed)
-            let beatNumber = ((ticksUsed/ticksPerBeat)%this.measureBeats)+1;
+            let beatNumber = ((Math.round((ticksUsed/ticksPerBeat))%this.measureBeats)+1).toFixed(0);
             let remainder = ((ticksRemaining/ticksPerBeat)%1).toFixed(3);
             let countingText = remainder === "0.000" ? "" : SIMPLE_COUNT_STRINGS[remainder.toString()]
             if(n.attrs.type === "StaveNote"){ //Skipping BarNotes which can't receive annotations
-                n.addAnnotation(0, new VF.Annotation(countingText).setVerticalJustification(3).setJustification(2),);
+                if(n.ticks.denominator===3 && remainder==="0.000"){
+                    n.addAnnotation(0, new VF.Annotation(beatNumber.toString()).setVerticalJustification(3).setJustification(2),);
+                } else {
+                    n.addAnnotation(0, new VF.Annotation(countingText).setVerticalJustification(3).setJustification(2),);
+                }
                 ticksUsed+=n.ticks.value();
             }
         });
@@ -281,13 +314,14 @@ const passageGenerator = function(blocks){
         let ticksPerBeat = noteVoice.time.resolution/noteVoice.time.beat_value
         
         noteVoice.tickables.forEach((t)=>{
-            if(t.ticks.denominator === 3 || t.attrs.type==="BarNote"){
+            let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+
+            if(t.attrs.type==="BarNote" || t.ticks.denominator===3){
                 countsVoice.addTickable(t);
             } else if(t.getCategory()==="stavenotes") {
                 let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver)
-                console.log(t.duration, numberOfSmallestDurations);
                 for(let i = 0; i < numberOfSmallestDurations; i++){
-                    let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+                    beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
                     let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
                     let tn = new Vex.Flow.TextNote({
                         text: countText,
@@ -346,5 +380,19 @@ const passageGenerator = function(blocks){
     this.measureBeatsRemaining = function(){
         const measureRemainder = this.beatsRemaining()%this.measureBeats;
         return  ( measureRemainder === 0 ? this.measureBeats : measureRemainder );
+    }
+
+    this.drawBeamGroups = function(beamGroups){
+        beamGroups.forEach((bg) => {
+            bg.forEach((b)=>{
+                b.setContext(this.np.context).draw(); //draw the beams
+            })
+        });
+    }
+
+    this.drawTuplets = function(tuplets){
+        tuplets.forEach((t)=>{
+            t.setContext(this.np.context).draw();
+        })
     }
 };
