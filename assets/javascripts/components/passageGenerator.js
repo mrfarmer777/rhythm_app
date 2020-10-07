@@ -7,6 +7,16 @@ const SIMPLE_COUNT_STRINGS = {
     "1.000":""
 };
 
+const COMPOUND_COUNT_STRINGS = {
+    "0.500":"&",
+    "0.250":"a",
+    "0.750":"e",
+    "0.333":"ta",
+    "0.667":"te",
+    "0.167":"&",
+    "0.833":"&"
+}
+
 const SMALLEST_DURATION = 16;
 
 
@@ -43,6 +53,7 @@ const passageGenerator = function(blocks){
     
     this.blocks = blocks;
     this.rhythmOptions=[];
+
     this.refresh = function(){
         this.blocks = getSelectedBlocks();
         this.rhythmOptions = this.blocks.map((b)=>{ return b.noteString });
@@ -84,7 +95,7 @@ const passageGenerator = function(blocks){
             this.voice1Counts.draw(this.np.context, this.np.stave);
             this.voice2Counts.draw(this.np.context, this.np.stave2);
         }
-    }
+    };
 
     this.removeCounts = function(){
         this.voice1.tickables.forEach((t)=>{
@@ -93,12 +104,12 @@ const passageGenerator = function(blocks){
         this.voice2.tickables.forEach((t)=>{
             t.modifiers = t.modifiers.filter((m)=>{return m.attrs.type!=="Annotation"});
         })
-    }
+    };
 
     this.showCounts = function(){
         this.addCountsToNotes(this.voice1);
         this.addCountsToNotes(this.voice2);
-    }
+    };
     
     this.getBeamGrouping = function(beats){
         let res;
@@ -126,6 +137,7 @@ const passageGenerator = function(blocks){
 
         return filtered[Math.floor(Math.random()*filtered.length)].noteString;
     };
+
     this.generate = function(){
         this.np.reset();
         this.np.resizeContents();
@@ -289,15 +301,20 @@ const passageGenerator = function(blocks){
             }   
         }
     };
+
     this.addCountsToNotes = function(voice){
         let ticksPerBeat = voice.time.resolution/voice.time.beat_value
+        //counting "big beats" in compound time signatures
+        ticksPerBeat = ticksPerBeat * (activeLevel.tuplet ? 3 : 1);
+        const countStrings = activeLevel.tuplet ? COMPOUND_COUNT_STRINGS : SIMPLE_COUNT_STRINGS;
         let ticksUsed = 0;
         let notes = voice.tickables;
         notes.forEach((n)=>{
             let ticksRemaining = (voice.totalTicks.value()-ticksUsed)
             let beatNumber = ((Math.round((ticksUsed/ticksPerBeat))%this.measureBeats)+1).toFixed(0);
             let remainder = ((ticksRemaining/ticksPerBeat)%1).toFixed(3);
-            let countingText = remainder === "0.000" ? "" : SIMPLE_COUNT_STRINGS[remainder.toString()]
+            console.log(remainder.toString(), countStrings[remainder.toString()])
+            let countingText = remainder === "0.000" ? "" : countStrings[remainder.toString()]
             if(n.attrs.type === "StaveNote"){ //Skipping BarNotes which can't receive annotations
                 if(n.ticks.denominator===3 && remainder==="0.000"){
                     n.addAnnotation(0, new VF.Annotation(beatNumber.toString()).setVerticalJustification(3).setJustification(2),);
@@ -307,7 +324,7 @@ const passageGenerator = function(blocks){
                 ticksUsed+=n.ticks.value();
             }
         });
-    }
+    };
     
     this.createBeatCountsVoice = function(noteVoice){
         let countsVoice = new VF.Voice({ num_beats: noteVoice.time.num_beats, beat_value: noteVoice.time.beat_value })
@@ -322,6 +339,9 @@ const passageGenerator = function(blocks){
                 let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver)
                 for(let i = 0; i < numberOfSmallestDurations; i++){
                     beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+                    if(activeLevel.tuplet){
+                        beatNumber = this.getCompoundBigBeat(beatNumber);
+                    }
                     let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(this.quaverTicks) === 0 ? beatNumber : "";
                     let tn = new Vex.Flow.TextNote({
                         text: countText,
@@ -375,12 +395,12 @@ const passageGenerator = function(blocks){
         // }
 
         return countsVoice;
-    }
+    };
 
     this.measureBeatsRemaining = function(){
         const measureRemainder = this.beatsRemaining()%this.measureBeats;
         return  ( measureRemainder === 0 ? this.measureBeats : measureRemainder );
-    }
+    };
 
     this.drawBeamGroups = function(beamGroups){
         beamGroups.forEach((bg) => {
@@ -388,11 +408,29 @@ const passageGenerator = function(blocks){
                 b.setContext(this.np.context).draw(); //draw the beams
             })
         });
-    }
+    };
 
     this.drawTuplets = function(tuplets){
         tuplets.forEach((t)=>{
             t.setContext(this.np.context).draw();
         })
-    }
+    };
+
+    this.getCompoundBigBeat = function(beatNumber){
+        const beatRemainder = beatNumber%3;
+        if(beatRemainder===1){
+            return (beatNumber+2)/3
+        } else {
+            return "";
+        }
+    };
+
+    // this.getCountText=function(remainder, beatNumber, level){
+    //     //A "tuplet" level is a compound level, needs changing
+    //     if(level.tuplet){
+    //         return remainder === "0.000" ? "" : COMPOUND_COUNT_STRINGS[remainder.toString];
+    //     } else {
+    //         return remainder === "0.000" ? "" : SIMPLE_COUNT_STRINGS[remainder.toString];
+    //     }
+    // }
 };
