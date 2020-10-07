@@ -67,8 +67,7 @@ function notationPanel(options){
 
   this.totalTicks = function(){
     return this.notesToTicks(this.notes);
-  }
-  
+  };
   
   this.resizeContents = function(){
     let width = this.blockEl.clientWidth;

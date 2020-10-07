@@ -348,6 +348,9 @@ const toggleCounts = function(){
     pg.removeCounts();
   }
   pg.redraw();
+  const button = document.getElementById("counts-toggle-button");
+  button.className = "control-button item "+ (countsOn ? "selected" : "");
+  button.innerHTML = "Counts: " + (countsOn ? "On": "Off")
 }
 
 

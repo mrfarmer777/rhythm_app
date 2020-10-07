@@ -286,12 +286,10 @@ const renderBlockElements = function(blocksEls,targetEl){
     blocksEls.forEach((b)=>{
         b.el.className = "item block " +(b.selected ? "selected":"");
         targetEl.appendChild(b.el);
-    });
-    blocksEls.forEach((b)=>{
         b.np.updateNotation(b.noteString);
-        b.np.render();
         b.beatLength = b.np.beatLength();
-
+        b.np.render();
+        b.np.render();
     });
 };
 
@@ -302,7 +300,6 @@ const renderBlocks = function(blocksToDisplay){
     blockSubsetContainer.className = "container item block-subset-container";
     target.appendChild(blockSubsetContainer);
     renderBlockElements(blocksToDraw, blockSubsetContainer);
-
 };
 
 const getSelectedBlocks = function(){
