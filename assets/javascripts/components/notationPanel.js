@@ -78,6 +78,7 @@ function notationPanel(options){
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
+
     this.stave
       .setConfigForLine(2, {visible: (this.panelType==="passage" ? true : false)})
       .setConfigForLine(0, {visible: false})
@@ -88,17 +89,15 @@ function notationPanel(options){
     if(this.panelType==="passage"){
       this.stave.addClef('percussion');
       this.stave.addTimeSignature(this.timeSignature);
+      
+      this.stave2 = new VF.Stave(width*0.00, 110, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
+      this.stave2
+      .setConfigForLine(2, {visible: true})
+      .setConfigForLine(0, {visible: false})
+      .setConfigForLine(1, {visible: false})
+      .setConfigForLine(3, {visible: false})
+      .setConfigForLine(4, {visible: false});
     }
-    
-    
-    this.stave2 = new VF.Stave(width*0.00, 110, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
-    this.stave2
-    .setConfigForLine(2, {visible: true})
-    .setConfigForLine(0, {visible: false})
-    .setConfigForLine(1, {visible: false})
-    .setConfigForLine(3, {visible: false})
-    .setConfigForLine(4, {visible: false});
-  
   };
   
   this.reset = function(){
@@ -112,6 +111,18 @@ function notationPanel(options){
   this.render = function(){
     this.resizeContents();
     let renderContext = this.context;
+    if (this.panelType !== "passage"){
+      let scaleFactor;
+      if(this.notes.length > 10){
+        scaleFactor = 0.50; 
+        this.stave.setY(24);
+      } else {
+        scaleFactor = 0.75;
+        this.stave.setY(0);
+      }
+      renderContext.scale(scaleFactor, scaleFactor);
+      this.stave.setWidth(this.stave.width/scaleFactor);
+    }
 
     this.stave.setContext(renderContext).draw();
     
@@ -127,6 +138,7 @@ function notationPanel(options){
       voice1.addTickables(this.notes);
      
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
+
       let compoundLevelNames = getCompoundLevelNames();
       let beams = VF.Beam.generateBeams(voice1.tickables, {groups: [compoundLevelNames.includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);

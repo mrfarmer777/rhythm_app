@@ -4,7 +4,9 @@ const SIMPLE_COUNT_STRINGS = {
     "0.750":"e",
     "0.333":"ta",
     "0.667":"te",
-    "1.000":""
+    "1.000":"",
+    "0.833":"&",
+    "0.167":"&",
 };
 
 const COMPOUND_COUNT_STRINGS = {
@@ -14,7 +16,7 @@ const COMPOUND_COUNT_STRINGS = {
     "0.333":"ta",
     "0.667":"te",
     "0.167":"&",
-    "0.833":"&"
+    "0.833":"&",
 }
 
 const SMALLEST_DURATION = 16;
