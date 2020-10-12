@@ -71,6 +71,7 @@ const passageGenerator = function(blocks){
         this.tuplets=[];
         this.tuplets2=[];
         this.beatLength=this.measureLength*this.measureBeats;
+        passageGenerated = false;
         this.np.reset();
     };
 
@@ -251,6 +252,7 @@ const passageGenerator = function(blocks){
                 this.drawTuplets(this.tuplets2);
             }   
         }
+        passageGenerated = true;
     };
 
     this.addCountsToNotes = function(voice){
@@ -279,7 +281,6 @@ const passageGenerator = function(blocks){
     this.createBeatCountsVoice = function(noteVoice){
         let countsVoice = new VF.Voice({ num_beats: noteVoice.time.num_beats, beat_value: noteVoice.time.beat_value })
         let ticksPerBeat = noteVoice.time.resolution/noteVoice.time.beat_value
-        console.log(ticksPerBeat, this.quaverTicks);
         
         noteVoice.tickables.forEach((t)=>{
             let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;

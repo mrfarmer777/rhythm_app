@@ -5,8 +5,10 @@ const createButton = function(levelObject){
     let b; 
     if(1 <= parseInt(levelObject.id) && parseInt(levelObject.id) <= 8){
         //Hard-coded levels that are part of the project
-        b = document.createElement("img");
-        b.setAttribute("src",levelObject.imgUrl);
+        b = document.createElement("div");
+        i = document.createElement("img");
+        i.setAttribute("src",levelObject.imgUrl);
+        b.appendChild(i);
     } else {
         b = document.createElement("div")
         b.innerHTML = levelObject.id;

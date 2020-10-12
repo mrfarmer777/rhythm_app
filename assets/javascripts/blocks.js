@@ -244,7 +244,6 @@ const rhythmBlockElement = function(block){
             beatsRemaining = (levelObj.measureBeats - this.beatLength)/3;
         }
         if(beatsRemaining > 0 && beatsRemaining%1 > 0.001 ){
-            console.log(beatsRemaining%1);
             this.errors.push("The note string includes partial beats.")
         }
         return this.errors.length === 0        

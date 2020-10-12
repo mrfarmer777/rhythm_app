@@ -41,6 +41,8 @@ let tupletsOn = false;
 
 let countsOn = false;
 
+let passageGenerated=false;
+
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -342,12 +344,18 @@ const toggleTuplets = function(){
 
 const toggleCounts = function(){
   countsOn = !countsOn;
-  if(countsOn){
-    pg.showCounts();
-  } else {
-    pg.removeCounts();
+  
+  if(passageGenerated){
+    if(countsOn){
+      pg.showCounts();
+    } else {
+      pg.removeCounts();
+    }  
+    pg.redraw();
   }
-  pg.redraw();
+  
+  
+  
   const button = document.getElementById("counts-toggle-button");
   button.className = "control-button item "+ (countsOn ? "selected" : "");
   button.innerHTML = "Counts: " + (countsOn ? "On": "Off")
@@ -359,8 +367,8 @@ const toggleCounts = function(){
 //Initialization
 activeLevel = getLevel(level);
  
-const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4 });
-const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 });
+const SimpleLevels = Levels.filter((l) => {  return l.tuplet===false });
+const CompoundLevels = Levels.filter((l) => { return l.tuplet===true });
 
 const getCompoundLevelNames = function(){
   const names = CompoundLevels.map((l)=>{ return l.name })
