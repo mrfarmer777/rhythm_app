@@ -77,17 +77,10 @@ const durationCharacters = {
 
     "(":"(", //passing through triplet indicators
     ")":")",
+    "-":"-", //passing through tie indicators
 };
 
 
-//This is deprecated
-// const levelTimeSignatures = {
-//   "1": {"beats": 4, "quaver" : 4 },
-//   "2": {"beats": 4, "quaver" : 4 },
-//   "3": {"beats": 2, "quaver" : 4 },
-//   "4": {"beats": 4, "quaver" : 4 },
-//   "5": {"beats": 6, "quaver" : 8 },
-// }
 
 const getTimeSigBeats = function(){
   return activeLevel.measureBeats;
@@ -124,6 +117,8 @@ function notesFromString(noteString){
     } else if(dur === "(" ) {
       tickMultiplier = 1;
     } else if(dur === ")"){
+      tickMultiplier = 1;
+    } else if(dur === "-"){
       tickMultiplier = 1;
     } else {
       sn = new VF.StaveNote({
@@ -167,10 +162,36 @@ const tupletsIndecesFromString = function(noteString){
       result.push(tupletStartStopIndeces); 
       tupletStartStopIndeces = []; //clear out the start/stop indeces
     } else if(noteChars.includes(char)) { 
-      noteCount ++; //iterate the note count because a note will be added
+      noteCount++; //iterate the note count because a note will be added
     }
   })  
   return result;
+}
+
+const createTies = function(rhythmString, notes){
+  const tieIndeces = tieIndicesFromString(rhythmString, notes);
+  const ties = tieIndeces.map((ti)=>{
+    let tie = new VF.StaveTie({
+      first_note: notes[ti[0]],
+      last_note:  notes[ti[1]]
+    });
+    return tie;
+  })
+  return ties;
+}
+
+const tieIndicesFromString = function(rhythmString){
+  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]
+  noteCount = 0;
+  let tieStartStopIndeces = [];
+  rhythmString.split('').forEach((char, i)=>{
+    if(char === "-"){
+      tieStartStopIndeces.push([noteCount-1, noteCount]);
+    } else if(noteChars.includes(char)){
+      noteCount++;
+    }
+  })
+  return tieStartStopIndeces;
 }
 
 //Forcing all blocks to draw for development purposes

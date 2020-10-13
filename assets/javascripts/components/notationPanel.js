@@ -13,6 +13,9 @@ function notationPanel(options){
   this.tuplets=[];
   this.tuplets2=[];  
 
+  this.ties = [];
+  this.ties2 = [];
+
   //Time signature handling
   this.numberOfMeasures = (this.panelType==="passage" ? 8:1);
   this.numberOfBeats = options.timeSigBeats;
@@ -36,6 +39,7 @@ function notationPanel(options){
   this.updateNotation=function(rhythmString){
     this.notes = notesFromString(rhythmString);
     this.tuplets = createTuplets(rhythmString, this.notes);
+    this.ties = createTies(rhythmString, this.notes);
   };
   
   this.notesToBeats = function(notes, quaver){
@@ -74,7 +78,7 @@ function notationPanel(options){
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.00, -12, width*0.98, {
+    this.stave = new VF.Stave(width*0.01, -12, width*0.98, {
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
@@ -90,7 +94,7 @@ function notationPanel(options){
       this.stave.addClef('percussion');
       this.stave.addTimeSignature(this.timeSignature);
       
-      this.stave2 = new VF.Stave(width*0.00, 110, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
+      this.stave2 = new VF.Stave(width*0.01, 110, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
       this.stave2
       .setConfigForLine(2, {visible: true})
       .setConfigForLine(0, {visible: false})
@@ -105,6 +109,8 @@ function notationPanel(options){
     this.notes2=[];
     this.tuplets=[];
     this.tuplets2=[];
+    this.ties=[];
+    this.ties2=[];
     this.context.clear();
   };
   
@@ -119,9 +125,15 @@ function notationPanel(options){
       } else {
         scaleFactor = 0.75;
         this.stave.setY(0);
+        this.stave.setX(-3);
       }
       renderContext.scale(scaleFactor, scaleFactor);
       this.stave.setWidth(this.stave.width/scaleFactor);
+    } else {
+      scaleFactor=0.90;
+      renderContext.scale(scaleFactor, scaleFactor);
+      this.stave.setWidth(this.stave.width/scaleFactor);
+      this.stave2.setWidth(this.stave2.width/scaleFactor);
     }
 
     this.stave.setContext(renderContext).draw();
@@ -145,7 +157,10 @@ function notationPanel(options){
       this.tuplets.forEach((t)=>{
         t.setContext(renderContext).draw();
       })
-      
+
+      this.ties.forEach((t)=>{
+        t.setContext(renderContext).draw();
+      })      
      
       beams.forEach((b) => {
         b.setContext(this.context).draw(); //draw the beams

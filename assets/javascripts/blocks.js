@@ -250,7 +250,7 @@ const rhythmBlockElement = function(block){
     }
 
     this.noteStringValid = function(){
-        return this.noteString.match(/[^wWhHqQeEsS.()]+/)===null
+        return this.noteString.match(/[^wWhHqQeEsS.()-]+/)===null
     }
 };
 

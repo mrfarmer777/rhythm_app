@@ -21,6 +21,8 @@ const COMPOUND_COUNT_STRINGS = {
 
 const SMALLEST_DURATION = 16;
 
+const SCALE_FACTOR = 0.90;
+
 
 const passageGenerator = function(blocks){
     this.el = document.getElementById("target");
@@ -48,6 +50,9 @@ const passageGenerator = function(blocks){
     this.tuplets=[];
     this.tuplets2=[];
 
+    this.ties = [];
+    this.ties2 = [];
+
     this.getBeamGroup = function(beats, quaver){
         return new VF.Fraction(beats, quaver);
     };
@@ -70,6 +75,8 @@ const passageGenerator = function(blocks){
         this.noteGroups2=[];
         this.tuplets=[];
         this.tuplets2=[];
+        this.ties=[];
+        this.ties2=[];
         this.beatLength=this.measureLength*this.measureBeats;
         passageGenerated = false;
         this.np.reset();
@@ -78,7 +85,7 @@ const passageGenerator = function(blocks){
     this.redraw=function(){
         this.np.reset();
         this.np.render();
-        this.np.context.setFont
+        this.np.context.setFont;
         
         this.formatter.joinVoices([this.voice1])
             .joinVoices([this.voice1Counts])
@@ -144,6 +151,9 @@ const passageGenerator = function(blocks){
         this.np.reset();
         this.np.resizeContents();
         this.refresh();
+        this.np.context.scale(SCALE_FACTOR, SCALE_FACTOR);
+        this.np.stave.setWidth(this.np.stave.width/SCALE_FACTOR);
+        this.np.stave2.setWidth(this.np.stave2.width/SCALE_FACTOR);
 
         // Setting the context here so it is available for the textNotes which need it for some reason. 
         this.np.stave.setContext(this.np.context).draw();  //draw the stave
@@ -169,14 +179,15 @@ const passageGenerator = function(blocks){
                 let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                 let notes = notesFromString(rhy); //build notes from the rhythm string
                 let blockTuplets = createTuplets(rhy, notes);
+                let blockTies = createTies(rhy, notes);
                 this.np.tuplets = this.np.tuplets.concat(blockTuplets);
                 this.tuplets = this.tuplets.concat(blockTuplets);
+                this.ties = this.ties.concat(blockTies);
                 let blockBeats = this.np.notesToBeats(notes, this.quaver);
                 
                 if(rhy.includes("s") || rhy.includes("e")){
                     this.noteGroups.push(notes);
                 }
-                
                 this.voice1.addTickables(notes);
             }
 
@@ -184,6 +195,7 @@ const passageGenerator = function(blocks){
                 this.addCountsToNotes(this.voice1);
             }
             this.voice1Counts = this.createBeatCountsVoice(this.voice1);
+            this.voice1Blank = this.createBlankVoice(this.voice1);
 
             this.noteGroups.forEach((ng)=>{
                 this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
@@ -200,6 +212,7 @@ const passageGenerator = function(blocks){
 
             this.drawBeamGroups(this.beamGroups);
             this.drawTuplets(this.tuplets);
+            this.drawTies(this.ties);
             
             if(this.measureLength > 4){
                 while(!this.voice2.isComplete()){ //while the voice is not filled...
@@ -216,8 +229,10 @@ const passageGenerator = function(blocks){
                     let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                     let notes = notesFromString(rhy); //build notes from the rhythm string
                     let blockTuplets = createTuplets(rhy, notes);
+                    let blockTies = createTies(rhy, notes);
                     this.np.tuplets2 = this.np.tuplets2.concat(blockTuplets);
                     this.tuplets2 = this.tuplets2.concat(blockTuplets);
+                    this.ties2 = this.ties2.concat(blockTies);
 
                     if(rhy.includes("s") || rhy.includes("e")){
                         this.noteGroups2.push(notes);
@@ -250,6 +265,7 @@ const passageGenerator = function(blocks){
                 this.voice2.draw(this.np.context, this.np.stave2);
                 this.drawBeamGroups(this.beamGroups2);     
                 this.drawTuplets(this.tuplets2);
+                this.drawTies(this.ties2);
             }   
         }
         passageGenerated = true;
@@ -315,6 +331,34 @@ const passageGenerator = function(blocks){
         return countsVoice;
     };
 
+    this.createBlankVoice = function(noteVoice){
+        let blankVoice = new VF.Voice({ num_beats: noteVoice.time.num_beats, beat_value: noteVoice.time.beat_value })
+        let ticksPerBeat = noteVoice.time.resolution/noteVoice.time.beat_value
+        let numberOfSmallestDurations = (blankVoice.totalTicks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver);
+        let ticksPerMeasure = ticksPerBeat * this.np.measureBeats;
+
+        for(let i=0; i < numberOfSmallestDurations; i++){
+            let tn = new Vex.Flow.TextNote({
+                text: "",
+                font: {
+                    family: "Arial",
+                    size: 10,
+                    weight: ""
+                },
+                duration: this.smallestDuration.toString(),               
+            }).setLine(9)
+            .setStave(this.np.stave)
+            .setJustification(Vex.Flow.TextNote.Justification.CENTER);
+            blankVoice.addTickable(tn)
+            if(blankVoice.ticksUsed.value()%ticksPerMeasure < 0.01){
+                let bar = new VF.BarNote(VF.Barline.type.SINGLE);
+                blankVoice.addTickable(bar);
+            }
+        }
+        
+        return blankVoice;
+    };
+
     this.measureBeatsRemaining = function(){
         const measureRemainder = this.beatsRemaining()%this.measureBeats;
         return  ( measureRemainder === 0 ? this.measureBeats : measureRemainder );
@@ -330,6 +374,12 @@ const passageGenerator = function(blocks){
 
     this.drawTuplets = function(tuplets){
         tuplets.forEach((t)=>{
+            t.setContext(this.np.context).draw();
+        })
+    };
+
+    this.drawTies = function(ties){
+        ties.forEach((t)=>{
             t.setContext(this.np.context).draw();
         })
     };
