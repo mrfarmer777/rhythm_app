@@ -279,8 +279,8 @@ const passageGenerator = function(blocks){
         let ticksUsed = 0;
         let notes = voice.tickables;
         notes.forEach((n)=>{
-            let ticksRemaining = (voice.totalTicks.value()-ticksUsed)
-            let beatNumber = ((Math.round((ticksUsed/ticksPerBeat))%this.measureBeats)+1).toFixed(0);
+            let ticksRemaining = (voice.totalTicks.value()-ticksUsed).toFixed(0);
+            let beatNumber = ((Math.round((ticksUsed/ticksPerBeat))%this.measureBeats)+1);
             let remainder = ((ticksRemaining/ticksPerBeat)%1).toFixed(3);
             let countingText = remainder === "0.000" ? "" : countStrings[remainder.toString()]
             if(n.attrs.type === "StaveNote"){ //Skipping BarNotes which can't receive annotations
@@ -307,10 +307,11 @@ const passageGenerator = function(blocks){
                 let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver)
                 for(let i = 0; i < numberOfSmallestDurations; i++){
                     beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
+                    let remainder = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(ticksPerBeat)
                     if(activeLevel.tuplet){
                         beatNumber = this.getCompoundBigBeat(beatNumber);
                     }
-                    let countText = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(ticksPerBeat) === 0 ? beatNumber : "";
+                    let countText = remainder < 10 ? beatNumber : "";
                     let tn = new Vex.Flow.TextNote({
                         text: countText,
                         font: {
