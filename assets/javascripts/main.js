@@ -108,10 +108,10 @@ function notesFromString(noteString){
       let sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
-        duration: prevDur+"d",
+        duration: (prevDur.includes("r") ? prevDur[0] + "d" + prevDur[1] : prevDur+"d"),
         auto_stem: false,
         stem_direction: 1
-      }).addDotToAll();
+      }).addDot(0);
       //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
     } else if(dur === "(" ) {
