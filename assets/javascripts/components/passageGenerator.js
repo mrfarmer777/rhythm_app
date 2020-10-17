@@ -1,22 +1,22 @@
 const SIMPLE_COUNT_STRINGS = {
-    "0.500":"&",
+    "0.500":"+",
     "0.250":"a",
     "0.750":"e",
     "0.333":"ta",
-    "0.667":"te",
+    "0.667":"ti",
     "1.000":"",
-    "0.833":"&",
-    "0.167":"&",
+    "0.833":"+",
+    "0.167":"+",
 };
 
 const COMPOUND_COUNT_STRINGS = {
-    "0.500":"&",
+    "0.500":"+",
     "0.250":"a",
     "0.750":"e",
     "0.333":"ta",
-    "0.667":"te",
-    "0.167":"&",
-    "0.833":"&",
+    "0.667":"ti",
+    "0.167":"+",
+    "0.833":"+",
 }
 
 const SMALLEST_DURATION = 16;
@@ -284,7 +284,7 @@ const passageGenerator = function(blocks){
             let remainder = ((ticksRemaining/ticksPerBeat)%1).toFixed(3);
             let countingText = remainder === "0.000" ? "" : countStrings[remainder.toString()]
             if(n.attrs.type === "StaveNote"){ //Skipping BarNotes which can't receive annotations
-                if(n.ticks.denominator===3 && remainder==="0.000"){
+                if(n.tuplet && remainder==="0.000"){
                     n.addAnnotation(0, new VF.Annotation(beatNumber.toString()).setVerticalJustification(3).setJustification(2),);
                 } else {
                     n.addAnnotation(0, new VF.Annotation(countingText).setVerticalJustification(3).setJustification(2),);
@@ -301,7 +301,7 @@ const passageGenerator = function(blocks){
         noteVoice.tickables.forEach((t)=>{
             let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
 
-            if(t.attrs.type==="BarNote" || t.ticks.denominator===3){
+            if(t.attrs.type==="BarNote" || t.tuplet){
                 countsVoice.addTickable(t);
             } else if(t.getCategory()==="stavenotes") {
                 let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver)
