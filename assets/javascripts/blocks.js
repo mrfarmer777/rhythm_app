@@ -28,6 +28,26 @@ const blockData = [
     { level: "3", rhythmSet: "e", noteString: "se." },
     { level: "3", rhythmSet: "f", noteString: "ses" },
 
+    //4e implies explicit definitions of blocks copied from easier levels
+    //These are here temporarily until multiple levels can be designated
+    //for the same blocks
+    { level: "4e", rhythmSet: "a", noteString: "w" },
+    { level: "4e", rhythmSet: "a", noteString: "h" },
+    { level: "4e", rhythmSet: "a", noteString: "h." },
+    { level: "4e", rhythmSet: "a", noteString: "q" },
+    { level: "4e", rhythmSet: "a", noteString: "ee" },
+    { level: "4e", rhythmSet: "a", noteString: "q.e" },
+    { level: "4e", rhythmSet: "a", noteString: "eq." },
+    { level: "4e", rhythmSet: "a", noteString: "eqe" },
+
+    { level: "4-r", rhythmSet: "a", noteString: "H" },
+    { level: "4-r", rhythmSet: "a", noteString: "H." },
+    { level: "4-r", rhythmSet: "a", noteString: "Q" },
+    { level: "4-r", rhythmSet: "a", noteString: "Q.e" },
+    { level: "4-r", rhythmSet: "a", noteString: "Ee" },
+    { level: "4-r", rhythmSet: "a", noteString: "Eqe" },
+    { level: "4-r", rhythmSet: "a", noteString: "Eq." },
+
     { level: "1-r", rhythmSet: "a-r", noteString: "Qqqq" },
     { level: "1-r", rhythmSet: "a-r", noteString: "Qqh" },
     { level: "1-r", rhythmSet: "a-r", noteString: "Qhq" },
