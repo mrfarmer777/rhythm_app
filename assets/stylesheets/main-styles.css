@@ -47,8 +47,6 @@ a.active{
   font-weight: bolder;
 }
 
-
-
 #intro-modal h1{
   width: 100%;
   color: var(--primary-1);
@@ -68,8 +66,19 @@ a.active{
   border-radius: 5px;
   margin: 3px;
   filter: brightness(80%);
+  object-fit: scale-down;
+  justify-content: center;
+  text-align: center;
+  vertical-align: middle;
 }
 
+.level-button img {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
 
 .level-button.selected {
   border: 2px solid var(--highlight);
@@ -101,7 +110,6 @@ a.active{
 
 #difficulty-buttons-container{
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -133,7 +141,7 @@ a.active{
   color: var(--white);
 }
 
-.difficulty-button:hover:not(.selected), .level-button:hover:not(.selected) {
+.difficulty-button:hover:not(.selected) {
   background-color: var(--primary-2hov);
 }
 
@@ -257,7 +265,7 @@ a.active{
 /* CONTROL BUTTONS ////////*/
 .control-button{
   font-family: Raleway, sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   background-color: var(--primary-2);
   border: 1px solid var(--primary-2);
   border-radius: 3px;
@@ -310,6 +318,12 @@ a.active{
   filter: brightness(90%);
 }
 
+.level-button:not(.selected):hover{
+  filter : brightness(85%);
+  box-shadow: 0 0 5px var(--highlight);
+}
+  
+
 
 
 
@@ -326,7 +340,7 @@ a.active{
   display: flex;
   flex-direction: row;
   flex-grow: 1;
-  height:200px;
+  height:250px;
   width: 90vw;
 }
 
@@ -353,6 +367,7 @@ canvas {
   display: flex;
   flex-direction: row;
   align-items: center;
+  min-width: 30%;
 }
 
 #bpm{

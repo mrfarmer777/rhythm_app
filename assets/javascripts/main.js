@@ -39,6 +39,10 @@ let restsOn = false;
 
 let tupletsOn = false;
 
+let countsOn = false;
+
+let passageGenerated=false;
+
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -73,17 +77,10 @@ const durationCharacters = {
 
     "(":"(", //passing through triplet indicators
     ")":")",
+    "-":"-", //passing through tie indicators
 };
 
 
-//This is deprecated
-// const levelTimeSignatures = {
-//   "1": {"beats": 4, "quaver" : 4 },
-//   "2": {"beats": 4, "quaver" : 4 },
-//   "3": {"beats": 2, "quaver" : 4 },
-//   "4": {"beats": 4, "quaver" : 4 },
-//   "5": {"beats": 6, "quaver" : 8 },
-// }
 
 const getTimeSigBeats = function(){
   return activeLevel.measureBeats;
@@ -111,15 +108,17 @@ function notesFromString(noteString){
       let sn = new VF.StaveNote({
         clef: "treble",
         keys: ["a/4"],
-        duration: prevDur+"d",
+        duration: (prevDur.includes("r") ? prevDur[0] + "d" + prevDur[1] : prevDur+"d"),
         auto_stem: false,
         stem_direction: 1
-      }).addDotToAll();
+      }).addDot(0);
       //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
     } else if(dur === "(" ) {
       tickMultiplier = 1;
     } else if(dur === ")"){
+      tickMultiplier = 1;
+    } else if(dur === "-"){
       tickMultiplier = 1;
     } else {
       sn = new VF.StaveNote({
@@ -142,7 +141,8 @@ const createTuplets = function(rhythmString, notes){
   let tuplets = tupletIndeces.map((is) => {
     // let tupletedNotes = np.notes.slice(is[0], is[1]);
     // tupletedNotes.forEach((n)=> n.setIntrinsicTicks(n.ticks.value()*0.667))
-    let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]), {num_notes: 3, ratioed: false});;
+    const tupletedNotes = notes.slice(is[0], is[1]);
+    let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]), {num_notes: (tupletedNotes.length === 6 ? 6 : 3), notes_occupied: (tupletedNotes.length === 6 ? 4 : 2), ratioed: false });;
     return tuplet;
   })
   return tuplets;
@@ -163,10 +163,36 @@ const tupletsIndecesFromString = function(noteString){
       result.push(tupletStartStopIndeces); 
       tupletStartStopIndeces = []; //clear out the start/stop indeces
     } else if(noteChars.includes(char)) { 
-      noteCount ++; //iterate the note count because a note will be added
+      noteCount++; //iterate the note count because a note will be added
     }
   })  
   return result;
+}
+
+const createTies = function(rhythmString, notes){
+  const tieIndeces = tieIndicesFromString(rhythmString, notes);
+  const ties = tieIndeces.map((ti)=>{
+    let tie = new VF.StaveTie({
+      first_note: notes[ti[0]],
+      last_note:  notes[ti[1]]
+    });
+    return tie;
+  })
+  return ties;
+}
+
+const tieIndicesFromString = function(rhythmString){
+  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]
+  noteCount = 0;
+  let tieStartStopIndeces = [];
+  rhythmString.split('').forEach((char, i)=>{
+    if(char === "-"){
+      tieStartStopIndeces.push([noteCount-1, noteCount]);
+    } else if(noteChars.includes(char)){
+      noteCount++;
+    }
+  })
+  return tieStartStopIndeces;
 }
 
 //Forcing all blocks to draw for development purposes
@@ -330,7 +356,7 @@ const toggleTuplets = function(){
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
   button.className = "control-button item "+(tupletsOn ? "selected": "");
-  let restsButton = document.getElementById("rests-toggle-button")
+  let restsButton = document.getElementById("rests-toggle-button");
   restsButton.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
 
 
@@ -338,14 +364,33 @@ const toggleTuplets = function(){
   renderLevelButtons((tupletsOn ? CompoundLevels : SimpleLevels), levelButtonTarget, level);
 };
 
+const toggleCounts = function(){
+  countsOn = !countsOn;
+  
+  if(passageGenerated){
+    if(countsOn){
+      pg.showCounts();
+    } else {
+      pg.removeCounts();
+    }  
+    pg.redraw();
+  }
+  
+  
+  
+  const button = document.getElementById("counts-toggle-button");
+  button.className = "control-button item "+ (countsOn ? "selected" : "");
+  button.innerHTML = "Counts: " + (countsOn ? "On": "Off")
+}
+
 
 
 
 //Initialization
 activeLevel = getLevel(level);
  
-const SimpleLevels = Levels.filter((l) => {  return l.measureBeats===4 });
-const CompoundLevels = Levels.filter((l) => { return l.measureBeats===6 });
+const SimpleLevels = Levels.filter((l) => {  return l.tuplet===false });
+const CompoundLevels = Levels.filter((l) => { return l.tuplet===true });
 
 const getCompoundLevelNames = function(){
   const names = CompoundLevels.map((l)=>{ return l.name })

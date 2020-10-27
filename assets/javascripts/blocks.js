@@ -28,6 +28,26 @@ const blockData = [
     { level: "3", rhythmSet: "e", noteString: "se." },
     { level: "3", rhythmSet: "f", noteString: "ses" },
 
+    //4e implies explicit definitions of blocks copied from easier levels
+    //These are here temporarily until multiple levels can be designated
+    //for the same blocks
+    { level: "4e", rhythmSet: "a", noteString: "w" },
+    { level: "4e", rhythmSet: "a", noteString: "h" },
+    { level: "4e", rhythmSet: "a", noteString: "h." },
+    { level: "4e", rhythmSet: "a", noteString: "q" },
+    { level: "4e", rhythmSet: "a", noteString: "ee" },
+    { level: "4e", rhythmSet: "a", noteString: "q.e" },
+    { level: "4e", rhythmSet: "a", noteString: "eq." },
+    { level: "4e", rhythmSet: "a", noteString: "eqe" },
+
+    { level: "4-r", rhythmSet: "a", noteString: "H" },
+    { level: "4-r", rhythmSet: "a", noteString: "H." },
+    { level: "4-r", rhythmSet: "a", noteString: "Q" },
+    { level: "4-r", rhythmSet: "a", noteString: "Q.e" },
+    { level: "4-r", rhythmSet: "a", noteString: "Ee" },
+    { level: "4-r", rhythmSet: "a", noteString: "Eqe" },
+    { level: "4-r", rhythmSet: "a", noteString: "Eq." },
+
     { level: "1-r", rhythmSet: "a-r", noteString: "Qqqq" },
     { level: "1-r", rhythmSet: "a-r", noteString: "Qqh" },
     { level: "1-r", rhythmSet: "a-r", noteString: "Qhq" },
@@ -243,14 +263,14 @@ const rhythmBlockElement = function(block){
         if(levelObj.compound){
             beatsRemaining = (levelObj.measureBeats - this.beatLength)/3;
         }
-        if(beatsRemaining > 0 && beatsRemaining%1 !==0 ){
+        if(beatsRemaining > 0 && beatsRemaining%1 > 0.01 ){
             this.errors.push("The note string includes partial beats.")
         }
         return this.errors.length === 0        
     }
 
     this.noteStringValid = function(){
-        return this.noteString.match(/[^wWhHqQeEsS.()]+/)===null
+        return this.noteString.match(/[^wWhHqQeEsS.()-]+/)===null
     }
 };
 
@@ -286,12 +306,10 @@ const renderBlockElements = function(blocksEls,targetEl){
     blocksEls.forEach((b)=>{
         b.el.className = "item block " +(b.selected ? "selected":"");
         targetEl.appendChild(b.el);
-    });
-    blocksEls.forEach((b)=>{
         b.np.updateNotation(b.noteString);
-        b.np.render();
         b.beatLength = b.np.beatLength();
-
+        b.np.render();
+        b.np.render();
     });
 };
 
@@ -302,7 +320,6 @@ const renderBlocks = function(blocksToDisplay){
     blockSubsetContainer.className = "container item block-subset-container";
     target.appendChild(blockSubsetContainer);
     renderBlockElements(blocksToDraw, blockSubsetContainer);
-
 };
 
 const getSelectedBlocks = function(){

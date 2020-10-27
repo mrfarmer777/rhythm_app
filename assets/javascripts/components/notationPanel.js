@@ -12,6 +12,10 @@ function notationPanel(options){
 
   this.tuplets=[];
   this.tuplets2=[];  
+
+  this.ties = [];
+  this.ties2 = [];
+
   //Time signature handling
   this.numberOfMeasures = (this.panelType==="passage" ? 8:1);
   this.numberOfBeats = options.timeSigBeats;
@@ -35,6 +39,7 @@ function notationPanel(options){
   this.updateNotation=function(rhythmString){
     this.notes = notesFromString(rhythmString);
     this.tuplets = createTuplets(rhythmString, this.notes);
+    this.ties = createTies(rhythmString, this.notes);
   };
   
   this.notesToBeats = function(notes, quaver){
@@ -66,18 +71,18 @@ function notationPanel(options){
 
   this.totalTicks = function(){
     return this.notesToTicks(this.notes);
-  }
-  
+  };
   
   this.resizeContents = function(){
     let width = this.blockEl.clientWidth;
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.00, -12, width*0.98, {
+    this.stave = new VF.Stave(width*0.01, -12, width*0.98, {
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
+
     this.stave
       .setConfigForLine(2, {visible: (this.panelType==="passage" ? true : false)})
       .setConfigForLine(0, {visible: false})
@@ -88,17 +93,15 @@ function notationPanel(options){
     if(this.panelType==="passage"){
       this.stave.addClef('percussion');
       this.stave.addTimeSignature(this.timeSignature);
+      
+      this.stave2 = new VF.Stave(width*0.01, 110, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
+      this.stave2
+      .setConfigForLine(2, {visible: true})
+      .setConfigForLine(0, {visible: false})
+      .setConfigForLine(1, {visible: false})
+      .setConfigForLine(3, {visible: false})
+      .setConfigForLine(4, {visible: false});
     }
-    
-    
-    this.stave2 = new VF.Stave(width*0.00, 70, width*0.98).addClef('percussion').setEndBarType(VF.Barline.type.END);
-    this.stave2
-    .setConfigForLine(2, {visible: true})
-    .setConfigForLine(0, {visible: false})
-    .setConfigForLine(1, {visible: false})
-    .setConfigForLine(3, {visible: false})
-    .setConfigForLine(4, {visible: false});
-  
   };
   
   this.reset = function(){
@@ -106,15 +109,32 @@ function notationPanel(options){
     this.notes2=[];
     this.tuplets=[];
     this.tuplets2=[];
+    this.ties=[];
+    this.ties2=[];
     this.context.clear();
-    //this.numberOfBeats = (["t","u","v","8"].includes(level) ? 6:4);
-    //this.quaver = (["5","6","7","8"].includes(level) ? 8:4);
-    //this.timeSignature =""+this.numberOfBeats+"/"+this.quaver;
   };
   
   this.render = function(){
     this.resizeContents();
     let renderContext = this.context;
+    if (this.panelType !== "passage"){
+      let scaleFactor;
+      if(this.notes.length > 10){
+        scaleFactor = 0.50; 
+        this.stave.setY(24);
+      } else {
+        scaleFactor = 0.75;
+        this.stave.setY(0);
+        this.stave.setX(-3);
+      }
+      renderContext.scale(scaleFactor, scaleFactor);
+      this.stave.setWidth(this.stave.width/scaleFactor);
+    } else {
+      scaleFactor=0.90;
+      renderContext.scale(scaleFactor, scaleFactor);
+      this.stave.setWidth(this.stave.width/scaleFactor);
+      this.stave2.setWidth(this.stave2.width/scaleFactor);
+    }
 
     this.stave.setContext(renderContext).draw();
     
@@ -130,13 +150,17 @@ function notationPanel(options){
       voice1.addTickables(this.notes);
      
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
+
       let compoundLevelNames = getCompoundLevelNames();
       let beams = VF.Beam.generateBeams(voice1.tickables, {groups: [compoundLevelNames.includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);
       this.tuplets.forEach((t)=>{
         t.setContext(renderContext).draw();
       })
-      
+
+      this.ties.forEach((t)=>{
+        t.setContext(renderContext).draw();
+      })      
      
       beams.forEach((b) => {
         b.setContext(this.context).draw(); //draw the beams

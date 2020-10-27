@@ -21,29 +21,28 @@
       <span width="120px"></span>
   </div>
   <div id="primary-container" class="container">
-
     <div id="panels-container" class="container">
       <div id="quaver-select-container" class="container">
         <h3 class="container">Levels:</h3>
         <div id="quaver-select-buttons">
-
         </div>
         <div id="custom-level-select-buttons">
-
         </div>
       </div>
       <div id="main-container" class="container">
         <div id="difficulty-buttons-container" class="container">
+          <div id="option-buttons-container" class="item container">
+            <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
+            <button id="counts-toggle-button" class="control-button item" onclick="toggleCounts()">Counts: Off</button>
+            <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests: Off</button>
+
+            <!--<button id="info-button" class='control-button item' href="#" onclick="startIntro()">Info</button>-->
+          </div>
+
           <div class="item container">
             <h3>Difficulty:</h3>
             <div id="difficulty-select-buttons" class="item container">
             </div>
-          </div>
-
-          <div id="option-buttons-container" class="item container">
-            <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests: Off</button>
-            <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
-            <!--<button id="info-button" class='control-button item' href="#" onclick="startIntro()">Info</button>-->
           </div>
           <!--<div id="metronome-controls" class="item container">
             <h3>Metronome: </h3>
@@ -57,7 +56,6 @@
           </canvas>
         </div>
         <div id="blocks-select-container" class="container">
-
         </div>
 
         <div id="inputs" class="container">
