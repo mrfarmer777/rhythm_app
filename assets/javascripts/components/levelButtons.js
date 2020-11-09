@@ -10,8 +10,10 @@ const createButton = function(levelObject){
         i.setAttribute("src",levelObject.imgUrl);
         b.appendChild(i);
     } else {
-        b = document.createElement("div")
-        b.innerHTML = levelObject.id;
+        b = document.createElement("div");
+        s = document.createElement("span");
+        s.innerHTML = levelObject.id;
+        b.appendChild(s);
     }
     b.className = "button-image level-button item";
     b.setAttribute("data-level", levelObject.id);
@@ -52,7 +54,7 @@ const renderLevelButtons = function(levels, targetEl, selectedLevel){
             if(1 <= parseInt(levelObj.id) && parseInt(levelObj.id) <= 8){
                 levelObj.el.setAttribute("src",levelObj.imgUrl);
             } else {
-                levelObj.el.innerHTML = levelObj.id;
+                levelObj.el.firstChild.innerHTML = levelObj.id;
             }
             targetEl.appendChild(levelObj.el);
 

@@ -345,7 +345,7 @@ const toggleRests = function(){
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
   button.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
-  button.innerHTML = "Rests: "+(restsOn ? "On" : "Off");
+  button.innerHTML = "Rests";
 };
 
 const toggleTuplets = function(){
@@ -380,7 +380,7 @@ const toggleCounts = function(){
   
   const button = document.getElementById("counts-toggle-button");
   button.className = "control-button item "+ (countsOn ? "selected" : "");
-  button.innerHTML = "Counts: " + (countsOn ? "On": "Off")
+  button.innerHTML = "Counts";
 }
 
 
