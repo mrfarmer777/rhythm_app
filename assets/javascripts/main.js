@@ -62,10 +62,10 @@ const durationCharacters = {
     "s": "16",
 
     ".": "d",   //IDEA: STill use the dot, but pop the last note out of the array, build a new one and put it back in!
-    "": "2",   //Handling dots locally, calls .addDotsToAll() method
-    "$": "4",
-    "*": "8",
-    "^": "16",
+    // "": "2",   //Handling dots locally, calls .addDotsToAll() method
+    // "$": "4",
+    // "*": "8",
+    // "^": "16",
 
     "W": "1r",  //Rest Codes
     "H": "2r",
@@ -111,7 +111,8 @@ function notesFromString(noteString){
         duration: (prevDur.includes("r") ? prevDur[0] + "d" + prevDur[1] : prevDur+"d"),
         auto_stem: false,
         stem_direction: 1
-      }).addDot(0);
+      });
+      sn.addModifier(0, new Vex.Flow.Dot())
       //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
     } else if(dur === "(" ) {
