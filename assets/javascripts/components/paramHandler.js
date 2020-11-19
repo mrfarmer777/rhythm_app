@@ -61,7 +61,7 @@ const handleQueryParams = function(){
 
     //Handling blocks-only params
     //Defaults to the level of the first valid block
-    if(paramLevel == null){
+    if(paramLevel == null && blockStringArray !== null){
       let firstParamBlock = findBlockByNoteString(Blocks, blockStringArray[0])[0];
       paramLevel = getLevel(firstParamBlock.level)
     }
@@ -95,11 +95,14 @@ const handleQueryParams = function(){
       }
       let la = paramLevel.getLevelArray();
       updateAvailableBlocks(la, difficulty);
-
-  
     } else {
       console.info("Param level not valid");
+      changeLevel(getLevel(level))
     }
+  } else {
+    changeLevel(getLevel(level));
+    changeDifficulty('a');
+    updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
   }    
 }
   

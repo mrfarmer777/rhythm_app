@@ -1,14 +1,24 @@
 const gSheetKey = "1jIuWf_NE162ME9bH6XuBOXBdKfLhgnriu0WraTjaybQ";
 const gSheetKeyTest = "1cu8G2PhkFAUESFaas6Sxj9xx3npkIS51Ynh6-0q0xHw";
 
-const levelsUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/1/public/values?alt=json`
-const blocksUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/2/public/values?alt=json`
+const levelsUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKeyTest}/1/public/values?alt=json`
+const blocksUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKeyTest}/2/public/values?alt=json`
 
 
-
-
-function getCustomRhythms(){      
-    httpGetAsync(levelsUrl, buildCustomLevels);
+async function getCustomRhythms(){      
+    const customLevels = getCustomRhythmData(levelsUrl);
+    const customBlocks = getCustomRhythmData(blocksUrl);
+    const rhythmData = [customLevels, customBlocks];
+    Promise.allSettled(rhythmData)
+        .then((results)=>{
+            buildCustomLevels(results[0].value);
+            buildCustomBlocks(results[1].value);
+        })
+        .catch((e)=>{
+            console.log(e);
+            buildFallbackRhythms();
+        })
+    // httpGetAsync(levelsUrl, buildCustomLevels);
 }
 
 function httpGetAsync(theUrl, callback){
@@ -16,20 +26,24 @@ function httpGetAsync(theUrl, callback){
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             callback(xmlHttp.responseText);
-        }
+        } 
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
     xmlHttp.send(null);
 }
 
 
+const getCustomRhythmData = async (url) => {
+    const request = await fetch(url);
+    const data = await request.json();
+    return data;
+}
+
 
 function buildCustomLevels(responseText){
-    httpGetAsync(blocksUrl, buildCustomBlocks);
-
+    // httpGetAsync(blocksUrl, buildCustomBlocks);
     let customLevels = [];
-    //TODO handle errors from response text gracefully
-    let parsedResponse = JSON.parse(responseText);
+    let parsedResponse = responseText;
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let newLevel = buildLevelFromEntry(e);
@@ -59,7 +73,7 @@ function buildCustomLevels(responseText){
 
 function buildCustomBlocks(responseText){
     let levelNames = Levels.map((l) => { return l.name });
-    let parsedResponse = JSON.parse(responseText);
+    let parsedResponse = responseText;
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let block = buildBlockFromEntry(e);

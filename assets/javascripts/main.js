@@ -1,20 +1,10 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
 
-const Levels = buildLevels();
-
-
-//Global Blocks, represents all possible rhythm block options
-const Blocks = buildRhythmBlocks(blockData);
-
-const DupBlocks = buildRhythmBlocks(dupBlockData);
-
-//Filler blocks used incase a a passageGenerator needs them to fill remaining
-//space in a passage when all available blocks are too large
-const FillerBlocks = buildRhythmBlocks(fillerBlockData);
-
-
-
+let Levels = [];
+let Blocks = [];
+let DupBlocks = [];
+let FillerBlocks =[];
 
 //Initializing MicroModal for introduction flow;
 MicroModal.init();
@@ -42,6 +32,8 @@ let tupletsOn = false;
 let countsOn = false;
 
 let passageGenerated=false;
+
+
 
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
@@ -385,9 +377,7 @@ const toggleCounts = function(){
 }
 
 
-
-
-//Initialization
+// Initialization
 activeLevel = getLevel(level);
  
 const SimpleLevels = Levels.filter((l) => {  return l.tuplet===false });
@@ -407,6 +397,9 @@ pg.np.reset();
 pg.np.render();
 
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
+
+
+
 
 
 //Handling Resizing

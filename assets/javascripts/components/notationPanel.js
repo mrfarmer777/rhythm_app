@@ -157,7 +157,7 @@ function notationPanel(options){
       
       formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);      
 
-      let compoundLevelNames = getCompoundLevelNames();
+      let compoundLevelNames = getCompoundLevelNames(CompoundLevels);
       let beams = VF.Beam.generateBeams(voice1.tickables, {groups: [compoundLevelNames.includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);
       this.tuplets.forEach((t)=>{
