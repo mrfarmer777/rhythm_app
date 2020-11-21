@@ -53,7 +53,6 @@ const separateParamBlocks = function(availableRhythmStrings, paramBlockStrings){
   return [ availableStrings, prohibitedStrings ];
 }
 
-
 const handleQueryParams = function(){    
   if(paramsPresent()){
     let paramLevel = getLevel(getParamLevel());
@@ -66,6 +65,7 @@ const handleQueryParams = function(){
       paramLevel = getLevel(firstParamBlock.level)
     }
 
+    //Valid Param Level is Included
     if(paramLevelValid(paramLevel)){
       if(restsOn !== paramLevel.includesRests){
         toggleRests();
@@ -104,10 +104,11 @@ const handleQueryParams = function(){
       updateAvailableBlocks(la, difficulty);
     } else {
       console.info("Param level not valid");
-      //set level to its default
+      //set level to the default
       changeLevel(getLevel(level))
     }
   } else {
+    //No valid params were given
     changeLevel(getLevel(level));
     changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
     updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
