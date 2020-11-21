@@ -1,5 +1,5 @@
-
 //Standard Level Data
+//This is used as a fallback for the fully custom rhythm data failing 
 const levelData = [
     {name: "1", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: []},
     {name: "1-r", quaver: 4, measureBeats: 4, active: true, compound: false, subLevels: ["1"]},
@@ -20,10 +20,8 @@ const Level = function(opts){
     this.name = opts["name"];
     this.id = opts["name"]; //added for backward compatibility
     this.imgUrl = "./assets/images/"+this.id+".png";
-    //this.restImgUrl = "./assets/images/"+this.id+"-r.png";
     this.selected = false;
     this.tuplet = opts["compound"];
-    // this.tuplet = (["5", "6", "7", "8"].includes(this.id) ? true : false); //added for backward compability
     this.quaver = opts["quaver"];
     this.measureBeats = opts["measureBeats"];
     this.active = opts["active"];
