@@ -135,11 +135,6 @@ const fillerBlockData = [
     ];
 
 
-const difficultyLevels = ["a", "b", "c", "d", "e", "f", "a-r", "b-r", "c-r", "d-r", "e-r"];
-
-
-
-//REFACTOR filter function
 const filterBlocks=function(options){
     if(options === {} ){
         return blockData;
@@ -172,13 +167,8 @@ const filterBlocksByBeatLength = function(rbes, beats){
     });
 };
 
-
 const filterBlocksByTicks = function(rbes, ticks) {
     return rbes.filter((b)=>{
-        // let notes = notesFromString(b.noteString);
-        // let totalTicks = 0;
-        // notes.forEach((n)=> { totalTicks+=n.ticks.value() })
-
         return b.np.totalTicks() <= ticks;
     });
 };
@@ -219,9 +209,6 @@ const selectAllBlocks = function(rbes){
     });
 };
 
-
-// RhythmBlockElement object definition
-//TODO Rename class to something like Block
 const rhythmBlockElement = function(block){
     this.level = block.level;
     this.rhythmSet = block.rhythmSet;
@@ -238,6 +225,8 @@ const rhythmBlockElement = function(block){
         this.np.render();
     };
     this.el = createBlockElement(this);
+
+    //TODO - pass in dynamic time signature values to notation panel instantiation
     this.np = new notationPanel({targetEl: this.el.firstChild.firstChild, panelType: "block", timeSigBeats: 4, timeSigQuaver: 4});
     
     this.render = function(){
