@@ -293,7 +293,7 @@ const checkActiveDifficulty = function(){
   const selectedBlocks = getSelectedBlocks();
   let activeDifficulty = "custom";
   availableDifficulties.forEach((d) =>{
-    const difficultyBlocks = availableBlocks.filter( (b) => { return difficultyLevels.indexOf(b.rhythmSet) <= difficultyLevels.indexOf(d) });
+    const difficultyBlocks = availableBlocks.filter( (b) => { return b.rhythmSet.includes(d) });
       if(arraysEqual(selectedBlocks, difficultyBlocks)){
         activeDifficulty = d;
       }
@@ -314,13 +314,11 @@ function arraysEqual(arr1, arr2) {
 
 
 const getAvailableDifficulties = function(blocks){
-  let res = [];
+  let difficultiesUsed = [];
   blocks.forEach((b) => {
-    if(!res.includes(b.rhythmSet)){
-      res.push(b.rhythmSet);
-    }
+    difficultiesUsed = difficultiesUsed.concat(b.rhythmSet);
   });
-  return res;
+  return new Set(difficultiesUsed);
 };
 
 const toggleRests = function(){
