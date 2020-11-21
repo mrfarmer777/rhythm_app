@@ -65,6 +65,7 @@ const handleQueryParams = function(){
       let firstParamBlock = findBlockByNoteString(Blocks, blockStringArray[0])[0];
       paramLevel = getLevel(firstParamBlock.level)
     }
+
     if(paramLevelValid(paramLevel)){
       if(restsOn !== paramLevel.includesRests){
         toggleRests();
@@ -89,19 +90,26 @@ const handleQueryParams = function(){
           }).showToast();
           console.info("Some rhythm blocks were excluded because they are not valid or unavailable in this level: " + prohibitedBlocks.join(","))
         }
-        batchSelectBlocks(availableBlocks, blockStringArray);
-        changeDifficulty('custom');
-        checkActiveDifficulty();
+        //If none of the blocks provided are in the param level
+        if(blockStringArray.length === 0){
+          changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
+        } 
+        else {
+          batchSelectBlocks(availableBlocks, blockStringArray);
+          changeDifficulty('custom');
+          checkActiveDifficulty();
+        }
       }
       let la = paramLevel.getLevelArray();
       updateAvailableBlocks(la, difficulty);
     } else {
       console.info("Param level not valid");
+      //set level to its default
       changeLevel(getLevel(level))
     }
   } else {
     changeLevel(getLevel(level));
-    changeDifficulty('a');
+    changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
     updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
   }    
 }

@@ -57,7 +57,6 @@ const renderLevelButtons = function(levels, targetEl, selectedLevel){
                 levelObj.el.firstChild.innerHTML = levelObj.id;
             }
             targetEl.appendChild(levelObj.el);
-
         }
     });
 };

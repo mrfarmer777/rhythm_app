@@ -69,7 +69,7 @@ const Level = function(opts){
 }
 
 
-const buildLevels = function(){
+const buildFallbackLevels = function(){
     let res = [];
     levelData.forEach((l)=>{
         levelInstance = new Level(l)

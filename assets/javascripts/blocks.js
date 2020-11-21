@@ -292,7 +292,7 @@ const createBlockElement = function(block){
 };
 
 //Builds all possible rhythm blocks, should only need to be called once
-const buildRhythmBlocks = function(blocks){
+const buildFallbackBlocks = function(blocks){
     let res = [];
     blocks.forEach((b) => {
         let rbe = new rhythmBlockElement(b);

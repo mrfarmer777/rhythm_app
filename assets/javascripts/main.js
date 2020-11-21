@@ -378,15 +378,33 @@ const toggleCounts = function(){
 
 
 // Initialization
-activeLevel = getLevel(level);
+//activeLevel = getLevel(level);
  
-const SimpleLevels = Levels.filter((l) => {  return l.tuplet===false });
-const CompoundLevels = Levels.filter((l) => { return l.tuplet===true });
+let SimpleLevels = [];
+let CompoundLevels = [];
 
 const getCompoundLevelNames = function(){
-  const names = CompoundLevels.map((l)=>{ return l.name })
-  return names;
+  if(CompoundLevels.length > 0){
+    const names = CompoundLevels.map((l)=>{ return l.name })
+    return names;
+  } else {
+    return [];
+  }
+  
 }
+
+const sortLevels = function(levels){
+  let simpleLevels = [];
+  let compoundLevels = [];
+  levels.forEach((l)=>{
+    if(l.tuplet){
+      compoundLevels.push(l);
+    } else {
+      simpleLevels.push(l);
+    }
+  })
+  return [simpleLevels, compoundLevels];
+};
 
 // Updating FillerBlocks so their lengths are properly filtered
 // These blocks don't otherwise get rendered, so they won't be updated

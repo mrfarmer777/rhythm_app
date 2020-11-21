@@ -135,6 +135,12 @@ function getSubLevelArray(subLevelString){
     return res;
 }
 
-
-
-
+function buildFallbackRhythms(){
+    Levels = buildFallbackLevels();
+    sortedLevels = sortLevels(Levels);
+    SimpleLevels = sortedLevels[0]
+    CompoundLevels = sortedLevels[1]
+    Blocks = buildFallbackBlocks(blockData);
+    changeLevel(getLevel(level))
+    renderLevelButtons(SimpleLevels, levelButtonTarget, level);
+}
