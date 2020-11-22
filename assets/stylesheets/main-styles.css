@@ -69,6 +69,12 @@ a.active{
   object-fit: scale-down;
   justify-content: center;
   text-align: center;
+  line-height: 50px;
+}
+
+.level-button span {
+  line-height: normal;
+  display: inline-block;
   vertical-align: middle;
 }
 

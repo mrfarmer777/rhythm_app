@@ -1,20 +1,10 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
 
-const Levels = buildLevels();
-
-
-//Global Blocks, represents all possible rhythm block options
-const Blocks = buildRhythmBlocks(blockData);
-
-const DupBlocks = buildRhythmBlocks(dupBlockData);
-
-//Filler blocks used incase a a passageGenerator needs them to fill remaining
-//space in a passage when all available blocks are too large
-const FillerBlocks = buildRhythmBlocks(fillerBlockData);
-
-
-
+let Levels = [];
+let Blocks = [];
+let DupBlocks = [];
+let FillerBlocks =[];
 
 //Initializing MicroModal for introduction flow;
 MicroModal.init();
@@ -43,6 +33,8 @@ let countsOn = false;
 
 let passageGenerated=false;
 
+
+
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -62,10 +54,10 @@ const durationCharacters = {
     "s": "16",
 
     ".": "d",   //IDEA: STill use the dot, but pop the last note out of the array, build a new one and put it back in!
-    "": "2",   //Handling dots locally, calls .addDotsToAll() method
-    "$": "4",
-    "*": "8",
-    "^": "16",
+    // "": "2",   //Handling dots locally, calls .addDotsToAll() method
+    // "$": "4",
+    // "*": "8",
+    // "^": "16",
 
     "W": "1r",  //Rest Codes
     "H": "2r",
@@ -111,7 +103,8 @@ function notesFromString(noteString){
         duration: (prevDur.includes("r") ? prevDur[0] + "d" + prevDur[1] : prevDur+"d"),
         auto_stem: false,
         stem_direction: 1
-      }).addDot(0);
+      });
+      sn.addModifier(0, new Vex.Flow.Dot())
       //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
     } else if(dur === "(" ) {
@@ -300,7 +293,7 @@ const checkActiveDifficulty = function(){
   const selectedBlocks = getSelectedBlocks();
   let activeDifficulty = "custom";
   availableDifficulties.forEach((d) =>{
-    const difficultyBlocks = availableBlocks.filter( (b) => { return difficultyLevels.indexOf(b.rhythmSet) <= difficultyLevels.indexOf(d) });
+    const difficultyBlocks = availableBlocks.filter( (b) => { return b.rhythmSet.includes(d) });
       if(arraysEqual(selectedBlocks, difficultyBlocks)){
         activeDifficulty = d;
       }
@@ -321,13 +314,11 @@ function arraysEqual(arr1, arr2) {
 
 
 const getAvailableDifficulties = function(blocks){
-  let res = [];
+  let difficultiesUsed = [];
   blocks.forEach((b) => {
-    if(!res.includes(b.rhythmSet)){
-      res.push(b.rhythmSet);
-    }
+    difficultiesUsed = difficultiesUsed.concat(b.rhythmSet);
   });
-  return res;
+  return new Set(difficultiesUsed);
 };
 
 const toggleRests = function(){
@@ -345,7 +336,7 @@ const toggleRests = function(){
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
   button.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
-  button.innerHTML = "Rests: "+(restsOn ? "On" : "Off");
+  button.innerHTML = "Rests";
 };
 
 const toggleTuplets = function(){
@@ -380,22 +371,38 @@ const toggleCounts = function(){
   
   const button = document.getElementById("counts-toggle-button");
   button.className = "control-button item "+ (countsOn ? "selected" : "");
-  button.innerHTML = "Counts: " + (countsOn ? "On": "Off")
+  button.innerHTML = "Counts";
 }
 
 
-
-
-//Initialization
-activeLevel = getLevel(level);
+// Initialization
+//activeLevel = getLevel(level);
  
-const SimpleLevels = Levels.filter((l) => {  return l.tuplet===false });
-const CompoundLevels = Levels.filter((l) => { return l.tuplet===true });
+let SimpleLevels = [];
+let CompoundLevels = [];
 
 const getCompoundLevelNames = function(){
-  const names = CompoundLevels.map((l)=>{ return l.name })
-  return names;
+  if(CompoundLevels.length > 0){
+    const names = CompoundLevels.map((l)=>{ return l.name })
+    return names;
+  } else {
+    return [];
+  }
+  
 }
+
+const sortLevels = function(levels){
+  let simpleLevels = [];
+  let compoundLevels = [];
+  levels.forEach((l)=>{
+    if(l.tuplet){
+      compoundLevels.push(l);
+    } else {
+      simpleLevels.push(l);
+    }
+  })
+  return [simpleLevels, compoundLevels];
+};
 
 // Updating FillerBlocks so their lengths are properly filtered
 // These blocks don't otherwise get rendered, so they won't be updated
@@ -406,6 +413,9 @@ pg.np.reset();
 pg.np.render();
 
 renderLevelButtons(SimpleLevels, levelButtonTarget, level);
+
+
+
 
 
 //Handling Resizing

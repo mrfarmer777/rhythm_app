@@ -5,10 +5,21 @@ const levelsUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/1/publ
 const blocksUrl = `http://spreadsheets.google.com/feeds/list/${gSheetKey}/2/public/values?alt=json`
 
 
-
-
-function getCustomRhythms(){      
-    httpGetAsync(levelsUrl, buildCustomLevels);
+async function getCustomRhythms(){      
+    const customLevels = getCustomRhythmData(levelsUrl);
+    const customBlocks = getCustomRhythmData(blocksUrl);
+    const rhythmData = [customLevels, customBlocks];
+    Promise.allSettled(rhythmData)
+        .then((results)=>{
+            buildCustomLevels(results[0].value);
+            buildCustomBlocks(results[1].value);
+        })
+        .catch((e)=>{
+            console.warn(e);
+            console.log("Cannot load custom rhythms. Building fallbacks...")
+            buildFallbackRhythms();
+        })
+    // httpGetAsync(levelsUrl, buildCustomLevels);
 }
 
 function httpGetAsync(theUrl, callback){
@@ -16,20 +27,24 @@ function httpGetAsync(theUrl, callback){
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             callback(xmlHttp.responseText);
-        }
+        } 
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous
     xmlHttp.send(null);
 }
 
 
+const getCustomRhythmData = async (url) => {
+    const request = await fetch(url);
+    const data = await request.json();
+    return data;
+}
+
 
 function buildCustomLevels(responseText){
-    httpGetAsync(blocksUrl, buildCustomBlocks);
-
+    // httpGetAsync(blocksUrl, buildCustomBlocks);
     let customLevels = [];
-    //TODO handle errors from response text gracefully
-    let parsedResponse = JSON.parse(responseText);
+    let parsedResponse = responseText;
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let newLevel = buildLevelFromEntry(e);
@@ -59,7 +74,7 @@ function buildCustomLevels(responseText){
 
 function buildCustomBlocks(responseText){
     let levelNames = Levels.map((l) => { return l.name });
-    let parsedResponse = JSON.parse(responseText);
+    let parsedResponse = responseText;
     let entries = getEntries(parsedResponse);
     entries.forEach((e)=>{
         let block = buildBlockFromEntry(e);
@@ -109,7 +124,7 @@ function buildLevelFromEntry(entry){
 function buildBlockFromEntry(entry){
     let blockAttrs = {
         "level": entry.gsx$level.$t,
-        "rhythmSet": entry.gsx$rhythmset.$t.toLowerCase(),
+        "rhythmSet": entry.gsx$rhythmset.$t.toLowerCase().split(","),
         "noteString": entry.gsx$notestring.$t,
     }
     const newBlock = new rhythmBlockElement(blockAttrs);
@@ -121,6 +136,12 @@ function getSubLevelArray(subLevelString){
     return res;
 }
 
-
-
-
+function buildFallbackRhythms(){
+    Levels = buildFallbackLevels();
+    sortedLevels = sortLevels(Levels);
+    SimpleLevels = sortedLevels[0]
+    CompoundLevels = sortedLevels[1]
+    Blocks = buildFallbackBlocks(blockData);
+    changeLevel(getLevel(level))
+    renderLevelButtons(SimpleLevels, levelButtonTarget, level);
+}

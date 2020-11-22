@@ -77,8 +77,10 @@ function notationPanel(options){
     let width = this.blockEl.clientWidth;
     let height = this.blockEl.clientHeight;
     let measures = Math.round(this.notesToBeats(this.notes.concat(this.notes2), this.quaver)/this.quaver);
+ 
     this.renderer.resize(width, height);
-    this.stave = new VF.Stave(width*0.01, -12, width*0.98, {
+    
+    this.stave = new VF.Stave(width*0.01 , -12, width*0.98, {
       left_bar: (this.panelType==="passage"),
       right_bar: (this.panelType==="passage")
     });
@@ -125,7 +127,10 @@ function notationPanel(options){
       } else {
         scaleFactor = 0.75;
         this.stave.setY(0);
-        this.stave.setX(-3);
+        let staveWidth = this.blockEl.clientWidth * (0.50 + (this.notes.length*0.1));
+        let staveX = (this.blockEl.clientWidth*0.5)-staveWidth*0.5;
+        this.stave.setX(staveX);
+        this.stave.setWidth(staveWidth);
       }
       renderContext.scale(scaleFactor, scaleFactor);
       this.stave.setWidth(this.stave.width/scaleFactor);
@@ -142,16 +147,17 @@ function notationPanel(options){
       this.stave2.setContext(renderContext).draw();
     }
     
-    let formatter = new VF.Formatter();
+    //SoftmaxFactor is set to 100 by default, but gives rise to very strange spacing issues
+    //especially with dotted rhythms. This setting corrects that.
+    let formatter = new VF.Formatter({softmaxFactor: 2});    
     
     if(this.notes.length > 0){
       let voice1 = new VF.Voice({num_beats: this.numberOfBeats, beat_value: this.quaver}).setMode(3);
- 
       voice1.addTickables(this.notes);
-     
-      formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);
+      
+      formatter.joinVoices([voice1]).formatToStave([voice1], this.stave);      
 
-      let compoundLevelNames = getCompoundLevelNames();
+      let compoundLevelNames = getCompoundLevelNames(CompoundLevels);
       let beams = VF.Beam.generateBeams(voice1.tickables, {groups: [compoundLevelNames.includes(level) ? new VF.Fraction(3,8) : new VF.Fraction(2,8)]})  //gen beams
       voice1.draw(this.context, this.stave);
       this.tuplets.forEach((t)=>{
