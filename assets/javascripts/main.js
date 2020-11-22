@@ -318,7 +318,8 @@ const getAvailableDifficulties = function(blocks){
   blocks.forEach((b) => {
     difficultiesUsed = difficultiesUsed.concat(b.rhythmSet);
   });
-  return new Set(difficultiesUsed);
+  let diffSet = new Set(difficultiesUsed);
+  return Array.from(diffSet);
 };
 
 const toggleRests = function(){
