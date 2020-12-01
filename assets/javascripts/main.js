@@ -4,7 +4,7 @@ const VF = Vex.Flow;
 let Levels = [];
 let Blocks = [];
 let DupBlocks = [];
-let FillerBlocks =[];
+let FillerBlocks = buildFallbackBlocks(fillerBlockData);
 
 //Initializing MicroModal for introduction flow;
 MicroModal.init();
