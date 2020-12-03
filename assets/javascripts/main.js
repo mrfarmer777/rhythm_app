@@ -343,7 +343,7 @@ const toggleRests = function(){
 const toggleTuplets = function(){
   tupletsOn = !tupletsOn;
   if(tupletsOn){ restsOn = false };
-  let newLevel = getLevel(tupletsOn ? "5" : "1")
+  let newLevel = getLevel(tupletsOn ? CompoundLevels[0].name: SimpleLevels[0].name)
   changeLevel(newLevel); //change level to current level to force a re-render
   changeDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
