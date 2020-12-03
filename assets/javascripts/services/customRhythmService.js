@@ -16,7 +16,7 @@ async function getCustomRhythms(){
         })
         .catch((e)=>{
             console.warn(e);
-            console.log("Cannot load custom rhythms. Building fallbacks...")
+            console.info("Cannot load custom rhythms. Building fallbacks...")
             buildFallbackRhythms();
         })
     // httpGetAsync(levelsUrl, buildCustomLevels);
@@ -109,7 +109,7 @@ function getEntries(parsedResponse){
 
 function buildLevelFromEntry(entry){
     let levelAttrs = {
-        "name": entry.gsx$name.$t,
+        "name": entry.gsx$name.$t.trim(),
         "description": entry.gsx$description.$t,
         "measureBeats": parseInt(entry.gsx$measurebeats.$t),
         "quaver": parseInt(entry.gsx$quaver.$t),
@@ -123,9 +123,9 @@ function buildLevelFromEntry(entry){
 
 function buildBlockFromEntry(entry){
     let blockAttrs = {
-        "level": entry.gsx$level.$t,
+        "level": entry.gsx$level.$t.trim(),
         "rhythmSet": entry.gsx$rhythmset.$t.toLowerCase().split(","),
-        "noteString": entry.gsx$notestring.$t,
+        "noteString": entry.gsx$notestring.$t.trim(),
     }
     const newBlock = new rhythmBlockElement(blockAttrs);
     return newBlock;
