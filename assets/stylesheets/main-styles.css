@@ -76,6 +76,7 @@ a.active{
   line-height: normal;
   display: inline-block;
   vertical-align: middle;
+  cursor: default;
 }
 
 .level-button img {

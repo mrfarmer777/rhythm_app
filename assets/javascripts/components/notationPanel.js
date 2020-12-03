@@ -127,7 +127,8 @@ function notationPanel(options){
       } else {
         scaleFactor = 0.75;
         this.stave.setY(0);
-        let staveWidth = this.blockEl.clientWidth * (0.50 + (this.notes.length*0.1));
+        const adjustedStaveWidth = this.blockEl.clientWidth * (0.50 + (this.notes.length*0.1))
+        let staveWidth = Math.min(adjustedStaveWidth, this.blockEl.clientWidth);
         let staveX = (this.blockEl.clientWidth*0.5)-staveWidth*0.5;
         this.stave.setX(staveX);
         this.stave.setWidth(staveWidth);
