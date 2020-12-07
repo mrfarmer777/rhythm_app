@@ -1,3 +1,9 @@
+// Represents the character code for the lowest difficulty
+const BASE_DIFFICULTY_ORD = 97
+
+// Represents the rate at which harder blocks will be more likely selected
+const DIFFICULTY_MULTIPLIER = 0.75;
+
 //Master array of all blocks to be used in the project
 const blockData = [
 
@@ -316,4 +322,14 @@ const getSelectedBlocks = function(){
         return b.selected===true;
     });
 };
+
+const getWeightedBlockArray = function(rbes){
+    const result = rbes.map((b)=>{
+        const lowestDifficulty = b.rhythmSet.sort((a,b) => {a-b})[0]
+        const blockWeight = 1 + lowestDifficulty.charCodeAt(0) - BASE_DIFFICULTY_ORD
+        const blockSubArray = new Array(Math.ceil(blockWeight * DIFFICULTY_MULTIPLIER)).fill(b)
+        return blockSubArray
+    })
+    return result.flat()
+}
 
