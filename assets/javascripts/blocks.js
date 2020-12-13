@@ -131,13 +131,13 @@ const dupBlockData = [
 
 //Set of blocks to fill out empty passage beats when no other rhythms are selected
 const fillerBlockData = [
-    { level: "fill", rhythmSet: "fill", noteString: "h." },
-    { level: "fill", rhythmSet: "fill", noteString: "h" },
-    { level: "fill", rhythmSet: "fill", noteString: "q." },
-    { level: "fill", rhythmSet: "fill", noteString: "q" },
-    { level: "fill", rhythmSet: "fill", noteString: "e." },
-    { level: "fill", rhythmSet: "fill", noteString: "e" },
-    { level: "fill", rhythmSet: "fill", noteString: "s" },
+    { level: "fill", rhythmSet: ["a"], noteString: "h." },
+    { level: "fill", rhythmSet: ["a"], noteString: "h" },
+    { level: "fill", rhythmSet: ["a"], noteString: "q." },
+    { level: "fill", rhythmSet: ["a"], noteString: "q" },
+    { level: "fill", rhythmSet: ["a"], noteString: "e." },
+    { level: "fill", rhythmSet: ["a"], noteString: "e" },
+    { level: "fill", rhythmSet: ["a"], noteString: "s" },
     ];
 
 
