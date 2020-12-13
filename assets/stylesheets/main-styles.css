@@ -109,10 +109,16 @@ a.active{
 
 #panels-container{
   flex-direction: row;
+  justify-content: space-between;
 }
 
 #main-container{
   flex-direction: column;
+}
+
+#controls-container{
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #difficulty-buttons-container{
@@ -123,6 +129,12 @@ a.active{
 #difficulty-select-buttons{
   flex-direction: row;
   justify-content: center;
+}
+
+#metronome-controls{
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 
@@ -151,10 +163,6 @@ a.active{
 .difficulty-button:hover:not(.selected) {
   background-color: var(--primary-2hov);
 }
-
-
-
-
 
 
 .button-image{
@@ -370,16 +378,12 @@ canvas {
 
 
 /*////METRONOME//////*/
-#metronome-controls, #option-buttons-container{
+#option-buttons-container{
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-width: 30%;
 }
 
-#bpm{
-  width: 4em;
-}
 
 
 /*//// NAVBAR////*/

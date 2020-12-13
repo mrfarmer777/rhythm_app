@@ -30,7 +30,8 @@ Built, for Jeremy Marino and the students of the Libertyville High School music 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ### Built With
-[Vexflow](https://github.com/0xfe/vexflow) - a JavaScript library for rending musical notation in the browser. Checkout Vexflow docs [here](http://www.vexflow.com/)
+* [Vexflow](https://github.com/0xfe/vexflow) - a JavaScript library for rending musical notation in the browser. Checkout Vexflow docs [here](http://www.vexflow.com/)
+* Metronome functionality heavily borrowed from Chris Wilson's example [here](https://github.com/cwilso/metronome)
 
 ## Contributing
 Want to add a feature or fix a bug? Be a rhythmic hero and contribute to this project!
