@@ -14,8 +14,12 @@
   <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+  <script src="https://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
+  <script src="assets/javascripts/components/metronome.js"></script>
+  
 </head>
 <body>
+
   <div class="navbar">
       <h2 id="header-brand">Rhythm Trainer</h2>
       <span width="120px"></span>
@@ -30,7 +34,7 @@
         </div>
       </div>
       <div id="main-container" class="container">
-        <div id="difficulty-buttons-container" class="container">
+        <div id="controls-container" class="container">
           <div id="option-buttons-container" class="item container">
             <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
             <button id="counts-toggle-button" class="control-button item" onclick="toggleCounts()">Counts</button>
@@ -39,7 +43,7 @@
             <!--<button id="info-button" class='control-button item' href="#" onclick="startIntro()">Info</button>-->
           </div>
 
-          <div class="item container">
+          <div id="difficulty-buttons-container" class="item container">
             <h3>Difficulty:</h3>
             <div id="difficulty-select-buttons" class="item container">
             </div>
@@ -50,6 +54,19 @@
         	  <button class="item control-button"onclick="stop()">Stop</button>
           	<input id="bpm" class="item" type="number" value="90">
           </div>-->
+
+          <div class="item container" id="metronome-controls">
+            <span><h3>Metronome: </h3></span>
+            <div>
+              <button id="metronome-button" class="play item control-button"  onclick="this.innerText = play();">start</button>
+            </div>
+            <div id="tempoBox" style="display: flex; flex-direction: column; align-content: center; text-align: center;"> 
+              <span><span id="showTempo">120</span>BPM</span> 
+              <input id="tempo" type="range" min="30.0" max="220.0" step="1" value="120" onInput="tempo = event.target.value; document.getElementById('showTempo').innerText=tempo;">
+            </div>
+            <!--<div>Resolution:<select onchange="noteResolution = this.selectedIndex;"><option>Quarter notes<option>8th notes<option>16th notes</select></div>
+            -->
+          </div>
         </div>
         <div id="target-container" class="canvas-container">
           <canvas id="target">
