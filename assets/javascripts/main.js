@@ -227,6 +227,11 @@ const generate = function(){
 //REFACTORED to take in the level object itself.
 const changeLevel = function(selectedLevelObject){
   level = selectedLevelObject.name;
+  if(activeLevel){
+    if(selectedLevelObject.measureBeats !== activeLevel.measureBeats || selectedLevelObject.quaver !== activeLevel.quaver){
+      restartNeeded = true;
+    }
+  }
   activeLevel = selectedLevelObject;
   deselectAllBlocks(Blocks);
   let la = selectedLevelObject.getLevelArray();

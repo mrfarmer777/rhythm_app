@@ -20,7 +20,7 @@ var notesInQueue = [];      // the notes that have been put into the web audio,
 var timerWorker = null;     // The Web Worker used to fire timer messages
 
 var measure16thNotes;       // The number of 16th notes per measure
-
+var restartNeeded = false;  // If the time signature has changed, a metronome restart is needed.
 
 // First, let's shim the requestAnimationFrame API, with a setTimeout fallback
 window.requestAnimFrame = (function(){
@@ -40,7 +40,6 @@ function nextNote() {
                                           // tempo value to calculate beat length.
     const beatFraction = tupletsOn ? 0.1667 : 0.25;
     nextNoteTime += beatFraction * secondsPerBeat;    // Add beat length to last beat time
-    console.log(beatFraction);
     current16thNote++;    // Advance the beat number, wrap to zero
     if (current16thNote == measure16thNotes) {
         current16thNote = 0;
@@ -53,7 +52,7 @@ function scheduleNote( beatNumber, time ) {
 
     if ( (noteResolution==1) && (beatNumber%2))
         return; // we're not playing non-8th 16th notes
-    if ( (noteResolution==0) && (beatNumber%4))
+    if ( (noteResolution==0) && (beatNumber%(tupletsOn ? 6:4)) )
         return; // we're not playing non-quarter 8th notes
 
     // create an oscillator
@@ -61,13 +60,11 @@ function scheduleNote( beatNumber, time ) {
     osc.connect( audioContext.destination );
     if (beatNumber % measure16thNotes === 0)    // beat 0 == high pitch
       osc.frequency.value = 880.0;
-    else if (beatNumber % (tupletsOn ? 2:4) === 0 )    // quarter notes = medium pitch
+    else if (beatNumber % tupletsOn ? 6:4 === 0 )    // quarter notes = medium pitch
       osc.frequency.value = 440.0;
     else                        // other 16th notes = low pitch
       osc.frequency.value = 220.0;
     
-    console.log(osc.frequency.value, beatNumber);
-
     osc.start( time );
     osc.stop( time + noteLength );
 }
@@ -75,6 +72,9 @@ function scheduleNote( beatNumber, time ) {
 function scheduler() {
     // while there are notes that will need to play before the next interval, 
     // schedule them and advance the pointer.
+    if(restartNeeded){
+        restart();
+    }
     while (nextNoteTime < audioContext.currentTime + scheduleAheadTime ) {
         scheduleNote( current16thNote, nextNoteTime );
         nextNote();
@@ -111,6 +111,14 @@ function play() {
         
         return "start";
     }
+}
+
+function restart(){
+    restartNeeded = false;
+    if(isPlaying){
+        play();
+        play();
+    } 
 }
 
 function resetCanvas (e) {
