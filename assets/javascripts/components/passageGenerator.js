@@ -141,10 +141,12 @@ const passageGenerator = function(blocks){
         if( filtered.length === 0){ 
             const levelObj = getLevel(level);
             
-            let maxTicks = levelObj.compound ? this.quaverTicks*3 : this.quaverTicks;
-            filtered = [findBlockByTicks(FillerBlocks, maxTicks)] };
+            const maxTicks = levelObj.compound ? this.quaverTicks*3 : this.quaverTicks;
+            filtered = [findBlockByTicks(FillerBlocks, maxTicks)] 
+        };
 
-        return filtered[Math.floor(Math.random()*filtered.length)].noteString;
+        const weighted = difficulty === "custom" ? filtered : getWeightedBlockArray(filtered)
+        return weighted[Math.floor(Math.random()*weighted.length)].noteString;
     };
 
     this.generate = function(){
