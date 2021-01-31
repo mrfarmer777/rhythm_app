@@ -51,7 +51,7 @@ function buildCustomLevels(responseText){
         if(newLevel.active){
             if(newLevel.isValid()){
                 //Let's add it to the pre-made levels!
-                if(newLevel.quaver===8){
+                if(newLevel.compound){
                     CompoundLevels.push(newLevel);
                 } else {
                     SimpleLevels.push(newLevel);
@@ -124,7 +124,7 @@ function buildLevelFromEntry(entry){
 function buildBlockFromEntry(entry){
     let blockAttrs = {
         "level": entry.gsx$level.$t.trim(),
-        "rhythmSet": entry.gsx$rhythmset.$t.toLowerCase().split(","),
+        "rhythmSet": entry.gsx$rhythmset.$t.toLowerCase().split(",").map(rs => rs.trim()).filter(rhythmSet => rhythmSet !== ""),
         "noteString": entry.gsx$notestring.$t.trim(),
     }
     const newBlock = new rhythmBlockElement(blockAttrs);

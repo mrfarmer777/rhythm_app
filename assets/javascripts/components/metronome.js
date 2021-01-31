@@ -58,13 +58,14 @@ function scheduleNote( beatNumber, time ) {
     // create an oscillator
     var osc = audioContext.createOscillator();
     osc.connect( audioContext.destination );
-    if (beatNumber % measure16thNotes === 0)    // beat 0 == high pitch
-      osc.frequency.value = 880.0;
-    else if (beatNumber % tupletsOn ? 6:4 === 0 )    // quarter notes = medium pitch
-      osc.frequency.value = 440.0;
-    else                        // other 16th notes = low pitch
-      osc.frequency.value = 220.0;
-    
+    // if (beatNumber % measure16thNotes === 0)    // beat 0 == high pitch
+    //   osc.frequency.value = 880.0;
+    // else if (beatNumber % tupletsOn ? 6:4 === 0 )    // quarter notes = medium pitch
+    //   osc.frequency.value = 440.0;
+    // else                        // other 16th notes = low pitch
+    //   osc.frequency.value = 220.0;
+    osc.frequency.value = 440.0
+
     osc.start( time );
     osc.stop( time + noteLength );
 }
@@ -99,7 +100,6 @@ function play() {
         const measureBeats = getTimeSigBeats();
         const pulseNote = getTimeSigQuaver();
 
-      
         current16thNote = 0;
         measure16thNotes = (16/pulseNote) * measureBeats
         nextNoteTime = audioContext.currentTime;
@@ -120,40 +120,39 @@ function restart(){
         play();
     } 
 }
+// Commenting out the visual functions of the metronome as they're not needed
+// function resetCanvas (e) {
+//     // resize the canvas - but remember - this clears the canvas too.
+//     canvas.width = window.innerWidth;
+//     canvas.height = window.innerHeight;
 
-function resetCanvas (e) {
-    // resize the canvas - but remember - this clears the canvas too.
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+//     //make sure we scroll to the top left.
+//     window.scrollTo(0,0); 
+// }
+// function draw() {
+//     var currentNote = last16thNoteDrawn;
+//     var currentTime = audioContext.currentTime;
 
-    //make sure we scroll to the top left.
-    window.scrollTo(0,0); 
-}
+//     while (notesInQueue.length && notesInQueue[0].time < currentTime) {
+//         currentNote = notesInQueue[0].note;
+//         notesInQueue.splice(0,1);   // remove note from queue
+//     }
 
-function draw() {
-    var currentNote = last16thNoteDrawn;
-    var currentTime = audioContext.currentTime;
+//     // We only need to draw if the note has moved.
+//     if (last16thNoteDrawn != currentNote) {
+//         var x = Math.floor( canvas.width / 18 );
+//         canvasContext.clearRect(0,0,canvas.width, canvas.height); 
+//         for (var i=0; i<16; i++) {
+//             canvasContext.fillStyle = ( currentNote == i ) ? 
+//                 ((currentNote%4 === 0)?"red":"blue") : "black";
+//             canvasContext.fillRect( x * (i+1), x, x/2, x/2 );
+//         }
+//         last16thNoteDrawn = currentNote;
+//     }
 
-    while (notesInQueue.length && notesInQueue[0].time < currentTime) {
-        currentNote = notesInQueue[0].note;
-        notesInQueue.splice(0,1);   // remove note from queue
-    }
-
-    // We only need to draw if the note has moved.
-    if (last16thNoteDrawn != currentNote) {
-        var x = Math.floor( canvas.width / 18 );
-        canvasContext.clearRect(0,0,canvas.width, canvas.height); 
-        for (var i=0; i<16; i++) {
-            canvasContext.fillStyle = ( currentNote == i ) ? 
-                ((currentNote%4 === 0)?"red":"blue") : "black";
-            canvasContext.fillRect( x * (i+1), x, x/2, x/2 );
-        }
-        last16thNoteDrawn = currentNote;
-    }
-
-    // set up to draw again
-    requestAnimFrame(draw);
-}
+//     // set up to draw again
+//     requestAnimFrame(draw);
+// }
 
 function init(){
   //  Disabling the visual aspect of the metronome for now
@@ -184,7 +183,7 @@ function init(){
   // window.onresize = resetCanvas;
 
   // 
-  requestAnimFrame(draw);    // start the drawing loop.
+  //   requestAnimFrame(draw);    // start the drawing loop.
 
 
   timerWorker = new Worker("assets/javascripts/components/metronomeWorker.js");
