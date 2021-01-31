@@ -51,7 +51,7 @@ function buildCustomLevels(responseText){
         if(newLevel.active){
             if(newLevel.isValid()){
                 //Let's add it to the pre-made levels!
-                if(newLevel.quaver===8){
+                if(newLevel.compound){
                     CompoundLevels.push(newLevel);
                 } else {
                     SimpleLevels.push(newLevel);
