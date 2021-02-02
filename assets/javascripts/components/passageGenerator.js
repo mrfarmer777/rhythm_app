@@ -19,6 +19,8 @@ const COMPOUND_COUNT_STRINGS = {
     "0.833":"+",
 }
 
+const BEAT_TICKS_ERROR_RANGE = 10; // The number of ticks allowed as "error" when calculating beats left
+
 const SMALLEST_DURATION = 16;
 
 const SCALE_FACTOR = 0.90;
@@ -313,7 +315,7 @@ const passageGenerator = function(blocks){
                     if(activeLevel.tuplet){
                         beatNumber = this.getCompoundBigBeat(beatNumber);
                     }
-                    let countText = remainder < 10 ? beatNumber : "";
+                    let countText = this.getCountText(remainder, beatNumber, ticksPerBeat);
                     let tn = new Vex.Flow.TextNote({
                         text: countText,
                         font: {
@@ -395,4 +397,14 @@ const passageGenerator = function(blocks){
             return "";
         }
     };   
+
+    this.getCountText = function(tickRemainder, beatNumber, ticksPerBeat){
+        if(tickRemainder < BEAT_TICKS_ERROR_RANGE){
+            return beatNumber;
+        } else if(tickRemainder > (ticksPerBeat/2)-10 && tickRemainder < (ticksPerBeat/2)+10 && !tupletsOn){
+            return COMPOUND_COUNT_STRINGS["0.500"];
+        } else {
+            return "";
+        }
+    }
 };
