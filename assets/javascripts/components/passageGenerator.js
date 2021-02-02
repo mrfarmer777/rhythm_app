@@ -401,8 +401,11 @@ const passageGenerator = function(blocks){
     this.getCountText = function(tickRemainder, beatNumber, ticksPerBeat){
         if(tickRemainder < BEAT_TICKS_ERROR_RANGE){
             return beatNumber;
-        } else if(tickRemainder > (ticksPerBeat/2)-10 && tickRemainder < (ticksPerBeat/2)+10 && !tupletsOn){
-            return COMPOUND_COUNT_STRINGS["0.500"];
+        }
+        const ticksPerHalfBeat = ticksPerBeat/2;
+        const remainderDifference = Math.abs(tickRemainder-ticksPerHalfBeat);
+        if(activeLevel.deadEighthsOn && remainderDifference <= BEAT_TICKS_ERROR_RANGE/2){
+            return activeLevel.compound ? COMPOUND_COUNT_STRINGS["0.500"] : SIMPLE_COUNT_STRINGS["0.500"];
         } else {
             return "";
         }
