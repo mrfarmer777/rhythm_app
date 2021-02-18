@@ -19,6 +19,8 @@ const COMPOUND_COUNT_STRINGS = {
     "0.833":"+",
 }
 
+const BEAT_TICKS_ERROR_RANGE = 10; // The number of ticks allowed as "error" when calculating beats left
+
 const SMALLEST_DURATION = 16;
 
 const SCALE_FACTOR = 0.90;
@@ -299,21 +301,18 @@ const passageGenerator = function(blocks){
     this.createBeatCountsVoice = function(noteVoice){
         let countsVoice = new VF.Voice({ num_beats: noteVoice.time.num_beats, beat_value: noteVoice.time.beat_value })
         let ticksPerBeat = noteVoice.time.resolution/noteVoice.time.beat_value
-        
+           
         noteVoice.tickables.forEach((t)=>{
             let beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
 
             if(t.attrs.type==="BarNote" || t.tuplet){
                 countsVoice.addTickable(t);
             } else if(t.getCategory()==="stavenotes") {
-                let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver)
+                let numberOfSmallestDurations = (t.ticks.value()/ticksPerBeat)*(this.smallestDuration/this.quaver);
                 for(let i = 0; i < numberOfSmallestDurations; i++){
                     beatNumber = ((countsVoice.ticksUsed.value()/ticksPerBeat)%this.measureBeats)+1;
-                    let remainder = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(ticksPerBeat)
-                    if(activeLevel.tuplet){
-                        beatNumber = this.getCompoundBigBeat(beatNumber);
-                    }
-                    let countText = remainder < 10 ? beatNumber : "";
+                    let remainder = (countsVoice.totalTicks.value() - countsVoice.ticksUsed.value())%(ticksPerBeat);
+                    let countText = this.getCountText(remainder, beatNumber, ticksPerBeat);
                     let tn = new Vex.Flow.TextNote({
                         text: countText,
                         font: {
@@ -329,7 +328,6 @@ const passageGenerator = function(blocks){
                     countsVoice.addTickable(tn)
                 }
             }
-
         })
         return countsVoice;
     };
@@ -395,4 +393,34 @@ const passageGenerator = function(blocks){
             return "";
         }
     };   
+
+    this.getCountText = function(tickRemainder, beatNumber, ticksPerBeat){
+        if(tickRemainder < BEAT_TICKS_ERROR_RANGE){
+            if(activeLevel.tuplet){
+                if(activeLevel.deadEighthsOn){
+                    if([2,5].includes(beatNumber)){
+                        beatNumber = "ti";
+                    } else if([3,6].includes(beatNumber)){
+                        beatNumber = "ta";
+                    } else {
+                        beatNumber = this.getCompoundBigBeat(beatNumber);
+                    }
+                } else {
+                    beatNumber = this.getCompoundBigBeat(beatNumber);
+                }
+            }
+            return beatNumber;
+        }
+        const ticksPerDeadCount = activeLevel.tuplet ? ticksPerBeat : ticksPerBeat/2;
+        const remainderDifference = Math.abs(tickRemainder-ticksPerDeadCount);
+        if(activeLevel.deadEighthsOn && remainderDifference <= BEAT_TICKS_ERROR_RANGE/2){
+            return activeLevel.tuplet ? COMPOUND_COUNT_STRINGS["0.500"] : SIMPLE_COUNT_STRINGS["0.500"];
+        } else {
+            return "";
+        }
+    }
+
+    this.getCompoundDeadCount = function(tickDecimal){
+        return COMPOUND_COUNT_STRING[tickDecimal.toString()]
+    }
 };
