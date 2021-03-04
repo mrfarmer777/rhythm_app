@@ -221,6 +221,7 @@ const passageGenerator = function(blocks){
 
             this.drawBeamGroups(this.beamGroups);
             this.drawTuplets(this.tuplets);
+            this.ties = this.validateTies(this.ties);
             this.drawTies(this.ties);
             
             if(this.measureLength > 4){
@@ -277,10 +278,10 @@ const passageGenerator = function(blocks){
                 this.voice2.draw(this.np.context, this.np.stave2);
                 this.drawBeamGroups(this.beamGroups2);     
                 this.drawTuplets(this.tuplets2);
+
                 if(this.ties2.length > 0 && this.ties2[this.ties2.length-1].last_note === undefined){
                     this.ties2.pop();
                 }
-
                 if(this.ties.length > 0 && this.ties[this.ties.length-1].last_note === undefined){
                     const leadingTie = new VF.StaveTie({
                         first_note: null,
@@ -288,6 +289,7 @@ const passageGenerator = function(blocks){
                     })
                     this.ties2.push(leadingTie);
                 }
+                this.ties2 = this.validateTies(this.ties2);
                 this.drawTies(this.ties2);
             }   
         }
@@ -441,5 +443,18 @@ const passageGenerator = function(blocks){
 
     this.getCompoundDeadCount = function(tickDecimal){
         return COMPOUND_COUNT_STRING[tickDecimal.toString()]
+    }
+
+    this.validateTies = function(ties){
+        const res = ties.filter((t)=>{
+            if(t.first_note && t.first_note.isRest()){
+                return false;
+            } else if(t.last_note && t.last_note.isRest()){
+                return false;
+            } else {
+                return true;
+            }
+        })
+        return res;
     }
  };
