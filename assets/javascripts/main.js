@@ -162,12 +162,33 @@ const tupletsIndecesFromString = function(noteString){
   return result;
 }
 
-const createTies = function(rhythmString, notes){
-  const tieIndeces = tieIndicesFromString(rhythmString, notes);
+const createTiesFromRhythmString = function(rhythmString, notes){
+  const tieIndeces = tieIndicesFromString(rhythmString);
   const ties = tieIndeces.map((ti)=>{
     let tie = new VF.StaveTie({
-      first_note: notes[ti[0]],
-      last_note:  notes[ti[1]]
+      first_note: notes[ti],
+      last_note:  notes[ti+1]
+    });
+    return tie;
+  })
+  return ties;
+}
+
+const createTies = function(tieStartIndeces, notes){
+  const noteDurations = notes.map((n)=>{ return n.duration })
+  const ties = tieStartIndeces.map((tsi)=>{
+    let lookAheadIndex = tsi + 1
+    const max = notes.length-1;
+    while(lookAheadIndex <= max){
+      if(notes[lookAheadIndex].attrs.type === "StaveNote"){
+        break;
+      } else {
+        lookAheadIndex++;
+      }
+    }
+    let tie = new VF.StaveTie({
+      first_note: notes[tsi],
+      last_note:  notes[lookAheadIndex]
     });
     return tie;
   })
@@ -175,17 +196,17 @@ const createTies = function(rhythmString, notes){
 }
 
 const tieIndicesFromString = function(rhythmString){
-  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]
+  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]  //TODO: PUT THIS IN A CONSTANT
   noteCount = 0;
-  let tieStartStopIndeces = [];
+  let tieStartIndeces = [];
   rhythmString.split('').forEach((char, i)=>{
     if(char === "-"){
-      tieStartStopIndeces.push([noteCount-1, noteCount]);
+      tieStartIndeces.push(noteCount-1);
     } else if(noteChars.includes(char)){
       noteCount++;
     }
   })
-  return tieStartStopIndeces;
+  return tieStartIndeces;
 }
 
 //Forcing all blocks to draw for development purposes

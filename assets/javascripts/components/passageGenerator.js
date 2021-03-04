@@ -77,6 +77,8 @@ const passageGenerator = function(blocks){
         this.noteGroups2=[];
         this.tuplets=[];
         this.tuplets2=[];
+        this.voice1TieIndices = [];
+        this.voice2TieIndices = [];
         this.ties=[];
         this.ties2=[];
         this.beatLength=this.measureLength*this.measureBeats;
@@ -183,10 +185,12 @@ const passageGenerator = function(blocks){
                 let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                 let notes = notesFromString(rhy); //build notes from the rhythm string
                 let blockTuplets = createTuplets(rhy, notes);
-                let blockTies = createTies(rhy, notes);
+                
+                const blockTieStartIndeces = tieIndicesFromString(rhy);
+                this.voice1TieIndices = this.voice1TieIndices.concat(blockTieStartIndeces.map((ti)=>{ return (ti+this.voice1.tickables.length) }))
+
                 this.np.tuplets = this.np.tuplets.concat(blockTuplets);
                 this.tuplets = this.tuplets.concat(blockTuplets);
-                this.ties = this.ties.concat(blockTies);
                 let blockBeats = this.np.notesToBeats(notes, this.quaver);
                 
                 if(rhy.includes("s") || rhy.includes("e")){
@@ -201,6 +205,7 @@ const passageGenerator = function(blocks){
             this.voice1Counts = this.createBeatCountsVoice(this.voice1);
             this.voice1Blank = this.createBlankVoice(this.voice1);
 
+            this.ties = createTies(this.voice1TieIndices, this.voice1.tickables)
             this.noteGroups.forEach((ng)=>{
                 this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
             })
@@ -228,21 +233,23 @@ const passageGenerator = function(blocks){
                             this.voice2.addTickable(bar);
                         }
                         measureBeatsRemaining = this.measureBeats;
-                    }; //correct for beats left in the measure....
+                    }; //correct for beats left in the measure...
                     
                     let rhy = this.chooseRhythm(measureBeatsRemaining) //Choose a rhythm that fits within the beats remaining 
                     let notes = notesFromString(rhy); //build notes from the rhythm string
-                    let blockTuplets = createTuplets(rhy, notes);
-                    let blockTies = createTies(rhy, notes);
+
+                    const blockTuplets = createTuplets(rhy, notes);
+                    const blockTieStartIndeces = tieIndicesFromString(rhy);
+
+                    this.voice2TieIndices = this.voice2TieIndices.concat(blockTieStartIndeces.map((ti)=>{ return (ti+this.voice2.tickables.length) }))
+
                     this.np.tuplets2 = this.np.tuplets2.concat(blockTuplets);
                     this.tuplets2 = this.tuplets2.concat(blockTuplets);
-                    this.ties2 = this.ties2.concat(blockTies);
 
                     if(rhy.includes("s") || rhy.includes("e")){
                         this.noteGroups2.push(notes);
                     }
 
-                    
                     this.voice2.addTickables(notes); //add the notes to the voice
                 }
 
@@ -252,6 +259,7 @@ const passageGenerator = function(blocks){
 
                 this.voice2Counts = this.createBeatCountsVoice(this.voice2);
                 
+                this.ties2 = createTies(this.voice2TieIndices, this.voice2.tickables);
                 this.noteGroups2.forEach((ng)=>{
                     this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
                 })
@@ -269,6 +277,17 @@ const passageGenerator = function(blocks){
                 this.voice2.draw(this.np.context, this.np.stave2);
                 this.drawBeamGroups(this.beamGroups2);     
                 this.drawTuplets(this.tuplets2);
+                if(this.ties2.length > 0 && this.ties2[this.ties2.length-1].last_note === undefined){
+                    this.ties2.pop();
+                }
+
+                if(this.ties.length > 0 && this.ties[this.ties.length-1].last_note === undefined){
+                    const leadingTie = new VF.StaveTie({
+                        first_note: null,
+                        last_note: this.voice2.tickables[0]
+                    })
+                    this.ties2.push(leadingTie);
+                }
                 this.drawTies(this.ties2);
             }   
         }
@@ -423,4 +442,4 @@ const passageGenerator = function(blocks){
     this.getCompoundDeadCount = function(tickDecimal){
         return COMPOUND_COUNT_STRING[tickDecimal.toString()]
     }
-};
+ };

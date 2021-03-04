@@ -39,7 +39,7 @@ function notationPanel(options){
   this.updateNotation=function(rhythmString){
     this.notes = notesFromString(rhythmString);
     this.tuplets = createTuplets(rhythmString, this.notes);
-    this.ties = createTies(rhythmString, this.notes);
+    this.ties = createTiesFromRhythmString(rhythmString, this.notes);
   };
   
   this.notesToBeats = function(notes, quaver){
