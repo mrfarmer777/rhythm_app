@@ -19,7 +19,6 @@ async function getCustomRhythms(){
             console.info("Cannot load custom rhythms. Building fallbacks...")
             buildFallbackRhythms();
         })
-    // httpGetAsync(levelsUrl, buildCustomLevels);
 }
 
 function httpGetAsync(theUrl, callback){
