@@ -1,6 +1,7 @@
 //VexFlow Boilerplate
 const VF = Vex.Flow;
 
+const NOTE_CHARS = ["s","e","q","h","w","S","E","Q","H","W"];
 let Levels = [];
 let Blocks = [];
 let DupBlocks = [];
@@ -53,19 +54,13 @@ const durationCharacters = {
     "e": "8",
     "s": "16",
 
-    ".": "d",   //IDEA: STill use the dot, but pop the last note out of the array, build a new one and put it back in!
-    // "": "2",   //Handling dots locally, calls .addDotsToAll() method
-    // "$": "4",
-    // "*": "8",
-    // "^": "16",
+    ".": "d",   
 
     "W": "1r",  //Rest Codes
     "H": "2r",
     "Q": "4r",
     "E": "8r",
     "S": "16r",
-
-    "Y": "3/4", //hard coding dotted rhythm durations?
 
     "(":"(", //passing through triplet indicators
     ")":")",
@@ -76,12 +71,10 @@ const durationCharacters = {
 
 const getTimeSigBeats = function(){
   return activeLevel.measureBeats;
-  //return levelTimeSignatures[level].beats;
 }
 
 const getTimeSigQuaver = function(){
   return activeLevel.quaver;
-  //return levelTimeSignatures[level].quaver;
 }
 
 
@@ -105,7 +98,6 @@ function notesFromString(noteString){
         stem_direction: 1
       });
       sn.addModifier(0, new Vex.Flow.Dot())
-      //sn.setIntrinsicTicks(sn.ticks.value()*1.5);
       notes.push(sn);
     } else if(dur === "(" ) {
       tickMultiplier = 1;
@@ -132,8 +124,6 @@ function notesFromString(noteString){
 const createTuplets = function(rhythmString, notes){
   let tupletIndeces = tupletsIndecesFromString(rhythmString);
   let tuplets = tupletIndeces.map((is) => {
-    // let tupletedNotes = np.notes.slice(is[0], is[1]);
-    // tupletedNotes.forEach((n)=> n.setIntrinsicTicks(n.ticks.value()*0.667))
     const tupletedNotes = notes.slice(is[0], is[1]);
     let tuplet = new VF.Tuplet(notes.slice(is[0], is[1]), {num_notes: (tupletedNotes.length === 6 ? 6 : 3), notes_occupied: (tupletedNotes.length === 6 ? 4 : 2), ratioed: false });;
     return tuplet;
@@ -143,7 +133,6 @@ const createTuplets = function(rhythmString, notes){
 
 // From a note string, build an array of indeces for creating tuplet objects
 const tupletsIndecesFromString = function(noteString){
-  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]
   let result = [];
   let noteCount = 0;
   let tupletStartStopIndeces = [];
@@ -155,7 +144,7 @@ const tupletsIndecesFromString = function(noteString){
       tupletStartStopIndeces.push(noteCount);
       result.push(tupletStartStopIndeces); 
       tupletStartStopIndeces = []; //clear out the start/stop indeces
-    } else if(noteChars.includes(char)) { 
+    } else if(NOTE_CHARS.includes(char)) { 
       noteCount++; //iterate the note count because a note will be added
     }
   })  
@@ -196,13 +185,12 @@ const createTies = function(tieStartIndeces, notes){
 }
 
 const tieIndicesFromString = function(rhythmString){
-  const noteChars = ["s","e","q","h","w","S","E","Q","H","W"]  //TODO: PUT THIS IN A CONSTANT
   noteCount = 0;
   let tieStartIndeces = [];
   rhythmString.split('').forEach((char, i)=>{
     if(char === "-"){
       tieStartIndeces.push(noteCount-1);
-    } else if(noteChars.includes(char)){
+    } else if(NOTE_CHARS.includes(char)){
       noteCount++;
     }
   })
@@ -231,21 +219,7 @@ const generate = function(){
   pg.generate();
 };
 
-
-//Responds to user clicking new level, changes buttons, calls changeLevel
-// const handleLevelChange = function(){
-//   let btns = document.querySelectorAll('.level-button');
-//   btns.forEach((b)=> {
-//     b.className = "level-button item";
-//   });
-//   level = this.event.target.dataset.level;
-//   selectedLevelObject = getLevel(level);
-//   this.event.target.className = "level-button item selected";
-//   changeLevel(selectedLevelObject);
-// };
-
 //Changes active level, resets difficulty to A, redraws a blank passage
-//REFACTORED to take in the level object itself.
 const changeLevel = function(selectedLevelObject){
   level = selectedLevelObject.name;
   if(activeLevel){
@@ -297,9 +271,6 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
 const clearBlocks = function(){
   blockContainerTarget.innerHTML="";
 }
-
-
-
 
 
 //Changes activated difficulty and updates difficulty blocks
@@ -394,8 +365,6 @@ const toggleCounts = function(){
     pg.redraw();
   }
   
-  
-  
   const button = document.getElementById("counts-toggle-button");
   button.className = "control-button item "+ (countsOn ? "selected" : "");
   button.innerHTML = "Counts";
@@ -403,8 +372,6 @@ const toggleCounts = function(){
 
 
 // Initialization
-//activeLevel = getLevel(level);
- 
 let SimpleLevels = [];
 let CompoundLevels = [];
 
@@ -561,8 +528,3 @@ const copyLink = function(){
   }).showToast();
 
 }
-
-
-
-
-
