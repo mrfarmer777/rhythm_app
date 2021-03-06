@@ -416,9 +416,9 @@ const passageGenerator = function(blocks){
     };   
 
     this.getCountText = function(tickRemainder, beatNumber, ticksPerBeat){
-        if(tickRemainder < BEAT_TICKS_ERROR_RANGE){
+        if(tickRemainder <= BEAT_TICKS_ERROR_RANGE){
             if(activeLevel.tuplet){
-                if(activeLevel.deadEighthsOn){
+                if(activeLevel.deadEighthsOn || activeLevel.deadSixteenthsOn){
                     if([2,5].includes(beatNumber)){
                         beatNumber = "ti";
                     } else if([3,6].includes(beatNumber)){
@@ -435,14 +435,19 @@ const passageGenerator = function(blocks){
         const ticksPerDeadCount = activeLevel.tuplet ? ticksPerBeat : ticksPerBeat/2;
         const remainderDifference = Math.abs(tickRemainder-ticksPerDeadCount);
         if(activeLevel.deadEighthsOn && remainderDifference <= BEAT_TICKS_ERROR_RANGE/2){
-            return activeLevel.tuplet ? COMPOUND_COUNT_STRINGS["0.500"] : SIMPLE_COUNT_STRINGS["0.500"];
+            return SIMPLE_COUNT_STRINGS["0.500"];
         } else {
-            return "";
+            const beatDecimal = (tickRemainder / ticksPerBeat).toFixed(3);
+            return activeLevel.deadSixteenthsOn ? this.getDeadCountText(beatDecimal, activeLevel.tuplet): "";
         }
     }
 
-    this.getCompoundDeadCount = function(tickDecimal){
-        return COMPOUND_COUNT_STRING[tickDecimal.toString()]
+    this.getDeadCountText = function(beatDecimal, levelIsCompound){
+        if(levelIsCompound){
+            return COMPOUND_COUNT_STRINGS[beatDecimal];
+        } else {
+            return SIMPLE_COUNT_STRINGS[beatDecimal];
+        }
     }
 
     this.validateTies = function(ties){

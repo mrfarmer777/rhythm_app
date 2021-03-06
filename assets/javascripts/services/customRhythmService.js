@@ -115,6 +115,7 @@ function buildLevelFromEntry(entry){
         "active": (entry.gsx$active.$t === "TRUE"),
         "compound": (entry.gsx$compound.$t === "TRUE"), 
         "deadEighthsOn": (entry.gsx$thnotecounts.$t === "TRUE"),
+        "deadSixteenthsOn": (entry.gsx$thnotecounts_2.$t === "TRUE"),
         "subLevels": getSubLevelArray(entry.gsx$sublevels.$t)
     }
     const newLevel = new Level(levelAttrs)
