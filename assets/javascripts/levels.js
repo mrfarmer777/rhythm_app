@@ -28,6 +28,7 @@ const Level = function(opts){
     this.subLevels = opts["subLevels"];
     this.compound = opts["compound"];
     this.deadEighthsOn = opts["deadEighthsOn"];
+    this.deadSixteenthsOn = opts["deadSixteenthsOn"];
     this.levelBlocks = [];
     this.handleClick = function(){
         changeLevel(this);
