@@ -104,6 +104,8 @@ const passageGenerator = function(blocks){
 
         this.drawTuplets(this.tuplets2);
         this.drawTuplets(this.tuplets);
+        this.drawTies(this.ties);
+        this.drawTies(this.ties2);
         if(countsOn){
             this.voice1Counts.draw(this.np.context, this.np.stave);
             this.voice2Counts.draw(this.np.context, this.np.stave2);
