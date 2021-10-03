@@ -25,7 +25,7 @@ const getParamLevel = function(){
 const getParamActiveBlocks = function(){
     const p = getRawParams();
     let blockArr = p.get("blocks"); //get blocks and clear white space
-  
+
     if(blockArr != null){
       blockArr = blockArr.replace(/\s/g,'')
       blockArr = blockArr.split(",");
@@ -53,7 +53,7 @@ const separateParamBlocks = function(availableRhythmStrings, paramBlockStrings){
   return [ availableStrings, prohibitedStrings ];
 }
 
-const handleQueryParams = function(){    
+const handleQueryParams = function(){
   if(paramsPresent()){
     let paramLevel = getLevel(getParamLevel());
     let blockStringArray = getParamActiveBlocks();
@@ -93,7 +93,7 @@ const handleQueryParams = function(){
         //If none of the blocks provided are in the param level
         if(blockStringArray.length === 0){
           changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
-        } 
+        }
         else {
           batchSelectBlocks(availableBlocks, blockStringArray);
           changeDifficulty('custom');
@@ -109,12 +109,12 @@ const handleQueryParams = function(){
     }
   } else {
     //No valid params were given
+    level = Levels[0].name
     changeLevel(getLevel(level));
     changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
     updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
-  }    
+  }
 }
-  
 
-  
-  
+
+

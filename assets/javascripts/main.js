@@ -34,8 +34,6 @@ let countsOn = false;
 
 let passageGenerated=false;
 
-
-
 //The rhythm blocks that are available for selection
 let availableBlocks = [];
 
@@ -54,7 +52,7 @@ const durationCharacters = {
     "e": "8",
     "s": "16",
 
-    ".": "d",   
+    ".": "d",
 
     "W": "1r",  //Rest Codes
     "H": "2r",
@@ -142,12 +140,12 @@ const tupletsIndecesFromString = function(noteString){
 
     } else if(char === ")"){
       tupletStartStopIndeces.push(noteCount);
-      result.push(tupletStartStopIndeces); 
+      result.push(tupletStartStopIndeces);
       tupletStartStopIndeces = []; //clear out the start/stop indeces
-    } else if(NOTE_CHARS.includes(char)) { 
+    } else if(NOTE_CHARS.includes(char)) {
       noteCount++; //iterate the note count because a note will be added
     }
-  })  
+  })
   return result;
 }
 
@@ -246,7 +244,7 @@ const changeLevel = function(selectedLevelObject){
 const updateAvailableBlocks = function(levels, selectedDifficulty){
   blockContainerTarget.innerHTML = "";
   availableBlocks = filterBlocksByLevels(Blocks, levels);
-  
+
   //Added to accommodate adding a duplicate rhythm to this level that shouldn't be added otherwise
   if(level==="8") {
     let removeLevel = "6";
@@ -254,8 +252,8 @@ const updateAvailableBlocks = function(levels, selectedDifficulty){
     availableBlocks = availableBlocks.filter((b)=>{
       return (!removeStrings.includes(b.noteString) || b.level==="5");
     });
-  } 
-  
+  }
+
   //Getting and rendering difficulty buttons and selecting blocks in that difficulty
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, selectedDifficulty);
@@ -355,16 +353,16 @@ const toggleTuplets = function(){
 
 const toggleCounts = function(){
   countsOn = !countsOn;
-  
+
   if(passageGenerated){
     if(countsOn){
       pg.showCounts();
     } else {
       pg.removeCounts();
-    }  
+    }
     pg.redraw();
   }
-  
+
   const button = document.getElementById("counts-toggle-button");
   button.className = "control-button item "+ (countsOn ? "selected" : "");
   button.innerHTML = "Counts";
@@ -382,7 +380,7 @@ const getCompoundLevelNames = function(){
   } else {
     return [];
   }
-  
+
 }
 
 const sortLevels = function(levels){
