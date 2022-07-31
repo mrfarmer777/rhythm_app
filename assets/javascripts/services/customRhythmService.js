@@ -1,5 +1,4 @@
-const gSheetKey = "1jIuWf_NE162ME9bH6XuBOXBdKfLhgnriu0WraTjaybQ";
-const gSheetKeyTest = "1cu8G2PhkFAUESFaas6Sxj9xx3npkIS51Ynh6-0q0xHw";
+const gSheetKey = "1cLaiPoZreqxFma1bwdKrJpeIAXJtEeu8nU6TZ-_OFI4";
 
 const levelsUrl = `https://docs.google.com/spreadsheets/d/${gSheetKey}/gviz/tq?tqx=out:json&sheet=Levels`
 const blocksUrl = `https://docs.google.com/spreadsheets/d/${gSheetKey}/gviz/tq?tqx=out:json&sheet=Rhythm%20Blocks`
