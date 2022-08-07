@@ -109,9 +109,9 @@ function buildLevelFromEntry(entry){
 
 function buildBlockFromEntry(entry){
     let blockAttrs = {
-        "level": ( entry.c[0] ? entry.c[0]?.v : ""),
-        "rhythmSet": ( entry.c[0] ? entry.c[1]?.v.toLowerCase().split(",").map(rs => rs.trim()).filter(rhythmSet => rhythmSet !== "") : ""),
-        "noteString": ( entry.c[0] ? entry.c[2]?.v.trim() : ""),
+        "level": ( entry.c[0] ? entry.c[0].v : ""),
+        "rhythmSet": ( entry.c[0] ? entry.c[1].v.toLowerCase().split(",").map(rs => rs.trim()).filter(rhythmSet => rhythmSet !== "") : ""),
+        "noteString": ( entry.c[0] ? entry.c[2].v.trim() : ""),
     }
     const newBlock = new rhythmBlockElement(blockAttrs);
     return newBlock;
