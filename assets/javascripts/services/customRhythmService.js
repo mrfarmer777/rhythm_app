@@ -9,8 +9,8 @@ async function getCustomRhythms(){
     const rhythmData = [customLevels, customBlocks];
     Promise.all(rhythmData)
         .then((results)=>{
-            buildCustomLevels(results[0].value);
-            buildCustomBlocks(results[1].value);
+            buildCustomLevels(results[0]);
+            buildCustomBlocks(results[1]);
         })
         .catch((e)=>{
             console.warn(e);
