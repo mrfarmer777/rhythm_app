@@ -7,7 +7,7 @@ async function getCustomRhythms(){
     const customLevels = getCustomRhythmData(levelsUrl);
     const customBlocks = getCustomRhythmData(blocksUrl);
     const rhythmData = [customLevels, customBlocks];
-    Promise.allSettled(rhythmData)
+    Promise.all(rhythmData)
         .then((results)=>{
             buildCustomLevels(results[0].value);
             buildCustomBlocks(results[1].value);
