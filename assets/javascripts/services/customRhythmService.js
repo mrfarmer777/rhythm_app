@@ -93,14 +93,14 @@ function getEntries(parsedResponse){
 
 function buildLevelFromEntry(entry){
     let levelAttrs = {
-        "name": entry.c[0]?.v,
-        "description": entry.c[1]?.f,
-        "measureBeats": entry.c[2]?.v,
-        "quaver": entry.c[3]?.v,
-        "active": entry.c[5]?.v,
-        "compound": entry.c[6]?.v,
-        "deadEighthsOn": entry.c[7]?.v,
-        "deadSixteenthsOn": entry.c[8]?.v,
+        "name": ( entry.c[0] ? entry.c[0].v : ""),
+        "description": ( entry.c[1] ? entry.c[1].f : ""),
+        "measureBeats": ( entry.c[2] ? entry.c[2].v : ""),
+        "quaver": ( entry.c[3] ? entry.c[3].v : ""),
+        "active": ( entry.c[5] ? entry.c[5].v : ""),
+        "compound": ( entry.c[6] ? entry.c[6].v : ""),
+        "deadEighthsOn": ( entry.c[7] ? entry.c[7].v : ""),
+        "deadSixteenthsOn": ( entry.c[8] ? entry.c[8].v : ""),
         "subLevels": getSubLevelArray(entry.c[4]===null ? "" : entry.c[4].f)
     }
     const newLevel = new Level(levelAttrs)
