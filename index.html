@@ -1,121 +1,114 @@
 <!DOCTYPE html>
-<head>
-  <meta charset="utf-8"/>
-  <title>Rhythm Trainer</title>
-  <script src="https://unpkg.com/vexflow@3.0.9/releases/vexflow-min.js"></script>
-  <script src="assets/javascripts/vendor/micromodal.js"></script>
-  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.10/Tone.min.js"></script>-->
-  <link rel="stylesheet" href="./assets/stylesheets/main-styles.css" type="text/css"/>
-  <link rel="stylesheet" href="./assets/stylesheets/modal-styles.css" type="text/css"/>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Rhythm Trainer</title>
+    <script src="https://unpkg.com/vexflow@3.0.9/releases/vexflow-min.js"></script>
+    <script src="assets/javascripts/vendor/micromodal.js"></script>
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.10/Tone.min.js"></script>-->
+    <link rel="stylesheet" href="./assets/stylesheets/main-styles.css" type="text/css"/>
+    <link rel="stylesheet" href="./assets/stylesheets/modal-styles.css" type="text/css"/>
 
-  <!--Toastify for notifications-->
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!--Toastify for notifications-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
-  <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
-  <script src="https://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
-  <script src="assets/javascripts/components/metronome.js"></script>
-  
-</head>
-<body>
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+    <script src="https://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></script>
+    <script src="assets/javascripts/components/metronome.js"></script> 
+  </head>
+  <body>
 
-  <div class="navbar">
+    <div class="navbar">
       <h2 id="header-brand">Rhythm Trainer</h2>
       <span width="120px"></span>
-  </div>
-  <div id="primary-container" class="container">
-    <div id="panels-container" class="container">
-      <div id="quaver-select-container" class="container">
-        <h3 class="container">Levels:</h3>
-        <div id="quaver-select-buttons">
-        </div>
-        <div id="custom-level-select-buttons">
-        </div>
-      </div>
-      <div id="main-container" class="container">
-        <div id="controls-container" class="container">
-          <div id="option-buttons-container" class="item container">
-            <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
-            <button id="counts-toggle-button" class="control-button item" onclick="toggleCounts()">Counts</button>
-            <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests</button>
+    </div>
+    <div id="primary-container" class="container">
+      <div id="panels-container" class="container">
+        <div id="quaver-select-container" class="container">
+          <h3 class="container">Levels:</h3>
+          <div id="quaver-select-buttons">
           </div>
+          <div id="custom-level-select-buttons">
+          </div>
+        </div>
+        <div id="main-container" class="container">
+          <div id="controls-container" class="container">
+            <div id="option-buttons-container" class="item container">
+              <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
+              <button id="counts-toggle-button" class="control-button item" onclick="toggleCounts()">Counts</button>
+              <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests</button>
+            </div>
 
-          <div id="difficulty-buttons-container" class="item container">
-            <h3>Difficulty:</h3>
-            <div id="difficulty-select-buttons" class="item container">
+            <div id="difficulty-buttons-container" class="item container">
+              <h3>Difficulty:</h3>
+              <div id="difficulty-select-buttons" class="item container">
+              </div>
             </div>
-          </div>
-          <!--<div id="metronome-controls" class="item container">
-            <h3>Metronome: </h3>
-            <button class="item control-button"onclick="play()">Start</button>
-        	  <button class="item control-button"onclick="stop()">Stop</button>
-          	<input id="bpm" class="item" type="number" value="90">
-          </div>-->
+            <!--<div id="metronome-controls" class="item container">
+              <h3>Metronome: </h3>
+              <button class="item control-button"onclick="play()">Start</button>
+              <button class="item control-button"onclick="stop()">Stop</button>
+              <input id="bpm" class="item" type="number" value="90">
+            </div>-->
 
-          <div class="item container" id="metronome-controls">
-            <span><h3>Metronome: </h3></span>
-            <div>
-              <button id="metronome-button" class="play item control-button"  onclick="this.innerText = play();">start</button>
+            <div class="item container" id="metronome-controls">
+              <span><h3>Metronome: </h3></span>
+              <div>
+                <button id="metronome-button" class="play item control-button"  onclick="this.innerText = play();">start</button>
+              </div>
+              <div id="tempoBox" style="display: flex; flex-direction: column; align-content: center; text-align: center;"> 
+                <span><span id="showTempo">120</span>BPM</span> 
+                <input id="tempo" type="range" min="30.0" max="220.0" step="1" value="120" onInput="tempo = event.target.value; document.getElementById('showTempo').innerText=tempo;">
+              </div>
+              <!--<div>Resolution:<select onchange="noteResolution = this.selectedIndex;"><option>Quarter notes<option>8th notes<option>16th notes</select></div>
+              -->
             </div>
-            <div id="tempoBox" style="display: flex; flex-direction: column; align-content: center; text-align: center;"> 
-              <span><span id="showTempo">120</span>BPM</span> 
-              <input id="tempo" type="range" min="30.0" max="220.0" step="1" value="120" onInput="tempo = event.target.value; document.getElementById('showTempo').innerText=tempo;">
-            </div>
-            <!--<div>Resolution:<select onchange="noteResolution = this.selectedIndex;"><option>Quarter notes<option>8th notes<option>16th notes</select></div>
-            -->
           </div>
-        </div>
-        <div id="target-container" class="canvas-container">
-          <canvas id="target">
-          </canvas>
-        </div>
-        <div id="inputs" class="container">
-          <button onclick="generate()">New Mix</button>
-          <button class="dark" onclick="deselectAll()">Deselect All</button>
-          <button class="dark" onclick="selectAll()">Select All</button>
-          <button class="dark" onclick="toggleShareSettings()">Share Settings</button>
-        </div>
-        <div id="blocks-select-container" class="container">
+          <div id="target-container" class="canvas-container">
+            <canvas id="target">
+            </canvas>
+          </div>
+          <div id="inputs" class="container">
+            <button onclick="generate()">New Mix</button>
+            <button class="dark" onclick="deselectAll()">Deselect All</button>
+            <button class="dark" onclick="selectAll()">Select All</button>
+            <button class="dark" onclick="toggleShareSettings()">Share Settings</button>
+          </div>
+          <div id="blocks-select-container" class="container">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-<div class="modal micromodal-slide" id="share-modal" aria-hidden="true">
-  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="intro-modal-title">
-      <header class="modal__header">
-        <h1 class="modal__title" id="intro-modal-title">
-          Share Current Settings
-        </h1>
-      </header>
-      <main class="modal__content" id="intro-modal-content">
-        <p>Copy and share the link below to share the current Rhythm Trainer settings</p>
-        <input type="url" readonly="readonly" id="share-link" value=""></input>
-        <button class="modal__btn close__btn" onclick="copyLink()">Copy</button>
-      </main>
+    <div class="modal micromodal-slide" id="share-modal" aria-hidden="true">
+      <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="intro-modal-title">
+          <header class="modal__header">
+            <h1 class="modal__title" id="intro-modal-title">
+              Share Current Settings
+            </h1>
+          </header>
+          <main class="modal__content" id="intro-modal-content">
+            <p>Copy and share the link below to share the current Rhythm Trainer settings</p>
+            <input type="url" readonly="readonly" id="share-link" value=""></input>
+            <button class="modal__btn close__btn" onclick="copyLink()">Copy</button>
+          </main>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-  <!--Toastify for notifications-->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!--Toastify for notifications-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-  <script src="./assets/javascripts/blocks.js"></script>
-  <script src="./assets/javascripts/components/notationPanel.js"></script>
-  <script src="./assets/javascripts/components/passageGenerator.js"></script>
-  <script src="./assets/javascripts/components/levelButtons.js"></script>
-  <script src="./assets/javascripts/components/difficultyButtons.js"></script>
-  <script src="./assets/javascripts/levels.js"></script>
-  <script src="./assets/javascripts/services/customRhythmService.js"></script>
-  
-  
-  <!--<script src="./assets/javascripts/components/tjsmetronome.js"></script>-->
-  
-  <script src="./assets/javascripts/components/paramHandler.js"></script>
-  <script src="./assets/javascripts/main.js"></script>
-
-
-</body>
+    <script src="./assets/javascripts/blocks.js"></script>
+    <script src="./assets/javascripts/components/notationPanel.js"></script>
+    <script src="./assets/javascripts/components/passageGenerator.js"></script>
+    <script src="./assets/javascripts/components/levelButtons.js"></script>
+    <script src="./assets/javascripts/components/difficultyButtons.js"></script>
+    <script src="./assets/javascripts/levels.js"></script>
+    <script src="./assets/javascripts/services/customRhythmService.js"></script>
+    <script src="./assets/javascripts/components/paramHandler.js"></script>
+    <script src="./assets/javascripts/main.js"></script>
+  </body>
 </html>
