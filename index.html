@@ -39,8 +39,6 @@
             <button id="tuplets-toggle-button" class="control-button item" onclick="toggleTuplets()"></button>
             <button id="counts-toggle-button" class="control-button item" onclick="toggleCounts()">Counts</button>
             <button id="rests-toggle-button" class="control-button item" onclick="toggleRests()">Rests</button>
-
-            <!--<button id="info-button" class='control-button item' href="#" onclick="startIntro()">Info</button>-->
           </div>
 
           <div id="difficulty-buttons-container" class="item container">
@@ -83,107 +81,6 @@
       </div>
     </div>
   </div>
-
-
-<!-- INTRODUCTORY MODALS -->
-<!--
-<div class="modal micromodal-slide" id="intro-modal" aria-hidden="true">
-  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="intro-modal-title">
-      <header class="modal__header">
-        <h1 class="modal__title" id="intro-modal-title">
-          Rhythm Trainer
-        </h1>
-      </header>
-      <main class="modal__content" id="intro-modal-content">
-        <h3>
-          A progressive system for mastering rhythm
-        </h3>
-        <p>Core Concept: Rhythm as groups of notes. And, there are only 15 rhythms!</p>
-        <button class="modal__btn" onclick="startIntro()">Learn More</button>
-        <button class="modal__btn" onclick="MicroModal.close('intro-modal')" data-micromodal-close aria-label="Start Instrument Mode">Instrument Mode</button>
-      </main>
-    </div>
-  </div>
-</div>
--->
-
-
-<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
-  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
-      <header class="modal__header">
-        <h2 class="modal__title" id="modal-1-title">
-          1. The Core Concepts
-        </h2>
-        <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-      </header>
-      <main class="modal__content" id="modal-1-content">
-        <p>
-          This app was developed based two core concepts I have about rhythm.
-          <ol>
-            <li>The vast majority of rhythms as we typically think about them are actually groups of notes, not individual notes. An easy comparison is reading, we read words not letters. Students need to be able to recognize and have an internal understanding of each of these rhythms.</li>
-            <li>There are only a total of 15 base rhythms possible.^ By base rhythms I mean the rhythms you would hear if you were clapping, so not considering duration. All other rhythms are simply a diminution or augmentation to another level of subdivision, or a combination of these rhythms, or a variant of duration.*</li>
-          </ol>
-          <small>^I am going to confine my comments to rhythms in simple time for now. However, compound rhythms are introduced in the app with the same process, and one could argue that they are  a variant of the base rhythms I'll be discussing.</small><br>
-          <small>*Of course, if you include duration there is an infinite number of rhythms that one can create. But this process is meant to develop a strong foundation on these base rhythms, which is the majority of what most students will see in their school experience.</small>
-        </p>
-      </main>
-      <footer class="modal__footer">
-        <button class="modal__btn modal__btn-primary continue__btn next">2. The Base Rhythms</button>
-      </footer>
-    </div>
-  </div>
-</div>
-
-<div class="modal micromodal-slide" id="modal-2" aria-hidden="true">
-  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-2-title">
-      <header class="modal__header">
-        <h2 class="modal__title" id="modal-2-title">
-          2. The Base Rhythms
-        </h2>
-        <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-      </header>
-      <main class="modal__content" id="modal-2-content">
-        <p>
-          Listed below are the 15 rhythms for the three most common levels of subdivisions. I have listed them in what I consider a general spectrum of syncopation and starting with the non-rest rhythms.
-        </p>
-        <img src="./assets/images/baserhythms.png" />
-      </main>
-      <footer class="modal__footer">
-        <button class="modal__btn modal__btn-primary prev__btn">1. The Core Concepts</button>
-        <button class="modal__btn modal__btn-primary continue__btn next">3. The Process</button>
-      </footer>
-    </div>
-  </div>
-</div>
-
-<div class="modal micromodal-slide" id="modal-3" aria-hidden="true">
-  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-3-title">
-      <header class="modal__header">
-        <h2 class="modal__title" id="modal-3-title">
-          3. The Process
-        </h2>
-        <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-      </header>
-      <main class="modal__content" id="modal-3-content">
-        <p>
-          The process is based on learning these rhythms in sequenced steps through the three most common levels of subdivision: quarters, eighths, and sixteenths. First we go through all levels learning only the non-rest rhythms. I find that for a young musician, the concept of a rest can be quite challenging and can greatly complicate learning rhythms. I believe it is important that students master the non-rest rhythms first and then gradually introduce the rhythms with rests.
-        </p>
-        <p>At all levels, rhythms are introduced gradually and sequentially from least syncopated to most syncopated. This allows the students time to practice each new rhythm such that they can internalize and quickly identify them.</p>
-        <p>
-          Once this base set of non-rest rhythms is learned, we incorporate the rhythms with rests. Again in gradual steps to allow for mastery. Upon completing all of the steps, students should be able to perform very complicated rhythms.
-        </p>
-      </main>
-      <footer class="modal__footer">
-        <button class="modal__btn modal__btn-primary prev__btn">2. The Base Rhythms</button>
-        <button class="modal__btn close__btn next" data-micromodal-close aria-label="Close this dialog window">Close</button>
-      </footer>
-    </div>
-  </div>
-</div>
 
 <div class="modal micromodal-slide" id="share-modal" aria-hidden="true">
   <div class="modal__overlay" tabindex="-1" data-micromodal-close>
