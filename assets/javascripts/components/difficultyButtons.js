@@ -9,16 +9,6 @@ const createDiffButton = function(difficultyObject){
     return b;
 };
 
-//Don't think this blongs here....
-const createRestButton = function(restsOn){
-    let b = document.createElement("button");
-    b.innerHTML = "Rests: "+ (restsOn ? "On":"Off");
-    b.className = "control-button item "+(restsOn ? "selected": "");
-    b.setAttribute("id","rests-toggle-button");
-    b.onclick = toggleRests;
-    return b;
-}
-
 const Difficulty = function(difficultyId){
     this.id = difficultyId;
     this.selected = false;
