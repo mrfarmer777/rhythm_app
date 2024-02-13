@@ -233,7 +233,7 @@ const changeLevel = function(selectedLevelObject){
   updateAvailableBlocks(la, difficulty);
   let availableLevels = (tupletsOn ? CompoundLevels : SimpleLevels);
   renderLevelButtons(availableLevels, levelButtonTarget, activeLevel.name);
-  changeDifficulty(( restsOn ? "a-r": "a"));
+  selectDifficulty(( restsOn ? "a-r": "a"));
   pg.refresh();
   pg.np.reset();
   pg.np.render();
@@ -271,12 +271,11 @@ const clearBlocks = function(){
 }
 
 
-//Changes activated difficulty and updates difficulty blocks
-const changeDifficulty = function(selectedDifficulty){
-  difficulty = selectedDifficulty;
+const selectDifficulty = function(targetDifficulty){
+  difficulty = targetDifficulty;
   let diffs = buildDifficulties(getAvailableDifficulties(availableBlocks));
   renderDifficultyButtons(diffs, difficultyButtonTarget, difficulty);
-  if(selectedDifficulty !== "custom"){
+  if(targetDifficulty !== "custom"){
     updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
   }
 };
@@ -293,7 +292,7 @@ const checkActiveDifficulty = function(){
         activeDifficulty = d;
       }
   });
-  changeDifficulty(activeDifficulty);
+  selectDifficulty(activeDifficulty);
 };
 
 //Helper function for checking equality of two arrays
@@ -329,7 +328,7 @@ const toggleRests = function(){
     activeLevel = getLevel(level);
   }
   changeLevel(activeLevel); //change level to current level to force a re-render
-  changeDifficulty(restsOn ? "a-r" : "a");
+  selectDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("rests-toggle-button")
   button.className = "control-button item "+(restsOn ? "selected": "")+ (tupletsOn ? " hidden": "");
   button.innerHTML = "Rests";
@@ -340,7 +339,7 @@ const toggleTuplets = function(){
   if(tupletsOn){ restsOn = false };
   let newLevel = getLevel(tupletsOn ? CompoundLevels[0].name: SimpleLevels[0].name)
   changeLevel(newLevel); //change level to current level to force a re-render
-  changeDifficulty(restsOn ? "a-r" : "a");
+  selectDifficulty(restsOn ? "a-r" : "a");
   let button = document.getElementById("tuplets-toggle-button")
   button.className = "control-button item "+(tupletsOn ? "selected": "");
   let restsButton = document.getElementById("rests-toggle-button");

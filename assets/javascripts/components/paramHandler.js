@@ -92,11 +92,11 @@ const handleQueryParams = function(){
         }
         //If none of the blocks provided are in the param level
         if(blockStringArray.length === 0){
-          changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
+          selectDifficulty(getAvailableDifficulties(availableBlocks)[0]);
         }
         else {
           batchSelectBlocks(availableBlocks, blockStringArray);
-          changeDifficulty('custom');
+          selectDifficulty('custom');
           checkActiveDifficulty();
         }
       }
@@ -111,7 +111,7 @@ const handleQueryParams = function(){
     //No valid params were given
     level = Levels[0].name
     changeLevel(getLevel(level));
-    changeDifficulty(getAvailableDifficulties(availableBlocks)[0]);
+    selectDifficulty(getAvailableDifficulties(availableBlocks)[0]);
     updateAvailableBlocks(activeLevel.getLevelArray(), difficulty);
   }
 }

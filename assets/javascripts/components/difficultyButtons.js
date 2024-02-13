@@ -1,12 +1,12 @@
 
 
-const createDiffButton = function(difficultyObject){
-    let b = document.createElement("button");
-    b.innerHTML = difficultyObject.id.toUpperCase();
-    b.setAttribute("data-difficulty", difficultyObject.id);
-    b.className = "difficulty-button item"
-    b.onclick = difficultyObject.handleClick.bind(difficultyObject);
-    return b;
+const createDifficultyButton = function(difficultyObject){
+    let button = document.createElement("button");
+    button.innerHTML = difficultyObject.id.toUpperCase();
+    button.setAttribute("data-difficulty", difficultyObject.id);
+    button.className = "difficulty-button item"
+    button.onclick = difficultyObject.handleClick.bind(difficultyObject);
+    return button;
 };
 
 const Difficulty = function(difficultyId){
@@ -18,11 +18,11 @@ const Difficulty = function(difficultyId){
     }
 
     this.handleClick = function(){
-        changeDifficulty(this.id);
+        selectDifficulty(this.id);
         this.render();
     };
 
-    this.el = createDiffButton(this);
+    this.el = createDifficultyButton(this);
 };
 
 const buildDifficulties = function(difficultyArray){
