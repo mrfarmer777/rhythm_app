@@ -1,36 +1,36 @@
 
 const createButton = function(levelObject){
-    let b; 
-    if(1 <= parseInt(levelObject.id) && parseInt(levelObject.id) <= 8){
-        //Hard-coded levels that are required forthe project
-        //get images on their level selection buttons
-        b = document.createElement("div");
-        i = document.createElement("img");
-        i.setAttribute("src",levelObject.imgUrl);
-        b.appendChild(i);
+    let button;
+    const levelId = parseInt(levelObject.id);
+    if(1 <= levelId && levelId <= 8){
+        button = document.createElement("div");
+        const image = document.createElement("img");
+        image.setAttribute("src",levelObject.imgUrl);
+        button.appendChild(image);
     } else {
-        b = document.createElement("div");
+        button = document.createElement("div");
         s = document.createElement("span");
         s.innerHTML = levelObject.id;
-        b.appendChild(s);
+        button.appendChild(s);
     }
-    b.className = "button-image level-button item";
-    b.setAttribute("data-level", levelObject.id);
-    b.onclick = levelObject.handleClick.bind(levelObject);
-    return b;
+    button.className = "button-image level-button item";
+    button.setAttribute("data-level", levelObject.id);
+    button.onclick = levelObject.handleClick.bind(levelObject);
+    return button;
 };
 
-const renderLevelButtons = function(levels, targetEl, selectedLevel){
-    targetEl. innerHTML = "";
-    levels.forEach((levelObj)=>{
-        if(levelObj.includesRests === restsOn ){
-            levelObj.el.className = "level-button item " + (levelObj.id === selectedLevel ? "selected": "");
-            if(1 <= parseInt(levelObj.id) && parseInt(levelObj.id) <= 8){
-                levelObj.el.setAttribute("src",levelObj.imgUrl);
+const renderLevelButtons = function(levels, targetElement, selectedLevel){
+    targetElement. innerHTML = "";
+    levels.forEach((levelObject)=>{
+        if(levelObject.includesRests === restsOn ){
+            levelObject.el.className = "level-button item " + (levelObject.id === selectedLevel ? "selected": "");
+            const levelId = parseInt(levelObject.id);
+            if(1 <= levelId && levelId <= 8){
+                levelObject.el.setAttribute("src",levelObject.imgUrl);
             } else {
-                levelObj.el.firstChild.innerHTML = levelObj.id;
+                levelObject.el.firstChild.innerHTML = levelObject.id;
             }
-            targetEl.appendChild(levelObj.el);
+            targetElement.appendChild(levelObject.el);
         }
     });
 };
