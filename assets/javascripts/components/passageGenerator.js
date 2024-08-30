@@ -209,7 +209,7 @@ const passageGenerator = function(blocks){
 
             this.ties = createTies(this.voice1TieIndices, this.voice1.tickables)
             this.noteGroups.forEach((ng)=>{
-                this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
+                this.beamGroups.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping, beam_rests: true, beam_middle_only: true}));
             })
             
             this.formatter.joinVoices([this.voice1])
@@ -264,7 +264,7 @@ const passageGenerator = function(blocks){
                 
                 this.ties2 = createTies(this.voice2TieIndices, this.voice2.tickables);
                 this.noteGroups2.forEach((ng)=>{
-                    this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping}));
+                    this.beamGroups2.push(new VF.Beam.generateBeams(ng, {groups: this.beamGrouping, beam_rests: true, beam_middle_only: true}));
                 })
                 
                 this.np.stave2.setContext(this.np.context).draw();
